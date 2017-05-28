@@ -1,13 +1,9 @@
 package org.study.web;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.session.SqlSession;
-import org.meeting.domain.BoardVO;
 import org.meeting.service.BoardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +28,9 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		System.out.println(service);
+
+		model.addAttribute("boardList",service.boardList());
+		
 		return "home";
 	}
 	

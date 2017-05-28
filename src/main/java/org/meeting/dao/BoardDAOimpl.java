@@ -18,7 +18,6 @@ public class BoardDAOimpl implements BoardDAO {
 	
 	@Override
 	public List<BoardVO> boardList() {
-
 		return session.selectList(namespace+".boardList");
 	}
 
@@ -30,7 +29,7 @@ public class BoardDAOimpl implements BoardDAO {
 
 	@Override
 	public BoardVO boardRead(int boardno) {
-		
+		System.out.println();
 		return session.selectOne(namespace+".boardRead",boardno);
 		
 	}

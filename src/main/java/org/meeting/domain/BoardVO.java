@@ -2,6 +2,7 @@ package org.meeting.domain;
 
 import java.util.Date;
 
+
 public class BoardVO {
 	
 	private int boardno;

@@ -9,4 +9,6 @@ public interface BoardService {
 	public List<BoardVO> boardList();
 	public void boardRegister(BoardVO vo);
 	public BoardVO boardRead(int boardno);
+	
+	
 }

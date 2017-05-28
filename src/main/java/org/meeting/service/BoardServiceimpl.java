@@ -28,7 +28,7 @@ public class BoardServiceimpl implements BoardService {
 
 	@Override
 	public BoardVO boardRead(int boardno) {
-		
+		System.out.println("1"+dao.boardRead(boardno));
 		return dao.boardRead(boardno);
 		
 	}
