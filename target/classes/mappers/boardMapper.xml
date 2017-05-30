@@ -5,7 +5,7 @@
   <mapper namespace="org.meeting.mapper.boardMapper">  
   
 	  <insert id="boardRegister">
-	  		insert into board (idkey,title,content,photo) values(#{idkey},#{title},#{content},#{photo})
+	  		insert into board (username,title,content,photo) values(#{username},#{title},#{content},#{photo})
 	  </insert>
 	  
 	  <select id="boardList" resultType="BoardVO">

@@ -2,22 +2,18 @@ package org.meeting.domain;
 
 public class UserVO {
 
-	private String id;
+
+	private String usename;
 	private String password;
-	private String name;
-	private int idkey;
+	private String displayname;
+	private Boolean enabled;
+	private String kakaoid;
 	
-	public int getIdkey() {
-		return idkey;
+	public String getUsename() {
+		return usename;
 	}
-	public void setIdkey(int idkey) {
-		this.idkey = idkey;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
+	public void setUsename(String usename) {
+		this.usename = usename;
 	}
 	public String getPassword() {
 		return password;
@@ -25,15 +21,29 @@ public class UserVO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getName() {
-		return name;
+	public String getDisplayname() {
+		return displayname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setDisplayname(String displayname) {
+		this.displayname = displayname;
 	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+	public String getKakaoid() {
+		return kakaoid;
+	}
+	public void setKakaoid(String kakaoid) {
+		this.kakaoid = kakaoid;
+	}
+
 	@Override
 	public String toString() {
-		return "UserVO [id=" + id + ", password=" + password + ", name=" + name + ", idkey=" + idkey + "]";
+		return "UserVO [usename=" + usename + ", password=" + password + ", displayname=" + displayname + ", enabled="
+				+ enabled + ", kakaoid=" + kakaoid + "]";
 	}
 
 }

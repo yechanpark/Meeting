@@ -5,7 +5,7 @@
   
   <mapper namespace="org.meeting.mapper.userMapper">  <!-- namespace로 Mapper를 확인한다.  -->
    <insert id="insertUser">
-   insert into user (id,password,name) values (#{id},#{password},#{name})
+   insert into users (username,password,displayname) values (#{username},#{password},#{displayname})
    </insert>
   
   

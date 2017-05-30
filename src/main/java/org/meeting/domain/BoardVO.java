@@ -6,7 +6,7 @@ import java.util.Date;
 public class BoardVO {
 	
 	private int boardno;
-	private int idkey;
+	private String username;
 	private String title;
 	private String content;
 	private String photo;
@@ -14,19 +14,19 @@ public class BoardVO {
 	private int replycnt;
 	private Date regdate;
 	
-	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public int getBoardno() {
 		return boardno;
 	}
 	public void setBoardno(int boardno) {
 		this.boardno = boardno;
 	}
-	public int getIdkey() {
-		return idkey;
-	}
-	public void setIdkey(int idkey) {
-		this.idkey = idkey;
-	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -64,11 +64,10 @@ public class BoardVO {
 		this.regdate = regdate;
 	}
 	
+	
 	@Override
 	public String toString() {
-		return "BoardVO [boardno=" + boardno + ", idkey=" + idkey + ", title=" + title + ", content=" + content
+		return "BoardVO [boardno=" + boardno + ", username=" + username + ", title=" + title + ", content=" + content
 				+ ", photo=" + photo + ", readcnt=" + readcnt + ", replycnt=" + replycnt + ", regdate=" + regdate + "]";
 	}
-	
-	
 }
