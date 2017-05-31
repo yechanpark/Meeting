@@ -33,4 +33,17 @@ public class BoardServiceimpl implements BoardService {
 		
 	}
 
+	@Override
+	public void boardDelete(int boardno) {
+		
+		dao.boardDelete(boardno);
+	}
+
+	@Override
+	public void boardModify(BoardVO vo) {
+		dao.boardModify(vo);
+	}
+	
+
+
 }

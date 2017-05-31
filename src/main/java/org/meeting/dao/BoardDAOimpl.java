@@ -33,6 +33,16 @@ public class BoardDAOimpl implements BoardDAO {
 		return session.selectOne(namespace+".boardRead",boardno);
 		
 	}
+
+	@Override
+	public void boardDelete(int boardno) {
+		session.delete(namespace+".boardDelete", boardno);
+	}
+
+	@Override
+	public void boardModify(BoardVO vo) {
+		 session.update(namespace+".boardModify",vo);
+	}
 	
 	
 

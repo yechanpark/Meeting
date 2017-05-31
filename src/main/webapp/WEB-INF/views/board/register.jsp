@@ -18,7 +18,7 @@
 	<input type="text" name="title">
 	<br>
 	<label>내용:</label>
-	<textarea rows="10" cols="10" name="content">
+	<textarea rows="20" cols="70" name="content">
 	
 	</textarea>
 	

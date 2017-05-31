@@ -15,6 +15,13 @@
 	  <select id="boardRead" resultType="BoardVO">
 	  		select *from board where boardno = #{boardno}
 	  </select>
-
+	 
+	 	<delete id="boardDelete">
+	 		delete from board where boardno=#{boardno}
+	 	</delete>
+	 	
+	 	<update id="boardModify">
+	 		update board set title=#{title},content=#{content},photo=#{photo} where boardno = #{boardno} 
+	 	</update>
 	
   </mapper>

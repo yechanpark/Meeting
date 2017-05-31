@@ -3,15 +3,37 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="/resource/main.css" />
-<link rel="stylesheet" type="text/css" href="/resource/overview.css" />
-
 <style type="text/css">
+  * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
 
-.item {
-  margin-bottom: 10px;
-}
+      .item {
+        width:  150px;
+        height: 150px;
+        float: left;
+        background: #2296DD;
+      }
 
+      .item.thumbnail {
+        width:  200px;
+        height: 200px;
+        background: #cfcfcf
+      }
+
+      .item.medium {
+        width:  250px;
+        height: 150px;
+        background: #A6E392
+      }
+
+      .item.large {
+        width:  300px;
+        height: 200px;
+        background: #D092E3
+      }
 
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,9 +45,29 @@
 
 	<div class="container1">
 		<c:forEach items="${boardList}" var="board" > 
-		<div class="item" style="width:20%;height: 300px">
-			<a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
-		</div>
+		  <div class="item"><a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a></div>
+      <div class="item">
+      <a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
+      </div>
+      <div class="item thumbnail">
+      <a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
+      </div>
+      <div class="item medium">
+      <a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
+      </div>
+      <div class="item">
+      <a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
+      </div>
+      <div class="item large">
+      <a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
+      </div>
+      <div class="item">
+      <a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
+      </div>
+      <div class="item medium">
+      <a href="/board/read?boardno=${board.boardno}" style="width: 100%; height: 100%"><img src='/displayFile?fileName=${board.photo}' width="100%" height="100%"></a>
+      </div>
+		
 		</c:forEach>
 	</div>
 	
@@ -43,10 +85,9 @@
 	$(document).ready(function () { 
 		$(".container1").masonry({ 
 		itemSelector:'.item',
-		columnWidth: 120
+		columnWidth: 0
 		}); 
 	}); 
-	
 
 		</script>
 			

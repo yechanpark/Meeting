@@ -9,5 +9,6 @@ public interface BoardDAO {
 	public List<BoardVO> boardList();
 	public void boardRegister(BoardVO vo);
 	public BoardVO boardRead(int boardno);
-	
+	public void boardDelete(int boardno);
+	public void boardModify(BoardVO vo);
 }
