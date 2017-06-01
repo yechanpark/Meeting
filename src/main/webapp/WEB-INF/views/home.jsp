@@ -8,72 +8,7 @@
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 	<script src="/resource/masonry.pkgd.min.js"></script>
 <style type="text/css">
- /*  * {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-      } */
-/* 
-      .item {
-        width:  20%;
-        height: 400px;
-        float: left;
-        margin-bottom: 20px;
-      }
 
-      .item.thumbnail {
-        width:  20%;
-        height: 500px;
-         margin-bottom: 20px;
-      }
-
-      .item.medium {
-        width:  20%;;
-        height: 300px;
-        margin-bottom: 20px;
-      }
-
-      .item.large {
-        width:  20%;
-        height: 600px;
-         margin-bottom: 20px;
-      }
-      
-      .container{
-      	margin : auto;
-      	padding: 0px;
-      }
- */
- 
- /* .grid {
-	max-width: 69em;
-	list-style: none;
-	margin: 30px auto;
-	padding: 0;
-}
-
-.grid li {
-	display: block;
-	float: left;
-	padding: 7px;
-	width: 33%;
-	opacity: 0;
-}
-
-.grid li.shown,
-.no-js .grid li,
-.no-cssanimations .grid li {
-	opacity: 1;
-}
-.grid li a,
-.grid li img {
-	outline: none;
-	border: none;
-	display: block;
-	max-width: 100%;
-}
- */
-/* General Demo Style */
 @import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
 
 @font-face {
@@ -432,6 +367,7 @@ a:active {
 		width: 50%;
 	}
 }
+
 
 @media screen and (max-width: 400px) {
 	.grid li {

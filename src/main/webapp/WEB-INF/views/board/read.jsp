@@ -23,7 +23,10 @@
 	<a href="#" id="delete">삭제</a>
 </form>
 
-
+<!-- 실제로 댓글이 보이는 부분 -->
+	<div id="replyarea"></div>
+	
+	
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -38,6 +41,23 @@ $(document).ready(function(){
 		$("form").attr("action","/board/delete");
 		$("form").submit();
 	});
+	
+	<!-- 아작스로 가져오는 부분 -->
+	$.ajax({
+		type : 'GET', // GET방식으로 요청
+		url : '/rest/reply/' + ${boardVO.boardno}, // Request보낼 URL
+		success : function(data) { // 성공적으로 수행 시 response를 data라는 인자로 받는다.
+			
+			//자바스크립트 객체에 data의 0번째 배열에서 content에 해당하는 텍스트값을 저장
+			var description = $('<p>').text(data[0].content);
+			// 자바스크립트 객체를 id값이 'replyarea'인 태그에 html을 그림
+			$('#replyarea').append(description); 
+		},
+		error : function() { // 실패시
+			alert("AJAX 댓글 실패 씨발!");
+		}
+	});
+	
 });
 
 

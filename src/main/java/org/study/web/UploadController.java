@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.meeting.util.MediaUtils;
@@ -26,30 +27,33 @@ public class UploadController {
 
 	@Resource(name="boardUploadPath")  //servlet-context.xml 에서 생성한 Bean 폴더경로 주입
 	private String boardUploadPath;
-	
+
 	
 	@RequestMapping(value="/imageUpload", method=RequestMethod.POST,produces="text/plain;charset=UTF-8")
-	public ResponseEntity<String> imageUpload(MultipartFile file) throws Exception{
+	public ResponseEntity<String> imageUpload(MultipartFile file, HttpServletRequest request) throws Exception{
 		
 		System.out.println(file.getOriginalFilename());
 		System.out.println(file.getSize());
 		System.out.println(file.getContentType());
-	
-		return new ResponseEntity<String>(UploadFileUtils.uploadFile(boardUploadPath, file.getOriginalFilename(), file.getBytes()),HttpStatus.CREATED);
+
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/"); // 서버 컨텍스트니까 이걸 맨앞에 붙여야해 그랗체
+		
+		System.out.println(rootDirectory+boardUploadPath);
+		return new ResponseEntity<String>(UploadFileUtils.uploadFile(rootDirectory+boardUploadPath, file.getOriginalFilename(), file.getBytes()),HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/displayFile",method=RequestMethod.GET,produces="text/plain;charset=UTF-8")
-	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception{
+	public ResponseEntity<byte[]> displayFile(String fileName, HttpServletRequest request) throws Exception{
 		System.out.println(fileName);
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
 		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
-		
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/"); // 서버 컨텍스트니까 이걸 맨앞에 붙여야해 그랗체
 		
 		MediaType mtype = MediaUtils.getMediaType(formatName);
 		try {
 			HttpHeaders headers = new HttpHeaders();
-			in = new FileInputStream(boardUploadPath+fileName);
+			in = new FileInputStream(rootDirectory+boardUploadPath+fileName);
 			headers.setContentType(mtype);
 			
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
