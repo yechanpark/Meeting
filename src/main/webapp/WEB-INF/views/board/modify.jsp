@@ -74,7 +74,6 @@
 	             }
 	          });
 	    });
-		
 	    function imageDelete(preUrl,imgPath) {
 			console.log("imgPath"+imgPath);
 			console.log("preUrl"+preUrl);

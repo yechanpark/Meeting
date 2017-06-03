@@ -18,15 +18,15 @@
 	<input type="text" name="title">
 	<br>
 	<label>내용:</label>
-	<textarea rows="20" cols="70" name="content">
-	
-	</textarea>
+	<textarea rows="20" cols="70" id="content" name="content"></textarea>
 	
 	<br>
 	<label>사진:</label>
 	<input type='file' name="file" id="file" >
 	<input type="hidden" name="photo">
-	<input type="submit" value="등록">	
+	
+	<button type="button" id="registerBtn">등록</button>
+	
 	</form>
 	
 	<div id="imageBox"> 
@@ -39,11 +39,21 @@
 			 var check = false;
 			 var preUrl = "";
 		
+			 $("#registerBtn").click(function(){
+
+				 var content = $('#content').val().replace(/\n/g,'<e>').replace(/ /g,"<s>");
+				 $("#content").val(content);
+				 $("form").submit();		 
+			});
+			 
+			 
+			/* 이미지 처리 부분  */
 		     $("#file").change(function(){
 		    	 console.log("sss");
 		    	 var formData = new FormData();
 		         formData.append("file", $("input[name=file]")[0].files[0]);//파일의 정보를 formData에 삽입 
-		        
+
+		     	
 		         $.ajax({ //image 파일 폴더에 생성
 		             type : "post",
 		             url : "/imageUpload",
@@ -71,7 +81,7 @@
 		          });
 		    });
 		     
-		    function imageDelete(preUrl,imgPath) {
+		    function imageDelete(preUrl,imgPath) { //이미지 삭제 
 				console.log("imgPath"+imgPath);
 				console.log("preUrl"+preUrl);
 		         $.ajax({
@@ -88,6 +98,9 @@
 		            }
 		         });
 		      };
+		      
+		         
+		/* 이미지 처리 부분  */
 		});
  
  	</script>

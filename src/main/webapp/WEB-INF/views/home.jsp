@@ -411,22 +411,42 @@ a:active {
 		</c:forEach> 
 	</div> --%>
 	
-	<ul  id="grid" class="grid effect-8">
+	<ul id="grid" class="grid effect-8">
 	<c:forEach items="${boardList}" var="board" > 
 		<li class="shown"><a href="/board/read?boardno=${board.boardno}"><img src='/displayFile?fileName=${board.photo}'></a></li>
 	</c:forEach> 
-	
 	</ul>
 	
+	<button type="button" id="bbbb"></button>	
+	<br>
+	<br>
+	<br>
 	<a href="/board/register">글쓰기</a>
 	
 	<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script>  -->
 	<script type="text/javascript">
 	 $(document).ready(function () {  
-		$(".grid").masonry({ 
-		itemSelector:'.shown',
-		columnWidth: 40
-		}); 
+		 
+			setTimeout(function(){
+				$(".grid").masonry({ 
+					itemSelector:'.shown',
+					columnWidth: 40
+					}); 
+				
+			}, 1);
+
+
+			
+	/* 	$('#bbbb').trigger("click");
+		
+		$("#bbbb").click(function(event) {
+			$(".grid").masonry({ 
+				itemSelector:'.shown',
+				columnWidth: 40
+				}); 
+			
+		}) */
+	 
 	});  
 	</script>
 			

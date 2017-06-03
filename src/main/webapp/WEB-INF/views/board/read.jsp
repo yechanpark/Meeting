@@ -14,7 +14,8 @@
 <h1>${boardVO.boardno}</h1>
 <h1>${boardVO.title}</h1>
 <h1>${boardVO.username}</h1>
-<h1>${boardVO.content}</h1>
+<input type="hidden" id="contentVal" value="${boardVO.content}">
+<textarea rows="20" cols="70" id="content"></textarea>
 
 <img src='/displayFile?fileName=${boardVO.photo}'class='boardImage'/>
 <form action="" method="post">
@@ -25,12 +26,13 @@
 
 <!-- 실제로 댓글이 보이는 부분 -->
 	<div id="replyarea"></div>
-	
+	 
 	
 <script type="text/javascript">
 
 $(document).ready(function(){
-	
+	var contentText =$("#contentVal").val().replace(/<s>/g," ").replace(/<e>/g,"\n");
+	$("#content").val(contentText);
 	$("#modify").click(function(event) {
 		event.preventDefault(); //화면 링크 방지 
 		$("form").attr("action","/board/modify");
@@ -42,12 +44,13 @@ $(document).ready(function(){
 		$("form").submit();
 	});
 	
-	<!-- 아작스로 가져오는 부분 -->
+	
+	
+	/*댓글  아작스로 가져오는 부분  */
 	$.ajax({
 		type : 'GET', // GET방식으로 요청
 		url : '/rest/reply/' + ${boardVO.boardno}, // Request보낼 URL
 		success : function(data) { // 성공적으로 수행 시 response를 data라는 인자로 받는다.
-			
 			//자바스크립트 객체에 data의 0번째 배열에서 content에 해당하는 텍스트값을 저장
 			var description = $('<p>').text(data[0].content);
 			// 자바스크립트 객체를 id값이 'replyarea'인 태그에 html을 그림
