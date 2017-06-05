@@ -1,6 +1,8 @@
 package org.meeting.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,6 +44,32 @@ public class BoardDAOimpl implements BoardDAO {
 	@Override
 	public void boardModify(BoardVO vo) {
 		 session.update(namespace+".boardModify",vo);
+	}
+
+	@Override
+	public void heartClick(int boardno, String username) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("boardno", boardno);
+		map.put("username",username);
+		session.insert(namespace+".heartClick",map);
+	}
+
+	@Override
+	public void heartUp(int boardno) {
+		session.update(namespace+".heartUp",boardno);
+	}
+
+	@Override
+	public void heartDown(int boardno) {
+		session.update(namespace+".heartDown",boardno);
+	}
+
+	@Override
+	public void heartCancle(int boardno, String username){
+		Map<String,Object> map = new HashMap<>();
+		map.put("boardno", boardno);
+		map.put("username",username);
+		session.delete(namespace+".heartCancle",map);
 	}
 	
 	

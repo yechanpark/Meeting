@@ -5,9 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
+	<div class="container">
 <h1>modify Page</h1>
 	<form method="post">
 		<label>제목:</label>
@@ -35,7 +39,7 @@
 		<input type="hidden" name="boardno" id="boardno" value="${boardVO.boardno}">
 		<input type="hidden" name="username"  value="qjadud22">
 	</form>
-	
+	</div>
 	<script type="text/javascript">
 	$(document).ready(function(){
  		 var firstImageUrl = $("#firstphoto").val();

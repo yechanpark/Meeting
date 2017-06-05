@@ -4,10 +4,13 @@ package org.study.web;
 import javax.inject.Inject;
 import org.meeting.domain.BoardVO;
 import org.meeting.service.BoardService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/board/*")
@@ -53,6 +56,24 @@ public class BoardController {
 		service.boardDelete(boardno);
 		return "redirect:/";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/heartClick", method= RequestMethod.POST)
+	public ResponseEntity<String> heartClick(int boardno,String username){
+
+		service.heartClick(boardno, username);
+		return new ResponseEntity<String>("success",HttpStatus.CREATED);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/heartCancle", method= RequestMethod.POST)
+	public ResponseEntity<String> heartCancle(int boardno,String username){
+
+		service.heartCancle(boardno, username);
+		return new ResponseEntity<String>("success",HttpStatus.CREATED);
+		
+	}
+	
 	
 	
 

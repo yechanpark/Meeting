@@ -11,4 +11,6 @@ public interface BoardService {
 	public BoardVO boardRead(int boardno);
 	public void boardDelete(int boardno);
 	public void boardModify(BoardVO vo);
+	public void heartClick(int boardno,String username);
+	public void heartCancle(int boardno, String username);
 }

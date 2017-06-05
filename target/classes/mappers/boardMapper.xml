@@ -23,5 +23,19 @@
 	 	<update id="boardModify">
 	 		update board set title=#{title},content=#{content},photo=#{photo} where boardno = #{boardno} 
 	 	</update>
+	 	
+	 	<insert id="heartClick">
+	 		insert into heart (boardno,username) values(#{boardno},#{username})
+	 	</insert>
+	 	<delete id="heartCancle">
+	 		delete from heart where boardno = #{boardno} and username = #{username}
+	 	</delete>
+	 	
+	 	<update id="heartUp">
+	 		update board set heartcnt = heartcnt+1 where boardno = #{boardno}
+	 	</update>
+	 	<update id="heartDown">
+	 		update board set heartcnt = heartcnt-1 where boardno = #{boardno}
+	 	</update>
 	
   </mapper>
