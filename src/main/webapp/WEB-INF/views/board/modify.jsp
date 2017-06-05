@@ -8,6 +8,13 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+	
+	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+		
 <title>Insert title here</title>
 </head>
 <body>
@@ -38,10 +45,20 @@
 		<input type="hidden" id="firstphoto" value="${boardVO.photo}">
 		<input type="hidden" name="boardno" id="boardno" value="${boardVO.boardno}">
 		<input type="hidden" name="username"  value="qjadud22">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
 	</div>
 	<script type="text/javascript">
 	$(document).ready(function(){
+		
+		$(function () {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+		
  		 var firstImageUrl = $("#firstphoto").val();
 		 var check =false;
 		 var preUrl = "";

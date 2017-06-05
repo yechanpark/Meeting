@@ -7,6 +7,13 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+		
+	
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -29,7 +36,7 @@
 	<input type="hidden" name="photo">
 	
 	<button type="button" id="registerBtn">등록</button>
-	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
 	
 	<div id="imageBox"> 
@@ -39,6 +46,13 @@
  	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
  	<script>
 		 $(document).ready(function(){
+				$(function () {
+					var token = $("meta[name='_csrf']").attr("content");
+					var header = $("meta[name='_csrf_header']").attr("content");
+					$(document).ajaxSend(function(e, xhr, options) {
+						xhr.setRequestHeader(header, token);
+					});
+				});
 			 var check = false;
 			 var preUrl = "";
 		

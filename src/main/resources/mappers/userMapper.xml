@@ -2,11 +2,29 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="org.meeting.mapper.userMapper">  <!-- namespace로 Mapper를 확인한다.  -->
-   <insert id="insertUser">
-   insert into users (username,password,displayname) values (#{username},#{password},#{displayname})
-   </insert>
-  
-  
+  <mapper namespace="org.meeting.mapper.UserMapper">
+  <insert id="create">
+  	insert into users (username,password,displayname,kakaoid) values (#{username},#{password},#{displayname},#{kakaoid})
+  </insert>
+  <insert id ="grantcreate">
+  	insert into authorities (username, authority) values(#{username},'USER_ROLE')
+  </insert>
+  <select id="read" resultType="UserVO">
+  	select
+  	*
+  	from
+  	users
+  	where username = #{username}
+  </select>
+  <update id="update">
+  	update
+  	users
+  	set
+  	displayname = #{displayname}, kakaoid = #{kakaoid}
+  	where
+  	username = #{username}
+  </update>
+  <delete id="delete">
+  delete from users where username= #{username}
+  </delete>
   </mapper>

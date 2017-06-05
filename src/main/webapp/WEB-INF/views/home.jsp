@@ -33,6 +33,21 @@
 	<br>
 	<br>
 	<a href="/board/register">글쓰기</a>
+	<br>
+	<br>
+	<br>
+	<p>${pageContext.request.userPrincipal.name}</p>
+	<c:if test="${pageContext.request.userPrincipal.name != null }">
+		<li>Welcome: ${pageContext.request.userPrincipal.name}</li>
+		<c:if test="${pageContext.request.userPrincipal.name == 'admin'}">	
+			<li><a href=" <c:url value="/admin/"/> ">ADMIN PAGE</a></li>
+		</c:if>
+		<li><a href="<c:url value="/logout/"/> ">logout</a></li>
+	</c:if>
+	<c:if test="${pageContext.request.userPrincipal.name == null }">
+		<li><a href="<c:url value="/login/"/>">로그인</a></li>
+		<li><a href="<c:url value="/user/signup/"/>">회원가입</a></li>
+	</c:if>
 	
 	<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script>  -->
 	<script type="text/javascript">
