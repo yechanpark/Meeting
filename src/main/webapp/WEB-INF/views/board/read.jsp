@@ -9,6 +9,12 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 	
+		<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+	
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -79,14 +85,15 @@
 		</div>
 		
 		<div>
+		
 		<a href="#" id="modify">수정</a>
 		<a href="#" id="delete">삭제</a>
 		</div>
-		
 			
 		<form action="" method="post">
 			<input type="hidden" name="boardno" id="boardno" value="${boardVO.boardno}">
 		</form>
+			<input type="hidden" id="username" value="${pageContext.request.userPrincipal.name}">
 			
 	</div>
 
@@ -97,6 +104,14 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	$(function () {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		});
+	});
+	
 	var contentText =$("#contentVal").val().replace(/<s>/g," ").replace(/<e>/g,"\n");
 	$("#content").text(contentText);
 	$("#modify").click(function(event) {
@@ -120,7 +135,7 @@ $(document).ready(function(){
 		$("#heartCnt").text(heartCnt);
 		
 		var boardno = $("#boardno").val();
-		var username = "qjadud22";
+		var username = $("#username").val();
 		
 	    $.ajax({
             url : "/board/heartClick",
@@ -150,7 +165,7 @@ $(document).ready(function(){
 		$("#heartCnt").text(heartCnt);
 		
 		var boardno = $("#boardno").val();
-		var username = "qjadud22";
+		var username = $("#username").val();
 		
 	    $.ajax({
             url : "/board/heartCancle",

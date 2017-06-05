@@ -23,7 +23,8 @@
 
 	<form action="register" method="post">
 
-	<input type="hidden" name="username"  value="qjadud22">
+	
+	<input type="hidden" id="username" value="${pageContext.request.userPrincipal.name}">
 	<label>제목:</label>
 	<input type="text" name="title">
 	<br>

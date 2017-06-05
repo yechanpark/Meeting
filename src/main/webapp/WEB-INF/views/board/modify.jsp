@@ -44,7 +44,7 @@
 		<a href="#" id="modifyCancle">수정취소</a>
 		<input type="hidden" id="firstphoto" value="${boardVO.photo}">
 		<input type="hidden" name="boardno" id="boardno" value="${boardVO.boardno}">
-		<input type="hidden" name="username"  value="qjadud22">
+		<input type="hidden" id="username" value="${pageContext.request.userPrincipal.name}">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
 	</div>
