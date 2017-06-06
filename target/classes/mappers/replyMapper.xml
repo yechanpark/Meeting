@@ -9,9 +9,18 @@
 		insert into reply (replyno, boardno , username, content, replydate)
 		 values(#{replyno}, #{boardno}, #{username}, #{content}, #{replydate})
 	</insert>
+	
+	<insert id="replyRelationRegister">
+		insert into replyRelation (parentno, childno)
+		 values(#{parentno}, #{childno})
+	</insert>
 
 	<select id="replyReadByBoardNo" resultType="ReplyVO">
 		select * from reply where boardno = #{boardno}
+	</select>
+	
+	<select id="replyRelationRead" resultType="ReplyRelationVO">
+		select * from replyrelation where parentno = #{parentno}
 	</select>
 
 
