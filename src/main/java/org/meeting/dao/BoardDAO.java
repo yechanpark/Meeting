@@ -15,4 +15,5 @@ public interface BoardDAO {
 	public void heartUp(int boardno);
 	public void heartDown(int boardno);
 	public void heartCancle(int boardno, String username);
+	public void heartDelete(int boardno);
 }

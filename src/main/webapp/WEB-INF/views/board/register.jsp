@@ -18,32 +18,56 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container">
-<h1>Board Register Page</h1>
-
+	<div class="container" style="border: 1px solid black; padding: 60px">
+	<h1>Board Register Page</h1>
+	<br>
+	<br>
 	<form action="register" method="post">
-
 	
-	<input type="hidden" id="username" value="${pageContext.request.userPrincipal.name}">
-	<label>제목:</label>
-	<input type="text" name="title">
-	<br>
-	<label>내용:</label>
-	<textarea rows="20" cols="70" id="content" name="content"></textarea>
+	<input type="hidden" name="username" id="username" value="${pageContext.request.userPrincipal.name}">
 	
-	<br>
-	<label>사진:</label>
-	<input type='file' name="file" id="file" >
-	<input type="hidden" name="photo">
-	
-	<button type="button" id="registerBtn">등록</button>
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	</form>
+	<div class="row form-group">
+		<div class="col-sm-1">
+			<label>제목</label>
+		</div>
+		<div class="col-sm-11 ">
+			<input class="form-control" type="text" name="title">
+		</div>
+	</div>
+	<hr>
+	<div class="row form-group">
+		<div class="col-sm-1">
+			<label>내용</label>
+		</div>
+		<div class="col-sm-11">
+			<textarea rows="15" cols="50" id="content" name="content"></textarea>
+		</div>
+	</div>
+	<hr>
+	<div class="row form-group">
+		<div class="col-sm-1">
+			<label for="file">사진</label>
+		</div>
+		<div class="col-sm-11">
+			<input type='file' name="file" id="file" >
+			<p class="help-block">보여주고싶은 사진을 올려주세요</p>
+			<input type="hidden" name="photo">
+		</div>
+	</div>
 	
 	<div id="imageBox"> 
 		
 	</div>
+	<hr>
+	
+		<button type="button" id="registerBtn">등록</button>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	</form>
+	
+	
 	</div>
+	
+	
  	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
  	<script>
 		 $(document).ready(function(){
@@ -88,7 +112,7 @@
 		                	}else{
 		                		check = true;
 		                	 	preUrl = imgPath;
-			                	var str = "<img src='/displayFile?fileName="+imgPath+"'class='boardImage'/>";
+			                	var str = "<img src='/displayFile?fileName="+imgPath+"'class='img-thumbnail'/>";
 			                	$("input[name=photo]").val(imgPath);
 			                	$("#imageBox").append(str);
 		                	}
@@ -111,7 +135,7 @@
 		            dataType : "text",
 		            success : function(result) {
 		               $("#imageBox").empty(); //imageBox 안에 태그 비우기 
-	                	var str = "<img src='/displayFile?fileName="+imgPath+"'class='boardImage'/>";
+	                	var str = "<img src='/displayFile?fileName="+imgPath+"' class='img-thumbnail' />";
 	                	$("#imageBox").append(str);
 		            }
 		         });

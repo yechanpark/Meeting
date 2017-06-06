@@ -84,17 +84,21 @@
 			<hr>
 		</div>
 		
-		<div>
+		<div> <!-- 게시판 주인과 로그인 유저의 아이디가 같을시 수정,삭제 버튼 활성화 -->
+		<c:if test="${boardVO.username eq pageContext.request.userPrincipal.name}">
+			<a href="#" id="modify">수정</a>
+			<a href="#" id="delete">삭제</a>
+		</c:if>
+		</div>	
 		
-		<a href="#" id="modify">수정</a>
-		<a href="#" id="delete">삭제</a>
-		</div>
+			
 			
 		<form action="" method="post">
 			<input type="hidden" name="boardno" id="boardno" value="${boardVO.boardno}">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
-			<input type="hidden" id="username" value="${pageContext.request.userPrincipal.name}">
-			
+			<input type="hidden" id="username" value="${pageContext.request.userPrincipal.name}"> <!-- 현재 로그인 유저 아이디 -->
+			<input type="hidden" id="boardUsername" value="${boardVO.username}"> <!-- 게시판 주인 아이디 -->
 	</div>
 
 
@@ -154,8 +158,6 @@ $(document).ready(function(){
             }
          });
 	});
-	
-	
 	$("#heartCancle").click(function(event){
 		event.preventDefault(); //화면 링크 방지 
 		$('#heartClick').css("display","block"); 

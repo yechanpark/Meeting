@@ -71,6 +71,13 @@ public class BoardDAOimpl implements BoardDAO {
 		map.put("username",username);
 		session.delete(namespace+".heartCancle",map);
 	}
+
+	@Override
+	public void heartDelete(int boardno) {
+		
+		session.delete(namespace+".heartDelete",boardno);
+		
+	}
 	
 	
 
