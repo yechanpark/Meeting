@@ -20,6 +20,7 @@
   </div>
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   <input type="submit" value="확인" class="btn btn-default">
+  <a href="<c:url value="/user/signup/"/>">회원가입</a>
 </form>
 </div>
 </div>

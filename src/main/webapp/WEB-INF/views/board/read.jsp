@@ -38,47 +38,36 @@ hr {
 	border: 1px solid #d4d6d8;
 }
 
-/* 	 .c1 {
-		border-top: 1px solid gray;
-		border-left: 1px solid gray; 
-		border-right: 1px solid gray;
-	}
-	 .c2 {
-		border-left: 1px solid gray; 
-		border-right: 1px solid gray;
-	}
-	.c3 {
-		border-left: 1px solid gray; 
-		border-right: 1px solid gray;
-	} */
+
 </style>
 </head>
 <body>
 	<div class="container">
-		<div class="row c1">
+		<div class="row">
 			<label>${boardVO.username}</label> <br> <br> <label>${boardVO.title}</label>
 			<hr>
 		</div>
-		<div class="row c2">
+		<div class="row">
 			<img src='/displayFile?fileName=${boardVO.photo}' width="100%"
-				height="600px" />
+				height="600px" style="border-radius: 10px"/>
 			<hr>
 		</div>
-		<div class="row c3">
-
-			<a href="#" id="heartCancle" style="display: none; height: 50px"><img
-				src="/resource/imageIcon/heartClick.ico" width="40px" height="30px"></a>
-			<br> <a href="#" id="heartClick" style="height: 50px"><img
-				src="/resource/imageIcon/heartNoClick.png" width="40px"
-				height="30px"></a> <br> <br> <br> <label>좋아요</label>
+		<div class="row">
+			
+			<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
+			<a href="#" id="heartClick" style="display: block; color: red"><span class="glyphicon glyphicon-heart-empty" style="font-size:50px;"></span></a>
+			
+			<br><label>좋아요</label>
 			<label id="heartCnt">${boardVO.heartcnt}</label> <label>개</label> <br>
 			<br> <input type="hidden" id="contentVal"
 				value="${boardVO.content}"> <label id="content"></label> <br>
 			<br>
 			<hr>
+		
+			
 		</div>
 
-		<div class="row c3">
+		<div class="row">
 			<!-- 댓글창 -->
 			<table id='attacharea'>
 				<thead>
@@ -99,15 +88,6 @@ hr {
 
 		</div>
 
-
-
-
-
-
-
-
-
-
 		<br>
 		<br>
 		<br>
@@ -121,12 +101,6 @@ hr {
 				<a href="#" id="delete">삭제</a>
 			</c:if>
 		</div>
-
-
-
-
-
-
 
 		<form action="" method="post">
 			<input type="hidden" name="boardno" id="boardno"

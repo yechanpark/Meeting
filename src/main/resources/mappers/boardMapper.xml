@@ -9,7 +9,7 @@
 	  </insert>
 	  
 	  <select id="boardList" resultType="BoardVO">
-	  		select *from board order by regdate desc
+	  		select boardno,title,photo,replycnt,heartcnt from board order by regdate desc
 	  </select>
 	  
 	  <select id="boardRead" resultType="BoardVO">

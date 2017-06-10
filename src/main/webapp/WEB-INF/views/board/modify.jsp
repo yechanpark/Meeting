@@ -19,29 +19,50 @@
 </head>
 <body>
 	<div class="container">
-<h1>modify Page</h1>
+	<h1>modify Page</h1>
 	<form method="post">
-		<label>제목:</label>
-		<input type="text" name="title" value="${boardVO.title}">
-		<br>
-		<label>내용:</label>
-		<textarea rows="20" cols="70" name="content">
-		${boardVO.content}
-		</textarea>
-		<br>
-		<label>사진:</label>
+		<div class="row form-group">
+			<div class="col-sm-1">
+				<label>제목</label>
+			</div>
+			<div class="col-sm-11 ">
+				<input class="form-control" type="text" name="title" value="${boardVO.title}">
+			</div>
+		</div>
+		
+		<hr>
+		<div class="row form-group">
+			<div class="col-sm-1">
+				<label>내용</label>
+			</div>
+			<div class="col-sm-11">
+				<textarea rows="20" cols="50" id="content" name="content"></textarea>
+				<input type="hidden" id="contentVal" value="${boardVO.content}">
+			</div>
+		</div>
+		
+		<hr>
+		<div class="row form-group">
+			<div class="col-sm-1">
+				<label for="file">사진</label>
+			</div>
+			<div class="col-sm-11">
+				<input type='file' name="file" id="file" >
+				<p class="help-block">수정하고싶은 사진을 올려주세요</p>
+				<input type="hidden" name="photo" value="${boardVO.photo}">
+			</div>
+		</div>
+		
 		<div id="imageBox"> 
 			<img src='/displayFile?fileName=${boardVO.photo}'class='boardImage'/>
 		</div>
-	
-		<br>
-		<input type='file' name="file" id="file" >
-		<br>
-		<br>
-		<input type="hidden" name="photo">
+		<hr>
+		
 
 		<a href="#" id="modifyBtn">수정완료</a>
 		<a href="#" id="modifyCancle">수정취소</a>
+		<hr>
+		
 		<input type="hidden" id="firstphoto" value="${boardVO.photo}">
 		<input type="hidden" name="boardno" id="boardno" value="${boardVO.boardno}">
 		<input type="hidden" id="username" value="${pageContext.request.userPrincipal.name}">
@@ -62,7 +83,10 @@
  		 var firstImageUrl = $("#firstphoto").val();
 		 var check =false;
 		 var preUrl = "";
-	
+		 
+		 var contentText =$("#contentVal").val().replace(/<s>/g," ").replace(/<e>/g,"\n"); //텍스트 엔터,띄어쓰기 처리 부분
+		 $("#content").text(contentText);
+		 
 	     $("#file").change(function(){
 	    	 console.log("sss");
 	    	 var formData = new FormData();
