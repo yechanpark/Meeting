@@ -78,6 +78,13 @@ public class BoardDAOimpl implements BoardDAO {
 		session.delete(namespace+".heartDelete",boardno);
 		
 	}
+
+	public int heartCheck (int boardno, String username) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("boardno", boardno);
+		map.put("username",username);
+		return session.selectOne(namespace+".heartCheck",map);
+	}
 	
 	
 

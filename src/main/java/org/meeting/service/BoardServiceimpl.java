@@ -54,7 +54,14 @@ public class BoardServiceimpl implements BoardService {
 		dao.heartCancle(boardno,username);
 		dao.heartDown(boardno);
 	}
-	
+
+	@Override
+	public int heartCheck(int boardno, String username) {
+		// TODO Auto-generated method stub
+		return 	dao.heartCheck(boardno,username);
+		
+	}
+
 
 
 }

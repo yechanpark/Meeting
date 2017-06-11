@@ -42,6 +42,7 @@ hr {
 </style>
 </head>
 <body>
+
 	<div class="container">
 		<div class="row">
 			<label>${boardVO.username}</label> <br> <br> <label>${boardVO.title}</label>
@@ -116,20 +117,23 @@ hr {
 
 
 
-
 	<script type="text/javascript">
-
-$(document).ready(function(){
-	$(function () {
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		$(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader(header, token);
+	$(document).ready(function(){
+		$(function () {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
 		});
-	});
+		
+	var boardno = $("#boardno").val(); //게시판번호
+	var username = $("#username").val();//username 
 	
 	var contentText =$("#contentVal").val().replace(/<s>/g," ").replace(/<e>/g,"\n");
 	$("#content").text(contentText);
+
+	
 	$("#modify").click(function(event) {
 		event.preventDefault(); //화면 링크 방지 
 		$("form").attr("action","/board/modify");
@@ -149,9 +153,6 @@ $(document).ready(function(){
 	    var heartCnt = $("#heartCnt").text();
 		heartCnt = parseInt(heartCnt)+1;
 		$("#heartCnt").text(heartCnt);
-		
-		var boardno = $("#boardno").val();
-		var username = $("#username").val();
 		
 	    $.ajax({
             url : "/board/heartClick",
@@ -178,9 +179,6 @@ $(document).ready(function(){
 		heartCnt = parseInt(heartCnt)-1;
 		$("#heartCnt").text(heartCnt);
 		
-		var boardno = $("#boardno").val();
-		var username = $("#username").val();
-		
 	    $.ajax({
             url : "/board/heartCancle",
             type : "post",
@@ -200,14 +198,42 @@ $(document).ready(function(){
 		
 	});
 	
+
+	roadReplies();
+	
+	if(username){
+		console.log(username);
+		//로그인 회원이 좋아요 체크했는지 
+		heartCheck(username,boardno);
+	}else{
+		console.log(username);
+	}
+
+});
+	//회원 좋아요 체크상태 확인
+	function heartCheck(username,boardno) {
+	 $.ajax({
+        url : "/board/heartCheck",
+        type : "get",
+        data : {
+          	boardno : boardno,
+          	username : username
+        },
+        dataType : "text",
+        success : function(result) {
+     		if(result==="check"){
+     			$('#heartClick').css("display","none"); 
+      		    $('#heartCancle').css("display","block"); 
+     		}else{
+     			console.log("NoCheck");
+     		}
+        }
+     });	
+}	 
+	
 	
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@밑에서부터 예찬 소스 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 	
-	roadReplies();
-
-	
-});
-
 function roadReplies(){
 	
 	$('#attacher').remove();

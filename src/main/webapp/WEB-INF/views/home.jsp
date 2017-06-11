@@ -62,8 +62,14 @@
 	<ul id="grid" class="grid effect-8">
 	<c:forEach items="${boardList}" var="board" > 
 		<li class="shown"><a href="/board/read?boardno=${board.boardno}" >
-			<label class="listLabel"><span class="glyphicon glyphicon-heart listLabel" ></span> ${board.heartcnt} 개</label>
-			<label class="listLabel"><span class="glyphicon glyphicon-comment listLabel" ></span> ${board.replycnt} 개</label>
+		
+			<!-- 좋아요 , 댓글 개수 label -->
+			<div class="listLabelContainer">
+				<label class="listLabel"><span class="glyphicon glyphicon-heart listLabel" ></span> ${board.heartcnt} 개</label>
+				<label class="listLabel"><span class="glyphicon glyphicon-comment listLabel" ></span> ${board.replycnt} 개</label>
+			</div>
+			<!-- 좋아요 , 댓글 개수 label -->
+			
 			<img src='/displayFile?fileName=${board.photo}' style="border-radius: 5px">
 			<label>${board.title}</label>
 			</a>
@@ -82,7 +88,7 @@
 	
 	<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script>  -->
 	<script type="text/javascript">
-	 $(document).ready(function () {  
+	 $(document).ready(function (){  
 		 
 			setTimeout(function(){
 				$(".grid").masonry({ 

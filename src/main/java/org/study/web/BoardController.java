@@ -74,6 +74,22 @@ public class BoardController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/heartCheck", method= RequestMethod.GET)
+	public ResponseEntity<String> heartCheck(int boardno, String username){
+		
+		System.out.println("check µé¾î¿È");
+		int a =service.heartCheck(boardno,username);
+		System.out.println(a);
+		
+		if(a>0){
+			return new ResponseEntity<String>("check",HttpStatus.CREATED);
+		}else{
+			return new ResponseEntity<String>("noCheck",HttpStatus.CREATED);
+		}
+		
+	}
+	
 	
 	
 

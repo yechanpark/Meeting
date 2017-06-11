@@ -42,4 +42,7 @@
 	 		delete from heart where boardno = #{boardno} 
 	 	</delete>
 	
+		<select id="heartCheck" resultType="int">
+			SELECT count(*) FROM heart where boardno = #{boardno} and username = #{username}
+		</select>
   </mapper>
