@@ -118,15 +118,15 @@ hr {
 
 
 	<script type="text/javascript">
-	$(document).ready(function(){
-		$(function () {
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
-			$(document).ajaxSend(function(e, xhr, options) {
-				xhr.setRequestHeader(header, token);
-			});
+	$(function () {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
 		});
-		
+	});
+	$(document).ready(function(){
+	
 	var boardno = $("#boardno").val(); //게시판번호
 	var username = $("#username").val();//username 
 	
@@ -173,7 +173,8 @@ hr {
 	});
 	$("#heartCancle").click(function(event){
 		event.preventDefault(); //화면 링크 방지 
-		$('#heartClick').css("display","block"); 
+	
+		 $('#heartClick').css("display","block"); 
 	    $('#heartCancle').css("display","none"); 
 	    var heartCnt = $("#heartCnt").text();
 		heartCnt = parseInt(heartCnt)-1;
@@ -194,12 +195,12 @@ hr {
          			console.log("Fail");
          		}
             }
-         });
+         }); 
 		
 	});
 	
 
-	roadReplies();
+	roadReplies(); //get이니깐 문제가 없었고 
 	
 	if(username){
 		console.log(username);
@@ -214,7 +215,7 @@ hr {
 	function heartCheck(username,boardno) {
 	 $.ajax({
         url : "/board/heartCheck",
-        type : "get",
+        type : 'get',
         data : {
           	boardno : boardno,
           	username : username
