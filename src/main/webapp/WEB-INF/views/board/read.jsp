@@ -118,6 +118,9 @@ hr {
 
 
 	<script type="text/javascript">
+	
+	// 처리 도중 서버에 Request를 보내는 함수가 있다면 늦게 처리돼서 
+	// 이 부분을 가장 먼저 수행(403 Forbidden 방지) 
 	$(function () {
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
