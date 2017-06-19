@@ -18,6 +18,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" />
 	<div class="container" style="border: 1px solid black; padding: 60px">
 	<h1>Board Register Page</h1>
 	<br>
@@ -59,7 +60,6 @@
 		
 	</div>
 	<hr>
-	
 		<button type="button" id="registerBtn">등록</button>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>

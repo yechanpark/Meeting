@@ -180,8 +180,12 @@ a:hover .listLabel{
 	display: block;
 	float: left;
 	padding: 7px;
-	width: 30%;
+	width: 23%;
 	opacity: 0;
+}
+
+.grid li img{
+	min-height: 250px;
 }
 
 .grid li.shown,

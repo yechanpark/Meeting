@@ -4,30 +4,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-<link rel="stylesheet"
-	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-
-<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
-<meta name="_csrf" content="${_csrf.token}" />
-<!-- default header name is X-CSRF-TOKEN -->
-<meta name="_csrf_header" content="${_csrf.headerName}" />
-<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
+	<meta name="_csrf" content="${_csrf.token}" />
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf_header" content="${_csrf.headerName}" />
+	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-body {
-	background: #d4d6d8;
-}
-
-.container {
-	background: white;
-	padding: 2% 10%;
-}
 
 .glyphicon glyphicon-heart {
 	background: white;
@@ -42,8 +30,8 @@ hr {
 </style>
 </head>
 <body>
-
-	<div class="container">
+  	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" />
+	<div  class="container" style="padding: 2% 10%;">
 		<div class="row">
 			<label>${boardVO.username}</label> <br> <br> <label>${boardVO.title}</label>
 			<hr>
@@ -64,7 +52,6 @@ hr {
 				value="${boardVO.content}"> <label id="content"></label> <br>
 			<br>
 			<hr>
-		
 			
 		</div>
 
@@ -115,8 +102,6 @@ hr {
 		<!-- 게시판 주인 아이디 -->
 	</div>
 
-
-
 	<script type="text/javascript">
 	
 	// 처리 도중 서버에 Request를 보내는 함수가 있다면 늦게 처리돼서 
@@ -151,6 +136,7 @@ hr {
 	
 	$("#heartClick").click(function(event){
 		event.preventDefault(); //화면 링크 방지 
+		if(username){
 		$('#heartClick').css("display","none"); 
 	    $('#heartCancle').css("display","block"); 
 	    var heartCnt = $("#heartCnt").text();
@@ -173,11 +159,13 @@ hr {
          		}
             }
          });
+		}else{
+			alert("로그인 해주세요");
+		}
 	});
 	$("#heartCancle").click(function(event){
 		event.preventDefault(); //화면 링크 방지 
-	
-		 $('#heartClick').css("display","block"); 
+		$('#heartClick').css("display","block"); 
 	    $('#heartCancle').css("display","none"); 
 	    var heartCnt = $("#heartCnt").text();
 		heartCnt = parseInt(heartCnt)-1;
@@ -199,7 +187,7 @@ hr {
          		}
             }
          }); 
-		
+			
 	});
 	
 
@@ -210,7 +198,7 @@ hr {
 		//로그인 회원이 좋아요 체크했는지 
 		heartCheck(username,boardno);
 	}else{
-		console.log(username);
+		console.log("가입 없음");
 	}
 
 });
@@ -335,7 +323,7 @@ function sendReply(content, parentno){
 		var username = $("#username").val();
 		var datas = {"reply" : {
 							replyno : null,
-							boardno : ${boardVO.boardno},
+							boardno : '${boardVO.boardno}',
 							username : username,							
 							content : content 
 					},

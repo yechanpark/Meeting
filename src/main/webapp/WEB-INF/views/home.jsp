@@ -17,10 +17,9 @@
 	#baner {
 		background-image: url('/resource/imageIcon/meetingbaner.jpg');
 		background-repeat: no-repeat;
-		background-size: 100% 100%;
+		background-size: 2000px 100%;
 		height: 100%;
 	}
-	
 	#banerContainer {
 		height: 600px;
 	}
@@ -35,6 +34,7 @@
 </style>
 </head>
 <body>
+  <jsp:include page="header.jsp" flush="false" />
 	<div id="banerContainer" class="row">
 		<div id="baner" class="row">
 			<div class="col-sm-10"></div>
@@ -42,16 +42,7 @@
 				<br>
 				<br>
 				<br>
-				<c:if test="${pageContext.request.userPrincipal.name != null }">
-					<li><label class="fontSizeup">${pageContext.request.userPrincipal.name} 환영합니다.</label></li>
-					<c:if test="${pageContext.request.userPrincipal.name == 'admin'}">	
-						<li><a href=" <c:url value="/admin/"/> ">ADMIN PAGE</a></li>
-					</c:if>
-					<li><a href="<c:url value="/logout/"/> "><label class="fontSizeup">로그아웃</label></a></li>
-				</c:if>
-				<c:if test="${pageContext.request.userPrincipal.name == null }">
-					<a href="<c:url value="/login/"/>"><label class="fontSizeup">로그인</label></a>
-				</c:if>
+		
 				
 			</div>
 				
@@ -80,8 +71,6 @@
 	<br>
 	<br>
 	<br>
-	<a href="/board/register">글쓰기</a>
-	<br>
 	<br>
 	<br>
 
@@ -93,7 +82,7 @@
 			setTimeout(function(){
 				$(".grid").masonry({ 
 					itemSelector:'.shown',
-					columnWidth: 40
+					columnWidth: 0
 					}); 
 				
 			}, 1);
