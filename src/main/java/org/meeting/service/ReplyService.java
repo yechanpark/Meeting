@@ -7,7 +7,9 @@ import org.meeting.domain.ReplyVO;
 
 public interface ReplyService {
 
-	public List<ReplyVO> getRepliesByBoardNo(int boardNo);
-	public void addReply(ReplyVO reply);
-	public void addReplyRelation(ReplyRelationVO replyRelation);
+	public int getParentNoByBoardNo(int boardNo, String username);
+	public int addReply(ReplyVO reply);
+	public List<ReplyVO> getAllRepliesByParentNo(int parentno);
+	public int getRepliesCountByBoardNo(int boardNo, String username);
+	public boolean isExistMyParentReply(int boardNo, String username);
 }

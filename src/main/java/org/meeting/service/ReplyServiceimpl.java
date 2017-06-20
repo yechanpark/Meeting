@@ -15,20 +15,38 @@ public class ReplyServiceimpl implements ReplyService {
 	@Inject
 	ReplyDAO replyDao;
 
-	public List<ReplyVO> getRepliesByBoardNo(int boardNo) {
-		List<ReplyVO> replies = replyDao.getRepliesByBoardNo(boardNo);
-		return replies;
-	}
-
-	@Override
-	public void addReply(ReplyVO reply) {
-		replyDao.addReply(reply);
-		
-	}
 	
 	@Override
-	public void addReplyRelation(ReplyRelationVO replyRelation){
-		replyDao.addReplyRelation(replyRelation);
+	 public int getParentNoByBoardNo(int boardNo, String username) {
+		return replyDao.getParentNoByBoardNo(boardNo, username);
+	}
+	
+	/*
+	 * @Override
+	 * public List<ReplyVO> getRepliesByBoardNo(int boardNo) {
+		List<ReplyVO> replies = replyDao.getRepliesByBoardNo(boardNo);
+		return replies;
+	}*/
+
+	@Override
+	public int addReply(ReplyVO reply) {
+		return replyDao.addReply(reply);
+		
 	}
 
+	@Override
+	public List<ReplyVO> getAllRepliesByParentNo(int parentno) {
+		return replyDao.getAllRepliesByParentNo(parentno);
+		
+	}
+
+	@Override
+	public int getRepliesCountByBoardNo(int boardNo, String username) {
+		return replyDao.getRepliesCountByBoardNo(boardNo, username);
+	}
+
+	@Override
+	public boolean isExistMyParentReply(int boardno, String username) {
+		return replyDao.isExistMyParentReply(boardno, username);
+	}
 }

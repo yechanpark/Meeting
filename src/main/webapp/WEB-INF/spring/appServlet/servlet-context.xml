@@ -14,10 +14,17 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven>
+		<!-- 현재 로그인한 주체를 Controller에서 얻기 위해 설정해야 할 정보 -->
+		<argument-resolvers>
+			<beans:bean
+				class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver">
+			</beans:bean>
+		</argument-resolvers>
+	</annotation-driven>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	
 	<resources mapping="/resource/**" location="/resource/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

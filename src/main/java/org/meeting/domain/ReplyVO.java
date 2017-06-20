@@ -13,10 +13,11 @@ import lombok.ToString;
 public class ReplyVO implements Serializable {
 
 	private static final long serialVersionUID = 8145216904213739681L;
-	private int replyno; // 리플번호 기본키
-	private int boardno; // 게시물번호 외래키
-	private String username; // 유저이름
-	private String content; // 댓글 내용
-	private Date replydate;
+	private int replyno; // 내  리플 키 -> DB저장 시 자동저장
+	private int parentno; // 부모 리플 키 (자식만 가지고 있음)
+	private int boardno; // 게시물번호 키 (부모만 가지고 있음)
+	private String username; // 작성자
+	private String content; // 내용
+	private Date replydate; // 저장날짜 -> DB저장 시 자동저장
 	
 }
