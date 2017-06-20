@@ -15,7 +15,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
+<style>
 
 .glyphicon glyphicon-heart {
 	background: white;
@@ -25,13 +25,142 @@
 hr {
 	border: 1px solid #d4d6d8;
 }
+.boardBox {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  position: relative;
+  margin: auto;
+  border: 1px solid #dee0e2;
+}
+
+.c1, .c2, .c3, .c4, .c5 {
+  width: 100%;
+  height: 200px;
+/*   border: 1px solid gray; */
+}
+
+.c1, .c3, .c4, .c5 {
+	padding: 0px 20px;
+}
+/* .c1 {
+	height: 150px;
+}	
+.c2{
+	height: 600px;
+}
+
+.c3{
+	height: 200px;
+} */
+/* @media (min-width: 600px) {
+   .c1 {
+    width: 60%;
+    -webkit-order: 2;
+    order: 2;
+  }
+  .c2 {
+    width: 40%;
+    -webkit-order: 1;
+    order: 1;
+  }
+  .c3 {
+    width: 100%;
+    -webkit-order: 3;
+    order: 3;
+  }
+} */
 
 
+@media (min-width: 800px) {
+  .c2 {
+  	  order: 2;
+	  position: absolute;
+	  float: left;
+	  width: 60%;
+	  height: 800px;
+	  border-right: 1px solid #dee0e2
+  }
+  .c3{
+  	order: 4;
+  	height: 100px;
+  	margin-left : 60%;
+ 	width: 40%;
+ 	border-bottom: 1px solid #dee0e2;
+  }
+  .c5{
+  	order: 5;
+  	height: 100px;
+  	margin-left : 60%;
+ 	width: 40%;
+
+  }
+  .c4 {
+  	order: 3;
+    height: 500px;
+ 	margin-left : 60%;
+ 	width: 40%;
+ 	overflow:scroll; 
+ 	border-bottom: 1px solid #dee0e2;
+  }
+  .c1 {
+  	order: 1;
+  	height:100px;
+  	margin-left : 60%;
+  	width: 40%;
+  	border-bottom: 1px solid #dee0e2;
+  }
+}
 </style>
 </head>
 <body>
-  	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" />
+
+		
+  	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" /> 
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	<br>
+  	
+  	<div class="boardBox" style="width: 80%;" >
+			<div class="c1" >
+				<label>${boardVO.username}</label> <br> <br> <label>${boardVO.title}</label>
+			</div>
+			<div class="c2">
+			<img src='/displayFile?fileName=${boardVO.photo}' width="100%"
+				height="800px" />
+			</div>
+			
+			<div class="c3">
+			<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
+			<a href="#" id="heartClick" style="display: block; color: red"><span class="glyphicon glyphicon-heart-empty" style="font-size:50px;"></span></a>
+			<br><label>좋아요</label>
+			<label id="heartCnt">${boardVO.heartcnt}</label> <label>개</label> <br>
+			
+			</div>
+			
+			<div class="c4" >
+			<br> <input type="hidden" id="contentVal"
+				value="${boardVO.content}"> <label id="content"></label> <br>
+			<br>
+			
+			<label>
+				댓글
+			</label>
+			</div>
+			
+			<div class="c5">
+				<input type="text" placeholder="댓글 달기..">
+			</div>
+			
+		</div>
 	<div  class="container" style="padding: 2% 10%;">
+		
+		
 		<div class="row">
 			<label>${boardVO.username}</label> <br> <br> <label>${boardVO.title}</label>
 			<hr>
@@ -42,7 +171,6 @@ hr {
 			<hr>
 		</div>
 		<div class="row">
-			
 			<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
 			<a href="#" id="heartClick" style="display: block; color: red"><span class="glyphicon glyphicon-heart-empty" style="font-size:50px;"></span></a>
 			
@@ -52,7 +180,6 @@ hr {
 				value="${boardVO.content}"> <label id="content"></label> <br>
 			<br>
 			<hr>
-			
 		</div>
 
 		<div class="row">
@@ -101,6 +228,13 @@ hr {
 		<input type="hidden" id="boardUsername" value="${boardVO.username}">
 		<!-- 게시판 주인 아이디 -->
 	</div>
+	
+		<br>
+		<br>
+		<br>
+		<br>
+		
+	
 
 	<script type="text/javascript">
 	
