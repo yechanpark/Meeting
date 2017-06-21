@@ -7,4 +7,5 @@ public interface UserService {
 	public UserVO read(String id)throws Exception;
 	public void modify(UserVO vo)throws Exception;
 	public void remove(String id)throws Exception;
+	public void myImageDatabaseUpload(String fileName, String username);
 }

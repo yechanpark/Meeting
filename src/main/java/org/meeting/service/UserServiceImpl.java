@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
 		dao.delete(id);
 	}
 
+	@Override
+	public void myImageDatabaseUpload(String fileName, String username) {
+		dao.myImageDatabaseUpload(fileName,username);
+	}
+
 }

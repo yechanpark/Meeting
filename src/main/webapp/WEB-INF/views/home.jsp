@@ -14,6 +14,9 @@
 <title>Insert title here</title>
 
 <style>
+	body {
+		background-color: #fafafa;
+	}
 	#baner {
 		background-image: url('/resource/imageIcon/meetingbaner.jpg');
 		background-repeat: no-repeat;

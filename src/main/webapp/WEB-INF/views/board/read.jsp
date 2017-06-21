@@ -17,6 +17,9 @@
 <title>Insert title here</title>
 <style>
 
+body {
+	background-color: #fafafa;
+}
 .glyphicon glyphicon-heart {
 	background: white;
 	color: white;
@@ -33,84 +36,89 @@ hr {
   position: relative;
   margin: auto;
   border: 1px solid #dee0e2;
+  width: 100%;
+  min-height: 600px;
+   background-color: white;
+}
+.c1 {
+	height: 10%;
+	border-bottom: 1px solid #dee0e2;
+}
+.c2 {
+	/* min-height: 400px; */
+/* 	height: 40%; */
+	border-bottom: 1px solid #dee0e2;
+}
+
+.c3 {
+	height: 10%;
+	border-bottom: 1px solid #dee0e2;
+}
+.c4{
+	
+	height: 30%;
+	border-bottom: 1px solid #dee0e2;
+}
+
+.c5{
+	height: 10%;
+	border-bottom: 1px solid #dee0e2;
 }
 
 .c1, .c2, .c3, .c4, .c5 {
   width: 100%;
-  height: 200px;
 /*   border: 1px solid gray; */
 }
 
 .c1, .c3, .c4, .c5 {
 	padding: 0px 20px;
 }
-/* .c1 {
-	height: 150px;
-}	
-.c2{
-	height: 600px;
-}
-
-.c3{
-	height: 200px;
-} */
-/* @media (min-width: 600px) {
-   .c1 {
-    width: 60%;
-    -webkit-order: 2;
-    order: 2;
-  }
-  .c2 {
-    width: 40%;
-    -webkit-order: 1;
-    order: 1;
-  }
-  .c3 {
-    width: 100%;
-    -webkit-order: 3;
-    order: 3;
-  }
-} */
-
 
 @media (min-width: 800px) {
+	.boardBox {
+	  width: 60%;
+	  height: 700px;
+	}
+
   .c2 {
   	  order: 2;
 	  position: absolute;
 	  float: left;
 	  width: 60%;
-	  height: 800px;
+	  height: 100%;
 	  border-right: 1px solid #dee0e2
+  }	
+  .c1 {
+  	order: 1;
+  	height: 20%;
+  	margin-left : 60%;
+  	width: 40%;
+  	border-bottom: 1px solid #dee0e2;
   }
   .c3{
   	order: 4;
-  	height: 100px;
+  	height: 15%;
   	margin-left : 60%;
  	width: 40%;
  	border-bottom: 1px solid #dee0e2;
   }
   .c5{
   	order: 5;
-  	height: 100px;
+  	height: 5%;
   	margin-left : 60%;
  	width: 40%;
 
   }
   .c4 {
   	order: 3;
-    height: 500px;
+    height: 60%;
  	margin-left : 60%;
  	width: 40%;
  	overflow:scroll; 
  	border-bottom: 1px solid #dee0e2;
+ 	overflow-x:hidden;
   }
-  .c1 {
-  	order: 1;
-  	height:100px;
-  	margin-left : 60%;
-  	width: 40%;
-  	border-bottom: 1px solid #dee0e2;
-  }
+
 }
 </style>
 </head>
@@ -123,16 +131,24 @@ hr {
   	<br>
   	<br>
   	<br>
-  	<br>
-  	<br>
   	
-  	<div class="boardBox" style="width: 80%;" >
-			<div class="c1" >
-				<label>${boardVO.username}</label> <br> <br> <label>${boardVO.title}</label>
+  	<div class="boardBox">
+			<div class="c1" > <!-- 유저이름,타이틀 div -->
+				<br>
+				<div><img src="/resource/imageIcon/원빈.jpg" class="img-circle" width="40px" height="40px"> <label>${boardVO.username}</label> </div>
+				<div><label>${boardVO.title}</label></div>
+				<div>
+				<!-- 게시판 주인과 로그인 유저의 아이디가 같을시 수정,삭제 버튼 활성화 -->
+					<c:if
+						test="${boardVO.username eq pageContext.request.userPrincipal.name}">
+						<a href="#" id="modify">수정</a>
+						<a href="#" id="delete">삭제</a>
+					</c:if>
+				</div>
 			</div>
 			<div class="c2">
 			<img src='/displayFile?fileName=${boardVO.photo}' width="100%"
-				height="800px" />
+				height="100%" />
 			</div>
 			
 			<div class="c3">
@@ -144,77 +160,33 @@ hr {
 			</div>
 			
 			<div class="c4" >
-			<br> <input type="hidden" id="contentVal"
-				value="${boardVO.content}"> <label id="content"></label> <br>
-			<br>
-			
-			<label>
-				댓글
-			</label>
+				<div>
+					<label>${boardVO.username}</label>
+				</div>
+				<input type="hidden" id="contentVal" value="${boardVO.content}"> <label id="content"></label> <br>
+				<label> 댓글  </label>
+				<div class="row">
+						댓글창
+						<table id='attacharea'>
+							<thead>
+								<tr>
+									<td>글쓴이</td>
+									<td>내용</td>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody id='attacher'>
+							</tbody>
+						</table>
+	
+				</div>
 			</div>
 			
 			<div class="c5">
-				<input type="text" placeholder="댓글 달기..">
+			<input id="inputReply" type="text" /> <input id="replyBtn"
+					type="button" />
 			</div>
 			
-		</div>
-	<div  class="container" style="padding: 2% 10%;">
-		
-		
-		<div class="row">
-			<label>${boardVO.username}</label> <br> <br> <label>${boardVO.title}</label>
-			<hr>
-		</div>
-		<div class="row">
-			<img src='/displayFile?fileName=${boardVO.photo}' width="100%"
-				height="600px" style="border-radius: 10px"/>
-			<hr>
-		</div>
-		<div class="row">
-			<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
-			<a href="#" id="heartClick" style="display: block; color: red"><span class="glyphicon glyphicon-heart-empty" style="font-size:50px;"></span></a>
-			
-			<br><label>좋아요</label>
-			<label id="heartCnt">${boardVO.heartcnt}</label> <label>개</label> <br>
-			<br> <input type="hidden" id="contentVal"
-				value="${boardVO.content}"> <label id="content"></label> <br>
-			<br>
-			<hr>
-		</div>
-
-		<div class="row">
-			<!-- 댓글창 -->
-			<table id='attacharea'>
-				<thead>
-					<tr>
-						<td>글쓴이</td>
-						<td>내용</td>
-						<td></td>
-					</tr>
-				</thead>
-
-				<tbody id='attacher'>
-
-				</tbody>
-			</table>
-
-			<input id="inputReply" type="text" /> <input id="replyBtn"
-				type="button" />
-
-		</div>
-
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<div>
-			<!-- 게시판 주인과 로그인 유저의 아이디가 같을시 수정,삭제 버튼 활성화 -->
-			<c:if
-				test="${boardVO.username eq pageContext.request.userPrincipal.name}">
-				<a href="#" id="modify">수정</a>
-				<a href="#" id="delete">삭제</a>
-			</c:if>
 		</div>
 
 		<form action="" method="post">
@@ -227,14 +199,11 @@ hr {
 		<!-- 현재 로그인 유저 아이디 -->
 		<input type="hidden" id="boardUsername" value="${boardVO.username}">
 		<!-- 게시판 주인 아이디 -->
-	</div>
 	
 		<br>
 		<br>
 		<br>
 		<br>
-		
-	
 
 	<script type="text/javascript">
 	

@@ -38,6 +38,7 @@
             <li><a href="/board/register"><span class="glyphicon glyphicon-envelope"></span>글 등록</a></li>
           	<c:if test="${pageContext.request.userPrincipal.name != null }">
 				<li><a href="/logout/"><span class="glyphicon glyphicon-info-sign"></span>로그아웃</a></li>
+				<li><a href="/user/mypage/"><span class="glyphicon glyphicon-info-sign"></span>My Page</a></li>
 			</c:if>
 			<c:if test="${pageContext.request.userPrincipal.name == null }">
 				 <li><a href="/login/"><span class="glyphicon glyphicon-info-sign"></span>Login</a></li>

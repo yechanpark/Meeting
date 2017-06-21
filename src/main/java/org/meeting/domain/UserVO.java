@@ -1,10 +1,19 @@
 package org.meeting.domain;
 
 public class UserVO {
+
 	private String username;
 	private String password;
 	private String displayname;
 	private String kakaoid;
+	private String profileimage;
+	
+	public String getProfileimage() {
+		return profileimage;
+	}
+	public void setProfileimage(String profileimage) {
+		this.profileimage = profileimage;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -29,9 +38,10 @@ public class UserVO {
 	public void setKakaoid(String kakaoid) {
 		this.kakaoid = kakaoid;
 	}
+	
 	@Override
 	public String toString() {
 		return "UserVO [username=" + username + ", password=" + password + ", displayname=" + displayname + ", kakaoid="
-				+ kakaoid + "]";
+				+ kakaoid + ", profileimage=" + profileimage + "]";
 	}
 }

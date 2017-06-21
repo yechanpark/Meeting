@@ -24,7 +24,7 @@ public class UploadController {
 
 	@Resource(name="boardUploadPath")  //servlet-context.xml 에서 생성한 Bean 폴더경로 주입
 	private String boardUploadPath;
-
+	
 	
 	@RequestMapping(value="/imageUpload", method=RequestMethod.POST,produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> imageUpload(MultipartFile file, HttpServletRequest request) throws Exception{
@@ -75,6 +75,7 @@ public class UploadController {
 	      
 	      return new ResponseEntity<String>("deleted",HttpStatus.OK);
 	   }
+	  
 
 	
 }

@@ -1,5 +1,8 @@
 package org.meeting.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,6 +39,14 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void delete(String id) throws Exception {
 		sqlSession.delete(namespace+".delete",id);
+	}
+
+	@Override
+	public void myImageDatabaseUpload(String fileName, String username) {
+		Map<String, String> map = new HashMap<>();
+		map.put("fileName", fileName);
+		map.put("username", username);
+		sqlSession.update(namespace+".myImageDatabaseUpload",map);
 	}
 	
 }
