@@ -13,7 +13,7 @@
 	  </select>
 	  
 	  <select id="boardRead" resultType="BoardVO">
-	  		select *from board where boardno = #{boardno}
+	  		select boardno,b.username,title,content,photo,u.displayname,u.profileimage from board b join users u on b.username = u.username where boardno = #{boardno}
 	  </select>
 	 
 	 	<delete id="boardDelete">

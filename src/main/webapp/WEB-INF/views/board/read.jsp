@@ -18,7 +18,9 @@
 <style>
 
 body {
-	background-color: #fafafa;
+/* 	background-color: #fafafa; */
+    box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+	background: #f4f5f7;
 }
 .glyphicon glyphicon-heart {
 	background: white;
@@ -37,8 +39,8 @@ hr {
   margin: auto;
   border: 1px solid #dee0e2;
   width: 100%;
-  min-height: 600px;
-   background-color: white;
+  background-color: white;
+  overflow: hidden;
 }
 .c1 {
 	height: 10%;
@@ -47,22 +49,22 @@ hr {
 .c2 {
 	/* min-height: 400px; */
 /* 	height: 40%; */
-	border-bottom: 1px solid #dee0e2;
+	border-bottom: 1px solid #fafafa;
 }
 
 .c3 {
 	height: 10%;
-	border-bottom: 1px solid #dee0e2;
+	border-bottom: 1px solid #fafafa;
 }
 .c4{
-	
+/* 	
 	height: 30%;
-	border-bottom: 1px solid #dee0e2;
+	border-bottom: 1px solid #fafafa; */
 }
 
 .c5{
 	height: 10%;
-	border-bottom: 1px solid #dee0e2;
+	border-bottom: 1px solid #fafafa;
 }
 
 .c1, .c2, .c3, .c4, .c5 {
@@ -76,55 +78,60 @@ hr {
 
 @media (min-width: 800px) {
 	.boardBox {
-	  width: 60%;
-	  height: 700px;
+	  max-width: 1000px;
+	  height: 800px;
 	}
-
   .c2 {
   	  order: 2;
 	  position: absolute;
 	  float: left;
 	  width: 60%;
 	  height: 100%;
-	  border-right: 1px solid #dee0e2
+	  text-align: center;
+	
+	  border-right: 1px solid #fafafa;
   }	
   .c1 {
   	order: 1;
-  	height: 20%;
+  	height: 15%;
   	margin-left : 60%;
   	width: 40%;
-  	border-bottom: 1px solid #dee0e2;
+  	padding: 0px 10px;
+  	border-bottom: 1px solid #fafafa;
   }
   .c3{
+ 	position: relative;
   	order: 4;
   	height: 15%;
   	margin-left : 60%;
  	width: 40%;
- 	border-bottom: 1px solid #dee0e2;
+ 	border-bottom: 1px solid #fafafa;
+ 	padding: 0px 10px;
   }
   .c5{
   	order: 5;
-  	height: 5%;
+  	height: 10%;
   	margin-left : 60%;
  	width: 40%;
-
+	padding: 0px 10px;
   }
   .c4 {
   	order: 3;
     height: 60%;
+  /* 	position: absolute; */
  	margin-left : 60%;
  	width: 40%;
  	overflow:scroll; 
- 	border-bottom: 1px solid #dee0e2;
+ 	border-bottom: 1px solid #fafafa;
  	overflow-x:hidden;
+    padding: 0px 10px; 
   }
+
 
 }
 </style>
 </head>
 <body>
-
-		
   	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" /> 
   	<br>
   	<br>
@@ -135,7 +142,7 @@ hr {
   	<div class="boardBox">
 			<div class="c1" > <!-- 유저이름,타이틀 div -->
 				<br>
-				<div><img src="/resource/imageIcon/원빈.jpg" class="img-circle" width="40px" height="40px"> <label>${boardVO.username}</label> </div>
+				<div><img src="/displayFile?fileName=${boardVO.profileimage}" class="img-circle" width="40px" height="40px"> <label>${boardVO.displayname}</label> </div>
 				<div><label>${boardVO.title}</label></div>
 				<div>
 				<!-- 게시판 주인과 로그인 유저의 아이디가 같을시 수정,삭제 버튼 활성화 -->
@@ -144,12 +151,16 @@ hr {
 						<a href="#" id="modify">수정</a>
 						<a href="#" id="delete">삭제</a>
 					</c:if>
-				</div>
+				</div>	
 			</div>
+			<%-- <div class="c2">
+			<img src='' width="100%"/>
+			</div> --%>
 			<div class="c2">
-			<img src='/displayFile?fileName=${boardVO.photo}' width="100%"
-				height="100%" />
+			    <img src="/displayFile?fileName=${boardVO.photo}" style="width: 100%; height: 100%; vertical-align: middle" />
 			</div>
+
+
 			
 			<div class="c3">
 			<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
@@ -158,14 +169,15 @@ hr {
 			<label id="heartCnt">${boardVO.heartcnt}</label> <label>개</label> <br>
 			
 			</div>
-			
 			<div class="c4" >
 				<div>
 					<label>${boardVO.username}</label>
 				</div>
-				<input type="hidden" id="contentVal" value="${boardVO.content}"> <label id="content"></label> <br>
+				<input type="hidden" id="contentVal" value="${boardVO.content}"> <span id="content"></span> <br>
+				<br>
+				
 				<label> 댓글  </label>
-				<div class="row">
+				<div>
 						댓글창
 						<table id='attacharea'>
 							<thead>
@@ -178,7 +190,6 @@ hr {
 							<tbody id='attacher'>
 							</tbody>
 						</table>
-	
 				</div>
 			</div>
 			

@@ -24,7 +24,6 @@
 		height: 100%;
 	}
 	#banerContainer {
-		height: 600px;
 	}
 	.fontSizeup{
 		font-size: 300%;
@@ -63,9 +62,8 @@
 				<label class="listLabel"><span class="glyphicon glyphicon-comment listLabel" ></span> ${board.replycnt} 개</label>
 			</div>
 			<!-- 좋아요 , 댓글 개수 label -->
-			
-			<img src='/displayFile?fileName=${board.photo}' style="border-radius: 5px">
-			<label>${board.title}</label>
+			<img src='/displayFile?fileName=${board.photo}' style="border-radius: 5px" width="100%" >
+			<label style="width: 80%">${board.title}</label>
 			</a>
 		</li>
 	</c:forEach> 

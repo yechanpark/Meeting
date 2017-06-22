@@ -1,11 +1,14 @@
 package org.study.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.meeting.domain.BoardVO;
 import org.meeting.service.BoardService;
 import org.meeting.service.MailService;
 import org.springframework.http.HttpStatus;
@@ -33,8 +36,10 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 
+	/*	List<BoardVO> voList = new ArrayList<>();
+		voList = service.boardList();
+		vo.setPhoto(vo.getPhoto().replace("s_",""));*/
 		model.addAttribute("boardList",service.boardList());
-		
 		return "home";
 	}
 	@ResponseBody

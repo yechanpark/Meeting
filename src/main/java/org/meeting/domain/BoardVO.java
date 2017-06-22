@@ -21,4 +21,8 @@ public class BoardVO {
 	private Date regdate;
 	private int heartcnt;
 	
+	//게시판 read했을시 닉네임,프로필 이미지 호출 
+	private String displayname;
+	private String profileimage;
+	
 }

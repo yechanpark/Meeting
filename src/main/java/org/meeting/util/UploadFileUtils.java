@@ -56,7 +56,7 @@ public class UploadFileUtils {
 	
 	private static String makeThumbnail(String uploadPath, String path, String fileName) throws Exception {
 		BufferedImage sourceImg = ImageIO.read(new File(uploadPath+path,fileName));
-		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC,400,400);
+		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC,150);
 		String thumbnailName = uploadPath+path+File.separator+"s_"+fileName;
 		File newFile = new File(thumbnailName);
 		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
