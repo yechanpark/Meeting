@@ -4,6 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
@@ -12,7 +13,8 @@
 	<!-- default header name is X-CSRF-TOKEN -->
 	<meta name="_csrf_header" content="${_csrf.headerName}" />
 	<!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
-
+	
+	
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style>
@@ -21,6 +23,7 @@ body {
 /* 	background-color: #fafafa; */
     box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
 	background: #f4f5f7;
+	line-height: 20px;
 }
 .glyphicon glyphicon-heart {
 	background: white;
@@ -40,7 +43,7 @@ hr {
   border: 1px solid #dee0e2;
   width: 100%;
   background-color: white;
-  overflow: hidden;
+ /*  overflow: hidden; */
 }
 .c1 {
 	height: 10%;
@@ -127,8 +130,19 @@ hr {
     padding: 0px 10px; 
   }
 
-
 }
+.replyTextArea {
+	background: 0 0;
+    border: none;
+    color: #262626;
+    font-size: inherit;
+    outline: none;
+    padding: 0;
+    resize: none; 
+    max-height: 60px;
+/*     max-height: 200px; */
+}
+	
 </style>
 </head>
 <body>
@@ -138,7 +152,6 @@ hr {
   	<br>
   	<br>
   	<br>
-  	
   	<div class="boardBox">
 			<div class="c1" > <!-- 유저이름,타이틀 div -->
 				<br>
@@ -153,14 +166,10 @@ hr {
 					</c:if>
 				</div>	
 			</div>
-			<%-- <div class="c2">
-			<img src='' width="100%"/>
-			</div> --%>
+		
 			<div class="c2">
 			    <img src="/displayFile?fileName=${boardVO.photo}" style="width: 100%; height: 100%; vertical-align: middle" />
 			</div>
-
-
 			
 			<div class="c3">
 			<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
@@ -194,10 +203,11 @@ hr {
 			</div>
 			
 			<div class="c5">
-			<input id="inputReply" type="text" /> <input id="replyBtn"
-					type="button" />
+<!-- 			<input id="inputReply" type="text" />  -->
+			<textarea id="inputReply" class="replyTextArea" style="height: 20px" rows="2" cols="40" placeholder="댓글달기..."></textarea>
+			<input id="replyBtn"type="button" value="등록"/>
 			</div>
-			
+		
 		</div>
 
 		<form action="" method="post">
@@ -215,9 +225,15 @@ hr {
 		<br>
 		<br>
 		<br>
-
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<label>sssssssssss</label>
 	<script type="text/javascript">
-	
+ 
+	 
 	// 처리 도중 서버에 Request를 보내는 함수가 있다면 늦게 처리돼서 
 	// 이 부분을 가장 먼저 수행(403 Forbidden 방지) 
 	$(function () {
@@ -231,7 +247,14 @@ hr {
 	
 	var boardno = $("#boardno").val(); //게시판번호
 	var username = $("#username").val();//username 
-	
+	$(".replyTextArea").on('keydown keyup', function () {
+ 		adjustHeight();
+	});
+	var adjustHeight = function() {
+		  var textEle = $(".replyTextArea")
+		  var textEleHeight = $(".replyTextArea").prop('scrollHeight');
+		  textEle.css('height', textEleHeight);
+		};
 	var contentText =$("#contentVal").val().replace(/<s>/g," ").replace(/<e>/g,"\n");
 	$("#content").text(contentText);
 
@@ -433,7 +456,6 @@ function sendReply(content, parentno){
 			}
 		});
 		
-		
 };
 
 // 댓글의 댓글 입력창 만드는 함수
@@ -450,8 +472,10 @@ function createReply(parentno){
 	
 	
 	$('#newReplySubmit').click(function(){
+		
 		var content = $('#newReplyText').val();
 		sendReply(content, parentno);
+			
 	});
 	
 };
@@ -459,6 +483,7 @@ function createReply(parentno){
 // 1차 댓글 작성 후 request 버튼
 $("#replyBtn").click(function(event) {
 	var content = $("#inputReply").val();
+	console.log(content)
 	sendReply(content,null);
 });
 </script>
