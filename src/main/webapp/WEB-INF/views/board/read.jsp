@@ -186,26 +186,31 @@ hr {
 				<br>
 				
 				<label> 댓글  </label>
-				<div>
-						댓글창
-						<table id='attacharea'>
-							<thead>
-								<tr>
-									<td>글쓴이</td>
-									<td>내용</td>
-									<td></td>
-								</tr>
-							</thead>
-							<tbody id='attacher'>
-							</tbody>
-						</table>
+						<!-- 댓글영역 -->
+				<div id='replyArea' class="row">
+		
+					<div id='replyShow'>
+		
+						글쓴이 내용 기능
+		
+						<!-- 현재 이 글에 있는 댓글들을 추가할 div-->
+						<div id='replyAttacher'>
+		
+							<!-- 실제 reply들을 포함. (안쪽 행 하나하나는 div id='replyXXX') : 등록 후 HttpStatus.OK 를 받으면 Attach -->
+							<div id='repliesArea'></div>
+		
+						</div>
+		
+		
+					</div>
+		
 				</div>
 			</div>
 			
 			<div class="c5">
 <!-- 			<input id="inputReply" type="text" />  -->
-			<textarea id="inputReply" class="replyTextArea" style="height: 20px" rows="2" cols="40" placeholder="댓글달기..."></textarea>
-			<input id="replyBtn"type="button" value="등록"/>
+			<textarea id="replyInput" class="replyTextArea" style="height: 20px" rows="2" cols="40" placeholder="댓글달기..."></textarea>
+			<input id="replySend"type="button" value="등록"/>
 			</div>
 		
 		</div>
@@ -326,9 +331,16 @@ hr {
          }); 
 			
 	});
-	
 
-	roadReplies(); //get이니깐 문제가 없었고 
+	// 1차 댓글 작성 후 request 버튼
+	$("#replySend").click(function(event) {
+		if(username){
+			var content = $("#replyInput").val();
+			sendReply(content, 0);} 
+		else alert('어디 씨팔년이 로그인도안하고 댓글씨부리냐');
+	});
+	
+	loadReplies();
 	
 	if(username){
 		console.log(username);
@@ -338,6 +350,184 @@ hr {
 		console.log("가입 없음");
 	}
 
+	
+	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@밑에서부터 예찬 소스 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+	
+	// 처음 게시물 열 때 댓글 로드
+			function loadReplies(){
+				
+				// 댓글 전체 프레임 지움
+				$('#repliesArea').remove();
+				
+				// 댓글 전체 프레임 생성
+				var repliesArea = "<div id='repliesArea'> </div>";
+				
+				// 댓글 영역에 댓글 전체 프레임 붙임
+				$('#replyAttacher').append(repliesArea);
+				// 댓글 요청
+				$.ajax({
+					type : 'GET',
+					url : '/rest/reply/' + '${boardVO.boardno}',
+					dataType : 'json',
+					data : {"boardHolder" : '${boardVO.username}'},
+					success : function(response, httpstatus) {
+						// 게시물에 댓글이 아예 없는 경우
+						if(httpstatus == 'nocontent'){
+							alert('댓글 없다');
+							return 0;
+						}
+						
+						/* response 내용
+						{   
+							"secretReplyCount":1,
+							"replies":[{
+									(replies[0] 내용)
+									"boardno":99,
+									"content":"asdasd",
+									"parentno":0,
+									"replydate":{...},
+									"replyno":36,
+									"username":"dpcks",
+									"childReplies" :[
+										{chuldReplies[0]...},
+										{chuldReplies[1]...},
+										{chuldReplies[2]...}
+										]
+									},
+									{(replies[1] 내용 ...)}
+							]
+						}*/
+						
+						// 이 게시물에서의 비밀댓글 갯수(1차만 표현)
+						var secretReplyCount = response.secretReplyCount;
+						for(var i in response.replies) {
+							
+							// 1차 댓글의 번호, 댓글쓴이, 내용 
+							var replyno = response.replies[i].parentReply.replyno;
+							var username = response.replies[i].parentReply.username;
+							var content = response.replies[i].parentReply.content;
+							
+							// '댓글달기' 버튼 생성
+							var reReplyBtn = document.createElement("input");
+							reReplyBtn.type="button";
+							reReplyBtn.value="댓글달기";
+							
+							// 1차 댓글 프레임
+							var newParentReply = "<div id='reply" + replyno + "'>"+
+										    	"<span id='username'></span>"+
+										   		"<span id='content'></span>"+
+										  	 	"<span id='reReplyBtn'></span>"+
+										  	 	"<div id='reReplyArea'></div>"+
+										   "</div>";
+								
+							// 1차 댓글영역에 댓글 프레임을 달고
+							$('#repliesArea').append(newParentReply);
+							
+							// 댓글 영역 -> 1차 댓글 프레임 -> 댓글쓴이,내용, 댓글달기 버튼 innerHTML 표시 및 이벤트 설정
+							$('#repliesArea').children('#reply'+ replyno).children('#username').append(username);
+							$('#repliesArea').children('#reply'+ replyno).children('#content').append(content);
+							$('#repliesArea').children('#reply'+ replyno).children('#reReplyBtn').append(reReplyBtn);
+							
+							// 1차 댓글의 createReply()인자는 자기 자신의 번호
+							$('#repliesArea').children('#reply'+ replyno).children('#reReplyBtn').click(function (){
+								alert('부모 버튼');
+								createReply(replyno);});
+							
+							// 만약 1차 댓글에 2차 댓글이 달렸으면(null이 아니면)
+							if(response.replies[i].childReplies != null){
+								// 모든 i번째 1차 댓글에 대한 2차 댓글을 돌면서
+								for(var j in response.replies[i].childReplies) {
+									// 2차 댓글의 번호, 댓글쓴이, 내용, 부모의 번호 저장
+									var childReplyno = response.replies[i].childReplies[j].replyno;
+									var childUsername = response.replies[i].childReplies[j].username;
+									var childContent = response.replies[i].childReplies[j].content;
+									
+									// 2차 댓글 프레임
+									var newChildReply = "<div id='reply" + childReplyno + "'>"+
+												    	"<span id='username'></span>"+
+												   		"<span id='content'></span>"+
+												  	 	"<span id='reReplyBtn'></span>"+
+												  	 	"<div id='reReplyArea'></div>"+
+												   "</div>";
+									// 댓글 영역 -> 1차 댓글 프레임 -> 2차 댓글 영역 -> 2차 댓글 프레임 달기
+								   $('#repliesArea').find('#reply'+ replyno).children('#reReplyArea').append(newChildReply);
+									
+									// 댓글 영역 -> 1차 댓글 프레임 -> 2차 댓글 영역 -> 2차 댓글 프레임 -> 댓글쓴이,내용, 댓글달기 버튼 innerHTML 표시 및 이벤트 설정
+								   $('#repliesArea').find('#reply'+ childReplyno).children('#username').append(childUsername);
+								   $('#repliesArea').find('#reply'+ childReplyno).children('#content').append(childContent);
+								   $('#repliesArea').find('#reply'+ childReplyno).children('#reReplyBtn').append(reReplyBtn);
+								   
+								   // 2차 댓글의 createReply()인자는 자신과 관계된 1차 댓글의 번호
+								   $('#repliesArea').find('#reply'+ childReplyno).children('#reReplyBtn').click(function (){
+									   alert('자식 버튼');
+									   createReply(replyno);});
+								}
+							}
+						}
+					},
+					error : function(response) { // 실패시
+						alert("reply load Failed! " + response.status);
+					}
+				});
+			}; // loadReplies()
+			
+			// 2차 댓글 입력창 만드는 함수
+			// 1차 댓글 답글 -> 1차 댓글 번호가 인자
+		    // 2차 댓글 답글 -> 2차 댓글과 연관된 1차 댓글의 번호가 인자
+		    // 즉, 이 댓글이 만들어 질 때 무조건 parentno로 설정될 번호가 넘어온다.
+			function createReply(parentno){
+				// 2차 댓글 입력 프레임 생성
+				var childReplyInput = "<div id='inputReply'>"
+				+ "<input id=newReplyText type='text'/>"
+				+ "<input id=newReplySubmit type='button' value='2차달기'/>"
+				+ "</div>";
+				
+				$('#repliesArea').find('#inputReply').remove();
+				// 2차 댓글 입력 프레임 1차 댓글 맨 아래(2차 댓글 여러개 있으면 그 중 맨 아래)에 삽입
+				$('#reply'+parentno).children('#reReplyArea').append(childReplyInput);
+				
+				// 2차 댓글 입력 프레임에서 버튼 가져옴
+				var sendBtn = $('#reply'+parentno).children('#reReplyArea').children('#inputReply').children('#newReplySubmit');
+				
+				// 버튼에 리스너 설정
+				sendBtn.click(function(){
+					var content = $('#reply'+parentno).children('#reReplyArea').children('#inputReply').children('#newReplyText').val();
+					sendReply(content, parentno);
+				});
+				
+				
+			}; // createReply()
+		
+		
+			// 댓글 등록 요청  (댓글내용, 루트 댓글 번호(1차 댓글은 0))
+			function sendReply(content, parentno){
+					var datas = {
+									"reply" : {	
+										"boardno" : '${boardVO.boardno}',
+										"username" : username,
+										"content" : content
+									},
+									"parentno" : parentno
+								};
+					var jsonData = JSON.stringify(datas);
+					
+					$.ajax({
+						method : 'POST',
+						url : '/rest/reply/' + '${boardVO.boardno}',
+						data : jsonData,
+						contentType: "application/json",
+						success : function(response){
+							loadReplies();
+						},
+						error : function(response){
+							if(response.status == "409") // CONFLICT
+								alert('이미 댓글을 달아서 안된다');
+							else if(response.status == "400") // BAD_REQUEST
+								alert('로그인해라');
+							else alert("sendReply실패");
+						}
+					});
+			};  
 });
 	//회원 좋아요 체크상태 확인
 	function heartCheck(username,boardno) {
@@ -358,134 +548,15 @@ hr {
      		}
         }
      });	
+	 
+	 
+	 
+	 
+	 
 }	 
 	
 	
-	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@밑에서부터 예찬 소스 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 	
-// 댓글 로드
-function roadReplies(){
-	
-	$('#attacher').remove();
-	
-	var attacher = "<tbody id='attacher'></tbody>";
-	$('#attacharea').append(attacher);
-	//AJAX로 댓글 가져오는 JS
-	$.ajax({
-		type : 'GET', // GET방식으로 요청
-		url : '/rest/reply/' + ${boardVO.boardno}, // Request보낼 URL
-		dataType : 'json',
-		success : function(response) {
-			/* response 내용
-			{
-				"secretReplyCount":1,
-				"replies":[
-					{
-						"boardno":99,
-						"content":"asdasd",
-						"parentno":0,
-						"replydate":{...},
-						"replyno":36,
-						"username":"dpcks"
-					},{...},{...}
-				]
-			}
-			*/
-			
-			// 이 게시물에 대한 총 1차 댓글 갯수
-			var secretReplyCount = response.secretReplyCount;
-			
-			for(var i in response.replies) {
-				
-				var replyno = response.replies[i].replyno;
-
-				// 자바스크립트 객체를 id값이 'attacharea'인 태그의  innerHTML을 그림
-				var newreply = "<tr id='tr"+ replyno + "'>"+
-					"<td id='usernamearea" + replyno + "'></td>"+
-					"<td id='contentarea"  + replyno + "'></td>"+
-					"<td id='rereplyarea"  + replyno + "'></td>"+
-					"</tr>";
-					
-				$('#attacher').append(newreply);
-				
-				// reply 3대 요소 글쓴이, 내용, 답글버튼
-				var username = response.replies[i].username;
-				var content = response.replies[i].content;
-				var rereplyButton = document.createElement("input");
-				rereplyButton.type="button";
-				rereplyButton.value="댓글달기";
-				
-				$('#usernamearea'+ replyno).append(username);
-				$('#contentarea' + replyno).append(content);
-				
-				$('#rereplyarea' + replyno).click(function (){createReply(replyno);});
-				$('#rereplyarea' + replyno).append(rereplyButton);
-				
-			}
-		},
-		error : function() { // 실패시
-			alert("reply load Failed!");
-		}
-	});
-};
-//댓글 등록 Request
-function sendReply(content, parentno){
-		var username = $("#username").val();
-		var datas = {
-						"reply" : {	
-							"boardno" : ${boardVO.boardno},
-							"username" : username,
-							"content" : content
-						},
-						"parentno" : parentno
-					};
-		var jsonData = JSON.stringify(datas);
-		
-		$.ajax({
-			method : 'POST',
-			url : '/rest/reply/' + ${boardVO.boardno},
-			data : jsonData,
-			contentType: "application/json",
-			success : function(response){
-				roadReplies();
-			},
-			error : function(response){
-				if(response.status == "409") // CONFLICT
-					alert('이미 댓글을 달아서 안된다');
-				else alert("sendReply실패");
-			}
-		});
-		
-};
-
-// 댓글의 댓글 입력창 만드는 함수
-
-function createReply(parentno){
-	alert('createReply(' + parentno + ') 실행');
-	// 2차 댓글 자리   ->   작업중
-	var newReplyTr = "<tr>"
-	+"<td> <input id=newReplyText type='text'> </td>"
-	+"<td> <input id=newReplySubmit type='button' value='2차달기'> </td>"
-	+ "</tr>";
-	
-	$('#tr'+parentno).append(newReplyTr);
-	
-	
-	$('#newReplySubmit').click(function(){
-		
-		var content = $('#newReplyText').val();
-		sendReply(content, parentno);
-			
-	});
-	
-};
-
-// 1차 댓글 작성 후 request 버튼
-$("#replyBtn").click(function(event) {
-	var content = $("#inputReply").val();
-	console.log(content)
-	sendReply(content,null);
-});
 </script>
 </body>
 </html>

@@ -22,6 +22,7 @@ public class UploadFileUtils {
 		FileCopyUtils.copy(fileData, target);
 		String uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName);
 		return uploadedFileName;
+	
 	}
 
 	private static String calcPath(String uploadPath) {  //오늘 날짜의 폴더 생성을 위해 날짜 계산 
@@ -57,11 +58,15 @@ public class UploadFileUtils {
 	private static String makeThumbnail(String uploadPath, String path, String fileName) throws Exception {
 		BufferedImage sourceImg = ImageIO.read(new File(uploadPath+path,fileName));
 		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC,150);
-		String thumbnailName = uploadPath+path+File.separator+"s_"+fileName;
+		String thumbnailName = uploadPath+path+File.separator+"s_"+fileName;  //썸네일 네임
 		File newFile = new File(thumbnailName);
 		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
-		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar,'/');
+		String orginalFileName =uploadPath+path+File.separator+fileName; //파일 오리지널 네임
+	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(thumbnailName);
+		System.out.println(orginalFileName);
+		return orginalFileName.substring(uploadPath.length()).replace(File.separatorChar,'/');
 	}
 	
 }

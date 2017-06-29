@@ -2,14 +2,12 @@ package org.meeting.service;
 
 import java.util.List;
 
-import org.meeting.domain.ReplyRelationVO;
 import org.meeting.domain.ReplyVO;
 
 public interface ReplyService {
 
-	public int getParentNoByBoardNo(int boardNo, String username);
-	public int addReply(ReplyVO reply);
-	public List<ReplyVO> getAllRepliesByParentNo(int parentno);
-	public int getRepliesCountByBoardNo(int boardNo, String username);
-	public boolean isExistMyParentReply(int boardNo, String username);
+	List<ReplyVO> getParentReplies(int boardNo);
+	List<ReplyVO> getChildRepliesByParentNo(int replyno);
+	boolean isExistMyParentReply(int boardNo, String username);
+	void addReply(ReplyVO reply);
 }

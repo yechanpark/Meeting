@@ -22,10 +22,10 @@ public class BoardController {
 	@RequestMapping(value="/read", method = RequestMethod.GET )
 	public void boardRead(Model model,int boardno){
 		System.out.println("boardRead get..");
-		BoardVO vo = service.boardRead(boardno);
-		vo.setPhoto(vo.getPhoto().replace("s_",""));
-		System.out.println(vo.getPhoto());
-		model.addAttribute(vo);
+/*		BoardVO vo = service.boardRead(boardno);*/
+	/*	vo.setPhoto(vo.getPhoto().replace("s_",""));*/
+	/*	System.out.println(vo.getPhoto());*/
+		model.addAttribute(service.boardRead(boardno));
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)

@@ -18,50 +18,30 @@ public class ReplyDAOimpl implements ReplyDAO{
 
 	private static final String namespace = "org.meeting.mapper.replyMapper";
 
-	// boardNo로 부모 댓글 replyNo 얻음
 	@Override
-	public int getParentNoByBoardNo(int boardno, String username) {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("boardno", boardno);
-		map.put("username", username);
-		map.put("parentno", 0);
-		
-		// 1차 댓글이 있는지 검색
-		ReplyVO reply = session.selectOne(namespace + ".getParentReplyByBoardnoUsernameParentno", map);
+	public List<ReplyVO> getParentRelpies(int boardNo) {
+		return session.selectList(namespace+".getParentReplies", boardNo);
+	}
 
-		if (reply == null)
-			return 0;
-		else
-			return reply.getReplyno();
+	@Override
+	public List<ReplyVO> getChildRepliesByParentNo(int replyno) {
+		return session.selectList(namespace+".getChildRepliesByParentNo", replyno);
+	}
+
+	@Override
+	public boolean isExistMyParentReply(int boardNo, String username) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("boardno", boardNo);
+		map.put("username",username);
+		map.put("parentno",0);
+		ReplyVO replyVO = session.selectOne(namespace+".isExistParentReply",map);
+		if(replyVO == null) return false;
+		else return true;
 	}
 
 	@Override
 	public int addReply(ReplyVO reply) {
-		session.insert(namespace + ".replyRegister", reply);
-
-		return reply.getReplyno();
-
-	}
-
-	@Override
-	public List<ReplyVO> getAllRepliesByParentNo(int parentno) {
-		return session.selectList(namespace + ".getAllRepliesByParentNo", parentno);
-	}
-
-	@Override
-	public int getRepliesCountByBoardNo(int boardno, String username) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("boardno", boardno);
-		map.put("username", username);
-		return session.selectOne(namespace + ".getRepliesCountByBoardNo", map);
-	}
-
-	@Override
-	public boolean isExistMyParentReply(int boardno, String username) {
-		if (getParentNoByBoardNo(boardno, username) == 0)
-			return false;
-		return true;
+		return session.insert(namespace+".replyRegister", reply);
 	}
 
 }

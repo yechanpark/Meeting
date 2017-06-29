@@ -5,7 +5,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.meeting.dao.ReplyDAO;
-import org.meeting.domain.ReplyRelationVO;
 import org.meeting.domain.ReplyVO;
 import org.springframework.stereotype.Service;
 
@@ -15,38 +14,23 @@ public class ReplyServiceimpl implements ReplyService {
 	@Inject
 	ReplyDAO replyDao;
 
-	
 	@Override
-	 public int getParentNoByBoardNo(int boardNo, String username) {
-		return replyDao.getParentNoByBoardNo(boardNo, username);
-	}
-	
-	/*
-	 * @Override
-	 * public List<ReplyVO> getRepliesByBoardNo(int boardNo) {
-		List<ReplyVO> replies = replyDao.getRepliesByBoardNo(boardNo);
-		return replies;
-	}*/
-
-	@Override
-	public int addReply(ReplyVO reply) {
-		return replyDao.addReply(reply);
-		
+	public List<ReplyVO> getParentReplies(int boardNo) {
+		return replyDao.getParentRelpies(boardNo);
 	}
 
 	@Override
-	public List<ReplyVO> getAllRepliesByParentNo(int parentno) {
-		return replyDao.getAllRepliesByParentNo(parentno);
-		
+	public List<ReplyVO> getChildRepliesByParentNo(int replyno) {
+		return replyDao.getChildRepliesByParentNo(replyno);
 	}
 
 	@Override
-	public int getRepliesCountByBoardNo(int boardNo, String username) {
-		return replyDao.getRepliesCountByBoardNo(boardNo, username);
+	public boolean isExistMyParentReply(int boardNo, String username) {
+		return replyDao.isExistMyParentReply(boardNo, username);
 	}
 
 	@Override
-	public boolean isExistMyParentReply(int boardno, String username) {
-		return replyDao.isExistMyParentReply(boardno, username);
+	public void addReply(ReplyVO reply) {
+		replyDao.addReply(reply);
 	}
 }

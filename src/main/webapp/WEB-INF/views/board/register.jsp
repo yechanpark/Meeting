@@ -63,7 +63,7 @@ body {
 			<label for="file">사진</label>
 		</div>
 		<div class="col-sm-11">
-			<input type='file' name="file" id="file" >
+			<input type='file' name="file" id="file" accept="image/*" capture="gallery" >
 			<p class="help-block">보여주고싶은 사진을 올려주세요</p>
 			<input type="hidden" name="photo">
 		</div>

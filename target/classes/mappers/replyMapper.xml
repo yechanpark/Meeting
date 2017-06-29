@@ -5,29 +5,24 @@
 
 <mapper namespace="org.meeting.mapper.replyMapper">
 
-	<!-- 댓글 등록 쿼리 -->
+	<!-- boardno으로 해당 게시물의 모든 댓글 읽어옴 -->
+	<select id="getParentReplies" resultType="ReplyVO">
+		select * from reply where boardno = #{boardno} and parentno = 0
+	</select>
+	
+	<!-- 댓글 등록 -->
 	<insert id="replyRegister" parameterType="ReplyVO" useGeneratedKeys="true" keyProperty="replyno">
-		insert into reply (replyno, boardno , username, content, parentno)
-		 values(#{replyno}, #{boardno}, #{username}, #{content}, #{parentno})
+		insert into reply values(#{replyno}, #{boardno}, #{username}, #{content}, #{replydate}, #{parentno})
 	</insert>
-
-	<!-- 용도 1. 게시판번호, 사용자이름, 부모번호(0)에 매치되는 reply를 찾아서 반환 -->
-	<select id="getParentReplyByBoardnoUsernameParentno" resultType="ReplyVO">
+	
+	<!-- 로그인한 유저가 1차 댓글을 달았는지 -->
+	<select id="isExistParentReply" resultType="ReplyVO">
 		select replyno from reply where boardno = #{boardno} and username = #{username} and parentno = #{parentno} 
 	</select>
-	
-	<select id="getRepliesCountByBoardNo" resultType="int">
-		select count(*) from reply where boardno = #{boardno} and username = #{username}
-	</select>
-	
-	<select id="getAllRepliesByParentNo" resultType="ReplyVO">
-		select * from reply where parentno = #{parentno} or replyno = #{parentno}
-	</select>
 
-	<!-- 1차댓글 번호로 1차댓글 가져옴  -->
-	<select id="getParentRepliesByParentNo" resultType="ReplyVO">
-		select * from reply where parentno = #{parentno} and replyno = #{parentno}
+ 	<!-- boardno으로 해당 게시물의 모든 댓글 읽어옴 -->
+	<select id="getChildRepliesByParentNo" resultType="ReplyVO">
+		select * from reply where parentno = #{replyno}
 	</select>
- 
- 
+	
 </mapper>
