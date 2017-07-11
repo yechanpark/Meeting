@@ -51,7 +51,7 @@
 	   		</c:if>
 	   		<c:if test="${userinfo.profileimage ne null }">
 	   		 	<img class="img-circle" id="profileimage" src="/displayFile?fileName=${userinfo.profileimage}" alt="${userinfo.profileimage}"  /> 
-	   			<img class="img-circle" id="profileimage" src="/displayFile?fileName=/2017/06/25/761d390b-aa10-408f-8b96-bbf937c8c9a8_KakaoTalk_20170625_185931182.jpg" alt="${userinfo.profileimage}"  /> 
+	   			<%-- <img class="img-circle" id="profileimage" src="/displayFile?fileName=/2017/06/25/761d390b-aa10-408f-8b96-bbf937c8c9a8_KakaoTalk_20170625_185931182.jpg" alt="${userinfo.profileimage}"  /> --%> 
 	   		</c:if>
 	   		</div>
 	   		 <div class="row form-group">
@@ -115,7 +115,7 @@ $(document).ready(function(){
 
       $.ajax({ //image 파일 폴더에 생성
           type : "post",
-          url : "/imageUpload",
+          url : "/imageUpload?Mypath=my",
           dataType : "text",
           data : formData,
           processData : false,

@@ -248,10 +248,15 @@ hr {
 			xhr.setRequestHeader(header, token);
 		});
 	});
+	
+	var loadingImage;
+	loadingImage = "<img id='loadingImage' src='${pageContext.request.contextPath}/resource/imageIcon/replyloading.gif'>";
 	$(document).ready(function(){
 	
 	var boardno = $("#boardno").val(); //게시판번호
 	var username = $("#username").val();//username 
+
+
 	$(".replyTextArea").on('keydown keyup', function () {
  		adjustHeight();
 	});
@@ -337,7 +342,7 @@ hr {
 		if(username){
 			var content = $("#replyInput").val();
 			sendReply(content, 0);} 
-		else alert('어디 씨팔년이 로그인도안하고 댓글씨부리냐');
+		else alert('로그인 후 댓글 달것');
 	});
 	
 	loadReplies();
@@ -354,180 +359,190 @@ hr {
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@밑에서부터 예찬 소스 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 	
 	// 처음 게시물 열 때 댓글 로드
-			function loadReplies(){
+	function loadReplies(){
+		
+		// 댓글 전체 프레임 지움 후 생성하여 붙임
+		$('#repliesArea').remove();
+		var repliesArea = "<div id='repliesArea'> </div>";
+		$('#replyAttacher').append(repliesArea);
+	    $('#replyAttacher').append(loadingImage);
+		
+		// 댓글 요청
+		$.ajax({
+			type : 'GET',
+			url : '/rest/reply/' + '${boardVO.boardno}',
+			dataType : 'json',
+			data : {"boardHolder" : '${boardVO.username}'},
+			success : function(response, httpstatus) {
+				// 게시물에 댓글이 아예 없는 경우
+				if(httpstatus == 'nocontent'){ 
+					// 로딩 이미지 삭제
+					$('#loadingImage').remove();
+					return 0;
+				}
 				
-				// 댓글 전체 프레임 지움
-				$('#repliesArea').remove();
-				
-				// 댓글 전체 프레임 생성
-				var repliesArea = "<div id='repliesArea'> </div>";
-				
-				// 댓글 영역에 댓글 전체 프레임 붙임
-				$('#replyAttacher').append(repliesArea);
-				// 댓글 요청
-				$.ajax({
-					type : 'GET',
-					url : '/rest/reply/' + '${boardVO.boardno}',
-					dataType : 'json',
-					data : {"boardHolder" : '${boardVO.username}'},
-					success : function(response, httpstatus) {
-						// 게시물에 댓글이 아예 없는 경우
-						if(httpstatus == 'nocontent'){
-							alert('댓글 없다');
-							return 0;
-						}
+				//해당 댓글에 볼 수 있는 댓글들
+				for(var i in response.replies) {
+					
+					// 1차 댓글의 번호, 댓글쓴이, 내용 
+					var parentReplyno = response.replies[i].parentReply.replyno;
+					var parentUsername = response.replies[i].parentReply.username;
+					var parentContent = response.replies[i].parentReply.content;
+
+					// 1차 댓글 프레임
+					var newParentReply ="<div id='reply" + parentReplyno + "'>"+
+								    	"<span id='username'></span>"+
+								   		"<span id='content'></span>"+
+								  	 	"<span id='reReplyBtn'></span>"+
+								  	 	"<div id='reReplyArea'></div>"+
+								   		"</div>";
+					
+					// 1차 댓글영역에 댓글 프레임을 달고
+					$('#repliesArea').append(newParentReply);
+					
+					// 댓글 영역 -> 1차 댓글 프레임 -> 댓글쓴이,내용, 댓글달기 버튼 innerHTML 표시 및 이벤트 설정
+					$('#reply'+ parentReplyno).children('#username').append(parentUsername);
+					$('#reply'+ parentReplyno).children('#content').append(parentContent);
+					
+					// 1차 댓글의 버튼이 없는 경우
+					// 1. 자식댓글이 있는 경우 이거나
+					// 2. 자식댓글이 없더라도 1차 댓글을 내가 쓴 경우
+					if( (response.replies[i].childReplies.length == 0) && ('${pageContext.request.userPrincipal.name}' != parentUsername) ){
 						
-						/* response 내용
-						{   
-							"secretReplyCount":1,
-							"replies":[{
-									(replies[0] 내용)
-									"boardno":99,
-									"content":"asdasd",
-									"parentno":0,
-									"replydate":{...},
-									"replyno":36,
-									"username":"dpcks",
-									"childReplies" :[
-										{chuldReplies[0]...},
-										{chuldReplies[1]...},
-										{chuldReplies[2]...}
-										]
-									},
-									{(replies[1] 내용 ...)}
-							]
-						}*/
+						// '댓글달기' 버튼 생성
+						var reReplyBtn = document.createElement("input");
+						reReplyBtn.type="button";
+						reReplyBtn.value="댓글달기";
 						
-						// 이 게시물에서의 비밀댓글 갯수(1차만 표현)
-						var secretReplyCount = response.secretReplyCount;
-						for(var i in response.replies) {
-							
-							// 1차 댓글의 번호, 댓글쓴이, 내용 
-							var replyno = response.replies[i].parentReply.replyno;
-							var username = response.replies[i].parentReply.username;
-							var content = response.replies[i].parentReply.content;
-							
-							// '댓글달기' 버튼 생성
-							var reReplyBtn = document.createElement("input");
-							reReplyBtn.type="button";
-							reReplyBtn.value="댓글달기";
-							
-							// 1차 댓글 프레임
-							var newParentReply = "<div id='reply" + replyno + "'>"+
+						$('#reply'+ parentReplyno).children('#reReplyBtn').append(reReplyBtn);
+						// 1차 댓글의 createReply()인자는 자기 자신의 번호 -> 자식 댓글의 부모로 설정될 것
+						$('#reply'+ parentReplyno).children('#reReplyBtn').click(function (){
+							alert('부모 버튼');
+							createReply(parentReplyno);
+						});
+					}
+					
+					// 만약 2차 댓글이 있으면
+					if(response.replies[i].childReplies.length != 0){
+						// 모든 i번째 1차 댓글에 대한 2차 댓글 j개를 돌면서
+						for(var j in response.replies[i].childReplies) {
+							// 2차 댓글의 번호, 댓글쓴이, 내용, 부모의 번호 저장
+							var childReplyno = response.replies[i].childReplies[j].replyno;
+							var childUsername = response.replies[i].childReplies[j].username;
+							var childContent = response.replies[i].childReplies[j].content;
+							// 2차 댓글 프레임
+							var newChildReply = "<div id='reply" + childReplyno + "'>"+
 										    	"<span id='username'></span>"+
 										   		"<span id='content'></span>"+
 										  	 	"<span id='reReplyBtn'></span>"+
-										  	 	"<div id='reReplyArea'></div>"+
-										   "</div>";
-								
-							// 1차 댓글영역에 댓글 프레임을 달고
-							$('#repliesArea').append(newParentReply);
+										   		"</div>";
+										   		
+							// 댓글 영역 -> 1차 댓글 프레임 -> 2차 댓글 영역 -> 2차 댓글 프레임 달기
+						    $('#reply'+ parentReplyno).children('#reReplyArea').append(newChildReply);
 							
-							// 댓글 영역 -> 1차 댓글 프레임 -> 댓글쓴이,내용, 댓글달기 버튼 innerHTML 표시 및 이벤트 설정
-							$('#repliesArea').children('#reply'+ replyno).children('#username').append(username);
-							$('#repliesArea').children('#reply'+ replyno).children('#content').append(content);
-							$('#repliesArea').children('#reply'+ replyno).children('#reReplyBtn').append(reReplyBtn);
-							
-							// 1차 댓글의 createReply()인자는 자기 자신의 번호
-							$('#repliesArea').children('#reply'+ replyno).children('#reReplyBtn').click(function (){
-								alert('부모 버튼');
-								createReply(replyno);});
-							
-							// 만약 1차 댓글에 2차 댓글이 달렸으면(null이 아니면)
-							if(response.replies[i].childReplies != null){
-								// 모든 i번째 1차 댓글에 대한 2차 댓글을 돌면서
-								for(var j in response.replies[i].childReplies) {
-									// 2차 댓글의 번호, 댓글쓴이, 내용, 부모의 번호 저장
-									var childReplyno = response.replies[i].childReplies[j].replyno;
-									var childUsername = response.replies[i].childReplies[j].username;
-									var childContent = response.replies[i].childReplies[j].content;
+							// 댓글 영역 -> 1차 댓글 프레임 -> 2차 댓글 영역 -> 2차 댓글 프레임 -> 댓글쓴이,내용, 댓글달기 버튼 innerHTML 표시 및 이벤트 설정
+						    $('#reply'+ childReplyno).children('#username').append(childUsername);
+						    $('#reply'+ childReplyno).children('#content').append(childContent);
+						   
+						    // 2차 댓글 버튼이 없는 경우
+						    // 1. 2차 댓글이 2개 이상일 때 마지막꺼 빼고 전부다
+						    // 2. 마지막으로 내가 댓글을 단 경우(1개 달렸을 떄도 고려)
+						    
+						    //마지막 댓글의 경우
+						    if( j == (response.replies[i].childReplies.length-1) ){
+					    		if(response.replies[i].childReplies[j].username != '${pageContext.request.userPrincipal.name}'){
+									// '댓글달기' 버튼 생성
+									var reReplyBtn = document.createElement("input");
+									reReplyBtn.type="button";
+									reReplyBtn.value="댓글달기";
 									
-									// 2차 댓글 프레임
-									var newChildReply = "<div id='reply" + childReplyno + "'>"+
-												    	"<span id='username'></span>"+
-												   		"<span id='content'></span>"+
-												  	 	"<span id='reReplyBtn'></span>"+
-												  	 	"<div id='reReplyArea'></div>"+
-												   "</div>";
-									// 댓글 영역 -> 1차 댓글 프레임 -> 2차 댓글 영역 -> 2차 댓글 프레임 달기
-								   $('#repliesArea').find('#reply'+ replyno).children('#reReplyArea').append(newChildReply);
-									
-									// 댓글 영역 -> 1차 댓글 프레임 -> 2차 댓글 영역 -> 2차 댓글 프레임 -> 댓글쓴이,내용, 댓글달기 버튼 innerHTML 표시 및 이벤트 설정
-								   $('#repliesArea').find('#reply'+ childReplyno).children('#username').append(childUsername);
-								   $('#repliesArea').find('#reply'+ childReplyno).children('#content').append(childContent);
-								   $('#repliesArea').find('#reply'+ childReplyno).children('#reReplyBtn').append(reReplyBtn);
-								   
-								   // 2차 댓글의 createReply()인자는 자신과 관계된 1차 댓글의 번호
-								   $('#repliesArea').find('#reply'+ childReplyno).children('#reReplyBtn').click(function (){
-									   alert('자식 버튼');
-									   createReply(replyno);});
-								}
-							}
-						}
-					},
-					error : function(response) { // 실패시
-						alert("reply load Failed! " + response.status);
-					}
-				});
-			}; // loadReplies()
-			
-			// 2차 댓글 입력창 만드는 함수
-			// 1차 댓글 답글 -> 1차 댓글 번호가 인자
-		    // 2차 댓글 답글 -> 2차 댓글과 연관된 1차 댓글의 번호가 인자
-		    // 즉, 이 댓글이 만들어 질 때 무조건 parentno로 설정될 번호가 넘어온다.
-			function createReply(parentno){
-				// 2차 댓글 입력 프레임 생성
-				var childReplyInput = "<div id='inputReply'>"
-				+ "<input id=newReplyText type='text'/>"
-				+ "<input id=newReplySubmit type='button' value='2차달기'/>"
-				+ "</div>";
+									$('#reply'+ childReplyno).children('#reReplyBtn').append(reReplyBtn);
+							   
+							   		// 2차 댓글의 createReply()인자는 자신과 관계된 1차 댓글의 번호와 자기 자신의 번호
+							   		$('#reply'+ childReplyno).children('#reReplyBtn').click(function (){
+								    	alert('자식 버튼');
+								    	createReply(parentReplyno);
+								    });
+					    		}
+						    }
+						  }
+						} // 2차 댓글 등록 종료
 				
-				$('#repliesArea').find('#inputReply').remove();
-				// 2차 댓글 입력 프레임 1차 댓글 맨 아래(2차 댓글 여러개 있으면 그 중 맨 아래)에 삽입
-				$('#reply'+parentno).children('#reReplyArea').append(childReplyInput);
-				
-				// 2차 댓글 입력 프레임에서 버튼 가져옴
-				var sendBtn = $('#reply'+parentno).children('#reReplyArea').children('#inputReply').children('#newReplySubmit');
-				
-				// 버튼에 리스너 설정
-				sendBtn.click(function(){
-					var content = $('#reply'+parentno).children('#reReplyArea').children('#inputReply').children('#newReplyText').val();
-					sendReply(content, parentno);
-				});
-				
-				
-			}; // createReply()
-		
-		
-			// 댓글 등록 요청  (댓글내용, 루트 댓글 번호(1차 댓글은 0))
-			function sendReply(content, parentno){
-					var datas = {
-									"reply" : {	
-										"boardno" : '${boardVO.boardno}',
-										"username" : username,
-										"content" : content
-									},
-									"parentno" : parentno
-								};
-					var jsonData = JSON.stringify(datas);
+					} // 모든 댓글 등록 종료
 					
-					$.ajax({
-						method : 'POST',
-						url : '/rest/reply/' + '${boardVO.boardno}',
-						data : jsonData,
-						contentType: "application/json",
-						success : function(response){
-							loadReplies();
-						},
-						error : function(response){
-							if(response.status == "409") // CONFLICT
-								alert('이미 댓글을 달아서 안된다');
-							else if(response.status == "400") // BAD_REQUEST
-								alert('로그인해라');
-							else alert("sendReply실패");
-						}
-					});
-			};  
+				// 이 게시물에서의 비밀댓글 갯수(1차만 표현)
+				var secretReplyCount = response.secretReplyCount;
+				for(var i=0; i<secretReplyCount; i++)
+					$('#repliesArea').append("<div style='color:#ff0000'>비밀댓글입니다</div>");
+				
+				// 로딩 이미지 삭제
+				$('#loadingImage').remove();
+			}, // success
+			error : function(response) { // 실패시
+				// 로딩 이미지 삭제
+				$('#loadingImage').remove();
+				alert("reply load Failed! " + response.status);
+			}
+		});
+	}; // loadReplies()
+	
+	// 2차 댓글 입력창 만드는 함수
+	// 1차 댓글 답글 -> 1차 댓글 번호가 인자
+    // 2차 댓글 답글 -> 2차 댓글과 연관된 1차 댓글의 번호가 인자
+    // 즉, 이 댓글이 만들어 질 때 무조건 parentno로 설정될 번호가 넘어온다.
+	function createReply(parentReplyno){
+		// 2차 댓글 입력 프레임 생성
+		var childReplyInput = "<div id='inputReply'>"
+		+ "<input id=newReplyText type='text'/>"
+		+ "<input id=newReplySubmit type='button' value='2차달기'/>"
+		+ "</div>";
+		
+		$('#repliesArea').find('#inputReply').remove();
+		// 2차 댓글 입력 프레임 1차 댓글 맨 아래(2차 댓글 여러개 있으면 그 중 맨 아래)에 삽입
+		$('#reply'+parentReplyno).children('#reReplyArea').append(childReplyInput);
+		
+		// 2차 댓글 입력 프레임에서 버튼 가져옴
+		var sendBtn = $('#reply'+parentReplyno).children('#reReplyArea').children('#inputReply').children('#newReplySubmit');
+		
+		// 버튼에 리스너 설정
+		sendBtn.click(function(){
+			var content = $('#reply'+parentReplyno).children('#reReplyArea').children('#inputReply').children('#newReplyText').val();
+			sendReply(content, parentReplyno);
+		});
+		
+		
+	}; // createReply()
+
+
+	// 댓글 등록 요청  (댓글내용, 루트 댓글 번호(1차 댓글은 0))
+	function sendReply(content, parentReplyno){
+			var datas = {
+							"reply" : {	
+								"boardno" : '${boardVO.boardno}',
+								"username" : username,
+								"content" : content
+							},
+							"parentno" : parentReplyno
+						};
+			var jsonData = JSON.stringify(datas);
+			
+			$.ajax({
+				method : 'POST',
+				url : '/rest/reply/' + '${boardVO.boardno}',
+				data : jsonData,
+				contentType: "application/json",
+				success : function(response){
+					loadReplies();
+				},
+				error : function(response){
+					if(response.status == "409") // CONFLICT
+						alert('이미 댓글을 달아서 안된다');
+					else if(response.status == "400") // BAD_REQUEST
+						alert('로그인해라');
+					else alert("sendReply실패");
+				}
+			});
+	};    
 });
 	//회원 좋아요 체크상태 확인
 	function heartCheck(username,boardno) {

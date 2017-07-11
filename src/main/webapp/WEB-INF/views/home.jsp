@@ -18,10 +18,10 @@
 		background-color: #fafafa;
 	}
 	#baner {
-		background-image: url('/resource/imageIcon/meetingbaner.jpg');
+		background-image: url('/resource/imageIcon/bbb.jpg');
 		background-repeat: no-repeat;
-		background-size: 2000px 100%;
-		height: 100%;
+		background-size: 100%;
+		height: 400px;
 	}
 	#banerContainer {
 	}
@@ -37,7 +37,7 @@
 </head>
 <body>
   <jsp:include page="header.jsp" flush="false" />
-	<div id="banerContainer" class="row">
+<!-- 	<div id="banerContainer" class="row">
 		<div id="baner" class="row">
 			<div class="col-sm-10"></div>
 			<div class="col-sm-2">
@@ -50,7 +50,11 @@
 				
 		 </div>
 	
-	 </div> 
+	 </div>  -->
+	 <div style="width: 100%;height: 400px">
+	 	<img src="/resource/imageIcon/bbbb.jpg" width="100%", height="100%">
+	 
+	 </div>
 	
 	<ul id="grid" class="grid effect-8">
 	<c:forEach items="${boardList}" var="board" > 

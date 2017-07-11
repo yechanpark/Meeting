@@ -45,7 +45,7 @@ public class HomeController {
 	@ResponseBody
 	@RequestMapping(value = "/sendMail/auth", method = RequestMethod.POST)
     public ResponseEntity<String> sendMailAuth(HttpSession session) {
-    	String email = "ehdrylang@naver.com";
+    	String email = "qjadud22@naver.com";
 		int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
         String joinCode = String.valueOf(ran);
         String subject = "회원가입 인증 코드 발급 안내 입니다.";

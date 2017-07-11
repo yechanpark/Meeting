@@ -25,19 +25,19 @@ public class UploadController {
 	@Resource(name="boardUploadPath")  //servlet-context.xml 에서 생성한 Bean 폴더경로 주입
 	private String boardUploadPath;
 	
-	
-	@RequestMapping(value="/imageUpload", method=RequestMethod.POST,produces="text/plain;charset=UTF-8")
-	public ResponseEntity<String> imageUpload(MultipartFile file, HttpServletRequest request) throws Exception{
-		
-		System.out.println(file.getOriginalFilename());
-		System.out.println(file.getSize());
-		System.out.println(file.getContentType());
-
-		String rootDirectory = request.getSession().getServletContext().getRealPath("/"); // 서버 컨텍스트니까 이걸 맨앞에 붙여야해 그랗체
-		
-		System.out.println(rootDirectory+boardUploadPath);
-		return new ResponseEntity<String>(UploadFileUtils.uploadFile(rootDirectory+boardUploadPath, file.getOriginalFilename(), file.getBytes()),HttpStatus.CREATED);
-	}
+	  @RequestMapping(value="/imageUpload", method=RequestMethod.POST,produces="text/plain;charset=UTF-8")
+	   public ResponseEntity<String> imageUpload(MultipartFile file, HttpServletRequest request, String Mypath) throws Exception{
+	      
+	      System.out.println("@@@@@@@@@@@@@@@@@@@@@"+Mypath); //Mypage에서 보내는거인지 확인하기위해 체크
+	      System.out.println(file.getOriginalFilename());
+	      System.out.println(file.getSize());
+	      System.out.println(file.getContentType());
+	      
+	      String rootDirectory = request.getSession().getServletContext().getRealPath("/"); // 서버 컨텍스트니까 이걸 맨앞에 붙여야해 그랗체
+	      
+	      System.out.println(rootDirectory+boardUploadPath);
+	      return new ResponseEntity<String>(UploadFileUtils.uploadFile(rootDirectory+boardUploadPath, file.getOriginalFilename(), file.getBytes(),Mypath),HttpStatus.CREATED);
+	  }
 	
 	@RequestMapping(value="/displayFile",method=RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	public ResponseEntity<byte[]> displayFile(String fileName, HttpServletRequest request) throws Exception{

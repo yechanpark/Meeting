@@ -14,14 +14,14 @@ import org.springframework.util.FileCopyUtils;
 
 public class UploadFileUtils {
 	
-	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
-		UUID uid = UUID.randomUUID();
-		String savedName = uid.toString()+"_"+originalName;
-		String savedPath = calcPath(uploadPath);
-		File target = new File(uploadPath+savedPath,savedName);
-		FileCopyUtils.copy(fileData, target);
-		String uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName);
-		return uploadedFileName;
+	 public static String uploadFile(String uploadPath, String originalName, byte[] fileData, String Mypath) throws Exception {
+	      UUID uid = UUID.randomUUID();
+	      String savedName = uid.toString()+"_"+originalName;
+	      String savedPath = calcPath(uploadPath);
+	      File target = new File(uploadPath+savedPath,savedName);
+	      FileCopyUtils.copy(fileData, target);
+	      String uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName, Mypath);
+	      return uploadedFileName;
 	
 	}
 
@@ -55,18 +55,21 @@ public class UploadFileUtils {
 		// TODO Auto-generated method stub
 	}
 	
-	private static String makeThumbnail(String uploadPath, String path, String fileName) throws Exception {
-		BufferedImage sourceImg = ImageIO.read(new File(uploadPath+path,fileName));
-		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC,150);
-		String thumbnailName = uploadPath+path+File.separator+"s_"+fileName;  //썸네일 네임
-		File newFile = new File(thumbnailName);
-		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
-		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
-		String orginalFileName =uploadPath+path+File.separator+fileName; //파일 오리지널 네임
-	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(thumbnailName);
-		System.out.println(orginalFileName);
-		return orginalFileName.substring(uploadPath.length()).replace(File.separatorChar,'/');
-	}
+	 private static String makeThumbnail(String uploadPath, String path, String fileName, String Mypath) throws Exception {
+	      BufferedImage sourceImg = ImageIO.read(new File(uploadPath+path,fileName));
+	      BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC,150);
+	      String thumbnailName = uploadPath+path+File.separator+"s_"+fileName;  //썸네일 네임
+	      File newFile = new File(thumbnailName);
+	      String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+	      ImageIO.write(destImg, formatName.toUpperCase(), newFile);
+	      String orginalFileName =uploadPath+path+File.separator+fileName; //파일 오리지널 네임
+	      
+	      if(Mypath !=null){ //mypage에서 업로드하면 썸네일 경로 리턴
+	         return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar,'/');
+	      }else{//mypage가 아니면  일반 파일 경로 리턴
+	         return orginalFileName.substring(uploadPath.length()).replace(File.separatorChar,'/');
+	      }
+	   
+	   }
 	
 }
