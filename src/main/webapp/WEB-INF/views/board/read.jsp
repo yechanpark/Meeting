@@ -127,7 +127,7 @@ hr {
  	overflow:scroll; 
  	border-bottom: 1px solid #fafafa;
  	overflow-x:hidden;
-    padding: 0px 10px; 
+    padding: 0px 30px; 
   }
 
 }
@@ -233,9 +233,6 @@ hr {
 	<br>
 	<br>
 	<br>
-	<br>
-	<br>
-	<label>sssssssssss</label>
 	<script type="text/javascript">
  
 	 

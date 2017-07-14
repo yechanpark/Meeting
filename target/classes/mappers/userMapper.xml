@@ -33,4 +33,13 @@
   update users set profileimage =#{fileName} 
   where username = #{username}
   </update>
+  
+  <select id="myBoardConfirm" resultType="BoardVO">
+  select *from board where username = #{username}
+  </select>
+  
+  <select id="myReplyConfirm" resultType="BoardVO">
+  <!-- 	select boardno from reply where username = #{username} and parentno = 0 -->
+  	 select r.boardno from reply r join board b on r.boardno = b.boardno  where r.username = #{username} and parentno = 0
+  </select>
   </mapper>

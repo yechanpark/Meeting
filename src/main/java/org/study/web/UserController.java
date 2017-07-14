@@ -1,7 +1,10 @@
 package org.study.web;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import org.meeting.domain.BoardVO;
 import org.meeting.domain.UserVO;
 import org.meeting.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -51,4 +54,26 @@ public class UserController {
 		  service.myImageDatabaseUpload(fileName,username);
 		  return new ResponseEntity<String>("success",HttpStatus.CREATED);
 	  }
+	  
+	  @ResponseBody
+	  @RequestMapping(value="/myBoardConfirm",method=RequestMethod.POST)
+	  public ResponseEntity<List<BoardVO>> myBoardConfirm(String username){
+		  
+		  System.out.println("내 게시물 확인");
+		  System.out.println(username);
+		  System.out.println(service.myBoardConfirm(username));
+		  return new ResponseEntity<List<BoardVO>>(service.myBoardConfirm(username),HttpStatus.CREATED);
+	  }
+	  
+	  
+	  @ResponseBody
+	  @RequestMapping(value="/myReplyConfirm",method=RequestMethod.POST)
+	  public ResponseEntity<List<BoardVO>> myReplyConfirm(String username){
+		  System.out.println("내 게시물 확인");
+		  System.out.println(username);
+		  return new ResponseEntity<List<BoardVO>>(service.myReplyConfirm(username),HttpStatus.CREATED);
+	  }
+	
+	  
+	  
 }

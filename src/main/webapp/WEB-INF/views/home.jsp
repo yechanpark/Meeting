@@ -18,7 +18,7 @@
 		background-color: #fafafa;
 	}
 	#baner {
-		background-image: url('/resource/imageIcon/bbb.jpg');
+		background-image: url('/resource/imageIcon/bb2.png');
 		background-repeat: no-repeat;
 		background-size: 100%;
 		height: 400px;
@@ -37,24 +37,16 @@
 </head>
 <body>
   <jsp:include page="header.jsp" flush="false" />
-<!-- 	<div id="banerContainer" class="row">
+	<div id="banerContainer" class="row">
 		<div id="baner" class="row">
-			<div class="col-sm-10"></div>
-			<div class="col-sm-2">
-				<br>
-				<br>
-				<br>
-		
-				
-			</div>
-				
 		 </div>
-	
-	 </div>  -->
-	 <div style="width: 100%;height: 400px">
-	 	<img src="/resource/imageIcon/bbbb.jpg" width="100%", height="100%">
+	 </div> 
+	 <br>
+	 <br>
+	<!--  <div style="width: 100%;height: 400px">
+ 	<img src="/resource/imageIcon/bbbb.jpg" width="100%", height="100%"> 
 	 
-	 </div>
+	 </div> -->
 	
 	<ul id="grid" class="grid effect-8">
 	<c:forEach items="${boardList}" var="board" > 
@@ -76,8 +68,7 @@
 	<br>
 	<br>
 	<br>
-	<br>
-	<br>
+	 <jsp:include page="footer.jsp" flush="false" />
 
 	
 	<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script>  -->

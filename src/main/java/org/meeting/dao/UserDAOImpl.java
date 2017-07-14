@@ -1,11 +1,13 @@
 package org.meeting.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.meeting.domain.BoardVO;
 import org.meeting.domain.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,6 +49,19 @@ public class UserDAOImpl implements UserDAO {
 		map.put("fileName", fileName);
 		map.put("username", username);
 		sqlSession.update(namespace+".myImageDatabaseUpload",map);
+	}
+
+	@Override
+	public List<BoardVO> myBoardConfirm(String username) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace+".myBoardConfirm", username);
+	}
+
+	@Override
+	public List<BoardVO> myReplyConfirm(String username) {
+
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		return sqlSession.selectList(namespace+".myReplyConfirm",username);
 	}
 	
 }

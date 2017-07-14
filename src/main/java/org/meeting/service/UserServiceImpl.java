@@ -1,8 +1,11 @@
 package org.meeting.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.meeting.dao.UserDAO;
+import org.meeting.domain.BoardVO;
 import org.meeting.domain.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -35,6 +38,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void myImageDatabaseUpload(String fileName, String username) {
 		dao.myImageDatabaseUpload(fileName,username);
+	}
+
+	@Override
+	public List<BoardVO> myBoardConfirm(String username) {
+		// TODO Auto-generated method stub
+		return dao.myBoardConfirm(username);
+	}
+
+	@Override
+	public List<BoardVO> myReplyConfirm(String username) {
+		// TODO Auto-generated method stub
+		return dao.myReplyConfirm(username);
 	}
 
 }

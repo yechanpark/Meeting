@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
    <script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
    <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+  <link href="<c:url value="/resource/css/main.css" />" rel="stylesheet">
    <!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
    <meta name="_csrf" content="${_csrf.token}"/>
    <!-- default header name is X-CSRF-TOKEN -->
@@ -33,6 +34,18 @@
 		text-align: center;
 		padding: 100px 0px;
 	}
+	
+	.photoLi{
+		text-align: center;
+		width: 33%;
+		height: 300px;
+		float: left;
+	}
+	#photoBox {
+		width: 100%;
+		list-style: none;
+	 	margin: auto; 
+	}
 	</style>
 
 </head>
@@ -55,7 +68,7 @@
 	   		</c:if>
 	   		</div>
 	   		 <div class="row form-group">
-			      <div class="col-sm-12">
+			      <div class="col-md-12">
 			         <input type='file' name="file" id="file" >
 			         <p class="help-block">보여주고싶은 사진을 올려주세요</p>
 			      </div>
@@ -63,16 +76,53 @@
    		</div>
    		<div id="profileBox"class="col-md-6" style="padding: 40px 0px">
    			<div class="row">
-   				<label>${userinfo.displayname}</label>
+   				<div class="col-md-6">
+   					<label>${userinfo.username}</label>
+   				</div>
+   				<div class="col-md-6">
+   					<button style="background: white">프로필 편집</button>
+   				</div>
    			</div>
    			<div class="row">
-   				<label>게시물</label>
-   				<label>0개</label>
-   				<label>댓글</label>
-   				<label>0개</label>
+   				<div class="col-md-3">
+   					<label>게시물 0개</label>
+   				</div>
+   				<div class="col-md-3">
+   					<label>댓글 0개</label>
+   				</div>
+   				<div class="col-md-6"></div>
+   			</div>
+   			<div class="row">
+   				<div class="col-md-3">
+   					<label>${userinfo.displayname}  </label>
+   				</div>
    			</div>
    		</div>
    	</div>
+   	
+   	<div>
+   		<a href="#" id="boardConfirm">게시물 확인</a>
+   		<a href="#" id="replyConfirm">댓글 게시물 확인</a>
+   	</div>
+   	
+   	<div class="row">
+   		<ul id="photoBox" style="width: 100%"></ul>
+   	
+   	</div>
+   
+	 <!--   	   
+   <div class="row" style="background-color: gray">
+   		<div>
+   		</div>
+   			<div>
+   		</div>
+   			<div>
+   		</div>
+   </div> -->
+   <br>
+   <br>
+   <br>
+   <br>
    	 <div class="row" style="height: 300px">
    	 	<div class="col-md-5">
    	 		<img src="/resource/imageIcon/insta.jpg" width="100%" height="100%">
@@ -90,6 +140,12 @@
    </div>
   
    <input type="hidden" id="username" value="${userinfo.username}">
+   
+   	 <br>
+   	 <br>
+   	 <br>
+   	 <jsp:include page="/WEB-INF/views/footer.jsp" flush="false" />
+
    
 </body>
 <script type="text/javascript">
@@ -134,8 +190,9 @@ $(document).ready(function(){
         		  alert("Image File please");
         	  }
           }
+      
        });
- });
+  });
   
   //프로필 사진 경로 Db에 저장
   function imageDatabseUpload(imgPath){
@@ -172,6 +229,56 @@ $(document).ready(function(){
      };
          
 /* 이미지 처리 부분  */
+ 
+ 
+ //내 게시물 확인 리스트
+ $("#boardConfirm").click(function(event) {
+	 console.log("board click");
+	 $.ajax({
+		    url : "/user/myBoardConfirm",
+            type : "post",
+            data : {
+               username : "qjadud2222"
+            },
+            dataType : "json",
+            success : function(result) {
+            	var listView="";
+            	for(var k in result){
+            		console.log(result[k]);
+            		listView+="<li class='photoLi'>";
+            		listView+=	'<a href="/board/read?boardno='+result[k].boardno+'"style="width="100%";height="100%"">';
+            		listView+= '<img src="/displayFile?fileName='+result[k].photo+'" style="border-radius: 5px" width="100%" height="100%"></a>';
+            		listView+="</li>";
+            	}
+            /* 	댓글수 하트수 표시 */
+            /* 	for(var k in result){
+            		a+="<li class='photoLi'>"
+            		a+=	'<a href="/board/read?boardno='+result[k].boardno+'" style="width="100%";height="100%""> <div class="listLabelContainer"><label class="listLabel"><span class="glyphicon glyphicon-heart listLabel" ></span>'+result[k].heartcnt+'개</label>';
+        			a+=	'<label class="listLabel"><span class="glyphicon glyphicon-comment listLabel" ></span> '+result[k].replycnt+' 개</label>';
+            		a+= '</div><img src="/displayFile?fileName='+result[k].photo+'" style="border-radius: 5px" width="100%" height="100%"></a>';
+					a+="</li>";
+            	} */
+            	$("#photoBox").append(listView);
+            }
+	 });
+});
+	
+ //댓글 게시물 확인 리스트
+ $("#replyConfirm").click(function(event) {
+	 console.log("reply click");
+	 $.ajax({
+		    url : "/user/myReplyConfirm",
+            type : "post",
+            data : {
+               username : "qjadud2222"
+            },
+            dataType : "text",
+            success : function(result) {
+             	console.log(result);
+            }
+	  });
+ });
+ 
 });
 </script>
 </html>
