@@ -26,14 +26,12 @@ body {
 }
 </style>
 </head>
-<body>
+<body style="#fafafa">
 	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" />
 	<br>
 	<br>
 	<br>
-	<br>
-	<br>
-	<div class="container registerBox" style="border: 1px solid black; padding: 60px">
+	<div class="container registerBox" style="border: 1px solid gray; padding: 60px">
 	<h1>Board Register Page</h1>
 	<br>
 	<form action="register" method="post">

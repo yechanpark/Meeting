@@ -25,6 +25,7 @@ public class BoardController {
 /*		BoardVO vo = service.boardRead(boardno);*/
 	/*	vo.setPhoto(vo.getPhoto().replace("s_",""));*/
 	/*	System.out.println(vo.getPhoto());*/
+		System.out.println(service.boardRead(boardno));
 		model.addAttribute(service.boardRead(boardno));
 	}
 	

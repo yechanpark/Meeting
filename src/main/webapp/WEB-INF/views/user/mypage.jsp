@@ -138,7 +138,6 @@
    	 	</div> -->
   	 </div>
    </div>
-  
    <input type="hidden" id="username" value="${userinfo.username}">
    
    	 <br>
@@ -234,11 +233,12 @@ $(document).ready(function(){
  //내 게시물 확인 리스트
  $("#boardConfirm").click(function(event) {
 	 console.log("board click");
+	 $("#photoBox").empty();
 	 $.ajax({
 		    url : "/user/myBoardConfirm",
             type : "post",
             data : {
-               username : "qjadud2222"
+               username : username
             },
             dataType : "json",
             success : function(result) {
@@ -266,11 +266,12 @@ $(document).ready(function(){
  //댓글 게시물 확인 리스트
  $("#replyConfirm").click(function(event) {
 	 console.log("reply click");
+	 $("#photoBox").empty();
 	 $.ajax({
 		    url : "/user/myReplyConfirm",
             type : "post",
             data : {
-               username : "qjadud2222"
+               username : username
             },
             dataType : "text",
             success : function(result) {

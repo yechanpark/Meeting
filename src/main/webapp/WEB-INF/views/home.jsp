@@ -48,9 +48,10 @@
 	 
 	 </div> -->
 	
+<!-- 	<div style="min-height: 900px"> -->
 	<ul id="grid" class="grid effect-8">
 	<c:forEach items="${boardList}" var="board" > 
-		<li class="shown"><a href="/board/read?boardno=${board.boardno}" >
+		<li class="shown"><a href="/board/read?boardno=${board.boardno}" style="padding:0px">
 		
 			<!-- 좋아요 , 댓글 개수 label -->
 			<div class="listLabelContainer">
@@ -58,30 +59,36 @@
 				<label class="listLabel"><span class="glyphicon glyphicon-comment listLabel" ></span> ${board.replycnt} 개</label>
 			</div>
 			<!-- 좋아요 , 댓글 개수 label -->
-			<img src='/displayFile?fileName=${board.photo}' style="border-radius: 5px" width="100%" >
+			<div style="width: 100%; background-color: black;" >
+				<img class="mainBoardImage" src='/displayFile?fileName=${board.photo}' style="border-radius: 5px" width="100%" >
+			</div>
 			<label style="width: 80%">${board.title}</label>
 			</a>
 		</li>
 	</c:forEach> 
 	</ul>
 	
+<!-- 	</div> -->
+	
+	
 	<br>
 	<br>
 	<br>
-	 <jsp:include page="footer.jsp" flush="false" />
+	
+ 	<footer> <jsp:include page="footer.jsp" flush="false" /></footer> 
+	
 
 	
 	<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script>  -->
 	<script type="text/javascript">
 	 $(document).ready(function (){  
-		 
 			setTimeout(function(){
 				$(".grid").masonry({ 
 					itemSelector:'.shown',
 					columnWidth: 0
 					}); 
 				
-			}, 1);
+			}, 0.5);
 	 
 	});  
 	</script>
