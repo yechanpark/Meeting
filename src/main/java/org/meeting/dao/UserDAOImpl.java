@@ -35,6 +35,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void update(UserVO vo) throws Exception {
+		vo.setPassword(passwordEncoder.encode(vo.getPassword()));
 		sqlSession.update(namespace+".update",vo);
 	}
 

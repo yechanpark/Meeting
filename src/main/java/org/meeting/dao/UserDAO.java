@@ -1,6 +1,5 @@
 package org.meeting.dao;
 import java.util.List;
-
 import org.meeting.domain.BoardVO;
 import org.meeting.domain.UserVO;
 public interface UserDAO {
