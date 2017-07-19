@@ -209,6 +209,26 @@
             <version>4.2.0.Final</version>
         </dependency> 
 		
+		<!-- Apache Tiles dependecy -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-jsp</artifactId>
+		    <version>3.0.7</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-servlet</artifactId>
+		    <version>3.0.7</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-extras</artifactId>
+		    <version>3.0.7</version>
+		</dependency>
+
+		<!-- Apache Tiles dependecy -->
 
 	</dependencies>
 	<build>

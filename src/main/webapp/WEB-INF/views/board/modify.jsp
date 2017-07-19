@@ -16,7 +16,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" />
 	<div class="container">
 	<h1>modify Page</h1>
 	<form method="post">

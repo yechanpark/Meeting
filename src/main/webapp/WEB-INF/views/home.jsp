@@ -72,7 +72,7 @@
 </c:if>
 </body>
 </html> --%>
-  <jsp:include page="header.jsp" flush="false" />
+ <%--  <jsp:include page="header.jsp" flush="false" /> --%>
 	<div id="banerContainer" class="row">
 		<div id="baner" class="row">
 		 </div>
@@ -110,8 +110,6 @@
 	<br>
 	<br>
 	<br>
-	
- 	<footer> <jsp:include page="footer.jsp" flush="false" /></footer> 
 	
 
 	

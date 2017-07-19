@@ -1,4 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <link href="<c:url value="/resource/css/login.css" />" rel="stylesheet">
@@ -6,8 +10,14 @@
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
+<title>Insert title here</title>
+</head>
+
+<body>
+
+
+
 <hr>
-<jsp:include page="/WEB-INF/views/header.jsp" flush="false" /> 
 <br>
 <br>
 <br>
@@ -78,22 +88,11 @@
 	    </div>
 	</div>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
- <jsp:include page="/WEB-INF/views/footer.jsp" flush="false" />
-
+</body>
 <script>
 	$(document).ready(function(){
 		console.log('자바스크립트 시작');
 		$('#username').focus();
 	});
 </script>
+</html>

@@ -27,7 +27,9 @@ body {
 </style>
 </head>
 <body style="#fafafa">
-	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" />
+	<br>
+	<br>
+	<br>
 	<br>
 	<br>
 	<br>

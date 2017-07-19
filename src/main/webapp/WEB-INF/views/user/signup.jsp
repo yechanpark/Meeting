@@ -15,7 +15,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/header.jsp" flush="false" /> 
 <br>
 <br>
 <br>
@@ -108,7 +107,6 @@
 <br>
 <br>
 <br>
-<jsp:include page="/WEB-INF/views/footer.jsp" flush="false" />
 <script type="text/javascript">
 $(document).ready(function(){
 	var emailAuth = null;
