@@ -32,7 +32,6 @@ public class BoardController {
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public void boardRegisterGet(Model model){
 		System.out.println("boardRegister get..");
-		
 	}
 	
 	@RequestMapping(value="/register", method= RequestMethod.POST)

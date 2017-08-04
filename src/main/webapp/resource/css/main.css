@@ -395,13 +395,13 @@ a:hover .listLabel{
 
 @media screen and (max-width: 900px) {
 	.grid li {
-		width: 50%;
+		width: 45%;
 	}
 }
 
 
 @media screen and (max-width: 400px) {
 	.grid li {
-		width: 100%;
+		width: 45%;
 	}
 }

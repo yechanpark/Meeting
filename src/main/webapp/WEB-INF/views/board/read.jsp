@@ -45,10 +45,10 @@ hr {
   background-color: white;
  /*  overflow: hidden; */
 }
-.c1 {
-	height: 10%;
+/* .c1 {
+	height: 20%;
 	border-bottom: 1px solid #dee0e2;
-}
+} */
 .c2 {
 	/* min-height: 400px; */
 /* 	height: 40%; */
@@ -79,7 +79,13 @@ hr {
 	padding: 0px 20px;
 }
 
-@media (min-width: 800px) {
+
+#popupDiv{
+	position: absolute;
+}
+
+/* PC화면일시  */
+@media (min-width: 800px) {  
 	.boardBox {
 	  max-width: 1000px;
 	  height: 800px;
@@ -96,7 +102,7 @@ hr {
   }	
   .c1 {
   	order: 1;
-  	height: 15%;
+  	height: 20%;
   	margin-left : 60%;
   	width: 40%;
   	padding: 0px 10px;
@@ -154,7 +160,7 @@ hr {
   	<div class="boardBox">
 			<div class="c1" > <!-- 유저이름,타이틀 div -->
 				<br>
-				<div><img src="/displayFile?fileName=${boardVO.profileimage}" class="img-circle" width="40px" height="40px"> <label>${boardVO.displayname}</label> </div>
+				<div><img src="/displayFile?fileName=${boardVO.profileimage}" class="img-circle" width="80px" height="80px"> <label>${boardVO.displayname}</label> </div>
 				<div><label>${boardVO.title}</label></div>
 				<div>
 				<!-- 게시판 주인과 로그인 유저의 아이디가 같을시 수정,삭제 버튼 활성화 -->
@@ -177,6 +183,7 @@ hr {
 			<label id="heartCnt">${boardVO.heartcnt}</label> <label>개</label> <br>
 			
 			</div>
+			
 			<div class="c4" >
 				<div>
 					<label>${boardVO.username}</label>
@@ -200,7 +207,6 @@ hr {
 		
 						</div>
 		
-		
 					</div>
 		
 				</div>
@@ -212,6 +218,10 @@ hr {
 			<input id="replySend"type="button" value="등록"/>
 			</div>
 		
+				
+				<div id="popupDiv">
+					<img src="" id="popupImg" width="300px" height="300px">
+				</div>
 		</div>
 
 		<form action="" method="post">
@@ -228,7 +238,16 @@ hr {
 		<br>
 		<br>
 		<br>
+		
 		<br>
+	<br>
+	<br>
+	
+		
+				<img src="/displayFile?fileName=${boardVO.profileimage}" class="img-circle testimg" width="40px" height="40px">
+				
+	
+	
 	<br>
 	<br>
 	<br>
@@ -340,6 +359,16 @@ hr {
 			sendReply(content, 0);} 
 		else alert('로그인 후 댓글 달것');
 	});
+	
+	$(".testimg").click(function(event){
+		console.log();
+		
+		
+		$("#popupImg").attr('src',$(this).attr('src'));
+		
+		
+	});
+	
 	
 	loadReplies();
 	

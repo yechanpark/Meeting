@@ -3,6 +3,7 @@ package org.study.web;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.BitSet;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +31,13 @@ public class UploadController {
 	      
 	      System.out.println("@@@@@@@@@@@@@@@@@@@@@"+Mypath); //Mypage에서 보내는거인지 확인하기위해 체크
 	      System.out.println(file.getOriginalFilename());
-	      System.out.println(file.getSize());
+	      System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+file.getSize());
+	      System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+file.getBytes());
 	      System.out.println(file.getContentType());
+
+	 /*     byte[] imBytes = file.getBytes();
+	      
+	      */
 	      
 	      String rootDirectory = request.getSession().getServletContext().getRealPath("/"); // 서버 컨텍스트니까 이걸 맨앞에 붙여야해 그랗체
 	      
@@ -60,6 +66,7 @@ public class UploadController {
 		}finally {
 			in.close();
 		}
+		System.out.println("entity"+entity);
 		return entity;
 	}
 	

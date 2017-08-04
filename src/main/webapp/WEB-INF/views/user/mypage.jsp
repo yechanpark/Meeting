@@ -36,16 +36,18 @@
 	}
 	
 	.photoLi{
-		text-align: center;
-		width: 33%;
-		height: 300px;
+		width: 30%;
 		float: left;
+		margin: 2px;
+		padding: 0px;
 	}
 	#photoBox {
 		width: 100%;
 		list-style: none;
-	 	margin: auto; 
+	 	margin: 0px;
+	 	padding: 0px;
 	}
+
 	</style>
 
 </head>
@@ -55,7 +57,7 @@
    <br>
    <br>
    <br>
-   <div class="container">
+   <div class="container" style="padding: 0px">
    	<div class="row" style="padding: 50px 80px">
    		<div class="col-md-6 ">
    			<div id="imageBox" class="row">
@@ -105,7 +107,7 @@
    		<a href="#" id="replyConfirm">댓글 게시물 확인</a>
    	</div>
    	
-   	<div class="row">
+   	<div class="row" style="margin: 0px;padding: 0px;">
    		<ul id="photoBox" style="width: 100%"></ul>
    	
    	</div>
@@ -246,7 +248,7 @@ $(document).ready(function(){
             		console.log(result[k]);
             		listView+="<li class='photoLi'>";
             		listView+=	'<a href="/board/read?boardno='+result[k].boardno+'"style="width="100%";height="100%"">';
-            		listView+= '<img src="/displayFile?fileName='+result[k].photo+'" style="border-radius: 5px" width="100%" height="100%"></a>';
+            		listView+= '<img src="/displayFile?fileName='+result[k].photo+'" style="border-radius: 5px" width="100%"></a>';
             		listView+="</li>";
             	}
             /* 	댓글수 하트수 표시 */

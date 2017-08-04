@@ -24,6 +24,13 @@ body {
 .registerBox {
 	background-color: white;
 }
+
+.registerImg {
+
+	width: 200px;
+	height: 200px;
+}
+
 </style>
 </head>
 <body style="#fafafa">
@@ -63,7 +70,7 @@ body {
 			<label for="file">사진</label>
 		</div>
 		<div class="col-sm-11">
-			<input type='file' name="file" id="file" accept="image/*" capture="gallery" >
+			<input type='file' name="camera" id="file" accept="image/*" >
 			<p class="help-block">보여주고싶은 사진을 올려주세요</p>
 			<input type="hidden" name="photo">
 		</div>
@@ -106,12 +113,12 @@ body {
 		     $("#file").change(function(){
 		    	 console.log("sss");
 		    	 var formData = new FormData();
-		         formData.append("file", $("input[name=file]")[0].files[0]);//파일의 정보를 formData에 삽입 
+		         formData.append("file", $("input[name=camera]")[0].files[0]);//파일의 정보를 formData에 삽입 
 
 		     	
 		         $.ajax({ //image 파일 폴더에 생성
 		             type : "post",
-		             url : "/imageUpload",
+		             url : "/imageUpload?Mypath=my",
 		             dataType : "text",
 		             data : formData,
 		             processData : false,
@@ -122,13 +129,13 @@ body {
 		                		imageDelete(preUrl,imgPath);
 		                	 	$("input[name=photo]").val(imgPath);
 		                     	preUrl = imgPath;
-		                	}else{
+		                	} else{
 		                		check = true;
 		                	 	preUrl = imgPath;
-			                	var str = "<img src='/displayFile?fileName="+imgPath+"'class='img-thumbnail'/>";
+			                	var str = "<img src='/displayFile?fileName="+imgPath+"'class='img-thumbnail registerImg'/>";
 			                	$("input[name=photo]").val(imgPath);
 			                	$("#imageBox").append(str);
-		                	}
+		                	} 
 		                } else {
 		                   alert("Image File please");
 		                }
@@ -148,7 +155,7 @@ body {
 		            dataType : "text",
 		            success : function(result) {
 		               $("#imageBox").empty(); //imageBox 안에 태그 비우기 
-	                	var str = "<img src='/displayFile?fileName="+imgPath+"' class='img-thumbnail' />";
+	                	var str = "<img src='/displayFile?fileName="+imgPath+"' class='img-thumbnail registerImg' />";
 	                	$("#imageBox").append(str);
 		            }
 		         });

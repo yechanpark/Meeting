@@ -22,9 +22,8 @@ public class UploadFileUtils {
 	      FileCopyUtils.copy(fileData, target);
 	      String uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName, Mypath);
 	      return uploadedFileName;
-	
 	}
-
+	 				
 	private static String calcPath(String uploadPath) {  //오늘 날짜의 폴더 생성을 위해 날짜 계산 
 		Calendar cal = Calendar.getInstance();
 		String yearPath = File.separator+cal.get(Calendar.YEAR);
@@ -57,7 +56,7 @@ public class UploadFileUtils {
 	
 	 private static String makeThumbnail(String uploadPath, String path, String fileName, String Mypath) throws Exception {
 	      BufferedImage sourceImg = ImageIO.read(new File(uploadPath+path,fileName));
-	      BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC,150);
+	      BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC,400);
 	      String thumbnailName = uploadPath+path+File.separator+"s_"+fileName;  //썸네일 네임
 	      File newFile = new File(thumbnailName);
 	      String formatName = fileName.substring(fileName.lastIndexOf(".")+1);

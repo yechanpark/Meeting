@@ -11,6 +11,7 @@
 	<link href="<c:url value="/resource/css/main.css" />" rel="stylesheet">
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>Insert title here</title>
 
 <style>
@@ -119,7 +120,7 @@
 			setTimeout(function(){
 				$(".grid").masonry({ 
 					itemSelector:'.shown',
-					columnWidth: 0
+					columnWidth: 40
 					}); 
 				
 			}, 0.5);
