@@ -59,7 +59,7 @@
    <br>
    <div class="container" style="padding: 0px">
    	<div class="row" style="padding: 50px 80px">
-   		<div class="col-md-6 ">
+   		<div class="col-md-6 col-xs-12">
    			<div id="imageBox" class="row">
 	   		<c:if test="${userinfo.profileimage eq null }">
 	   		 	<img class="img-circle" id="profileimage" src="/resource/imageIcon/defaultprofile.png" alt="default"/> 
@@ -76,26 +76,26 @@
 			      </div>
 			  </div>
    		</div>
-   		<div id="profileBox"class="col-md-6" style="padding: 40px 0px">
+   		<div id="profileBox"class="col-md-6 col-xs-12" style="padding: 40px 0px">
    			<div class="row">
-   				<div class="col-md-6">
+   				<div class="col-md-6 col-xs-6">
    					<label>${userinfo.username}</label>
    				</div>
-   				<div class="col-md-6">
+   				<div class="col-md-6 col-xs-6" >
    					<button style="background: white">프로필 편집</button>
    				</div>
    			</div>
    			<div class="row">
-   				<div class="col-md-3">
+   				<div class="col-md-3 col-xs-6">
    					<label>게시물 0개</label>
    				</div>
-   				<div class="col-md-3">
+   				<div class="col-md-3 col-xs-6">
    					<label>댓글 0개</label>
    				</div>
    				<div class="col-md-6"></div>
    			</div>
    			<div class="row">
-   				<div class="col-md-3">
+   				<div class="col-md-3 col-xs-6">
    					<label>${userinfo.displayname}  </label>
    				</div>
    			</div>
