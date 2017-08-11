@@ -18,12 +18,12 @@
 	body {
 		background-color: #fafafa;
 	}
-	#baner {
+/* 	#baner {
 		background-image: url('/resource/imageIcon/bb2.png');
 		background-repeat: no-repeat;
 		background-size: 100%;
 		height: 400px;
-	}
+	} */
 	#banerContainer {
 	}
 	.fontSizeup{
@@ -74,17 +74,27 @@
 </body>
 </html> --%>
  <%--  <jsp:include page="header.jsp" flush="false" /> --%>
-	<div id="banerContainer" class="row">
+<!-- 	<div id="banerContainer" class="row">
 		<div id="baner" class="row">
 		 </div>
 	 </div> 
 	 <br>
-	 <br>
+	 <br> -->
 	<!--  <div style="width: 100%;height: 400px">
  	<img src="/resource/imageIcon/bbbb.jpg" width="100%", height="100%"> 
 	 
 	 </div> -->
-	
+	 <br>
+	 <br>
+	 <br>
+	 <br>
+	 <p style="text-align: center;"> <img src="/resource/imageIcon/baner.png" width="20%"> </p>
+	 <br>
+	 <br>
+	 <br>
+	 <br>
+	 <br>
+
 <!-- 	<div style="min-height: 900px"> -->
 	<ul id="grid" class="grid effect-8">
 	<c:forEach items="${boardList}" var="board" > 
@@ -105,9 +115,12 @@
 	</c:forEach> 
 	</ul>
 	
-<!-- 	</div> -->
+<!-- </div> -->
 	
 	
+	<br>
+	<br>
+	<br>
 	<br>
 	<br>
 	<br>
