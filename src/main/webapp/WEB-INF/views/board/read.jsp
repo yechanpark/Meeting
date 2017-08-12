@@ -25,6 +25,24 @@ body {
 	background: #f4f5f7;
 	line-height: 20px;
 }
+
+#popupDiv {
+	top : 0px;
+	position: absolute;
+	display: none; 
+}
+#popup_mask {
+	position: fixed;
+	width: 100%;
+	height: 1000px;
+	top: 0px;
+	left: 0px;
+ 	display: none; 
+ 	background-color:#000;
+ 	opacity: 0.8;
+}
+
+
 .glyphicon glyphicon-heart {
 	background: white;
 	color: white;
@@ -77,11 +95,6 @@ hr {
 
 .c1, .c3, .c4, .c5 {
 	padding: 0px 20px;
-}
-
-
-#popupDiv{
-	position: absolute;
 }
 
 /* PC화면일시  */
@@ -219,9 +232,7 @@ hr {
 			</div>
 		
 				
-				<div id="popupDiv">
-					<img src="" id="popupImg" width="300px" height="300px">
-				</div>
+			
 		</div>
 
 		<form action="" method="post">
@@ -234,17 +245,21 @@ hr {
 		<!-- 현재 로그인 유저 아이디 -->
 		<input type="hidden" id="boardUsername" value="${boardVO.username}">
 		<!-- 게시판 주인 아이디 -->
-	
 		<br>
 		<br>
 		<br>
-		
 		<br>
 	<br>
 	<br>
 	
-		
-				<img src="/displayFile?fileName=${boardVO.profileimage}" class="img-circle testimg" width="40px" height="40px">
+	<div id ="popup_mask" >
+	</div>
+	<div id="popupDiv" style="height: 400px; width: 350px ">
+		<img src="" id="popupImg" width="400px" height="350px">
+		<button id="popCloseBtn">close</button>
+	<!-- 	  	이미지 사이즈를 고정하거나 DIV를 고정 (수정사항 고민중) -->
+	</div>	
+	<img src="/displayFile?fileName=${boardVO.profileimage}" class="img-circle testimg" width="40px" height="40px">
 				
 	
 	
@@ -361,12 +376,30 @@ hr {
 	});
 	
 	$(".testimg").click(function(event){
-		console.log();
+		console.log("클릭");
+	
+	 	$("#popupImg").attr('src',$(this).attr('src')); 
+	 	
+	 /* 	var tx = ($(window).width()-$("#popupDiv").width())/2;
+	 	var ty = ($(window).height()-$("#popupDiv").height())/2; */
+	 	
+	 /* 	 $("#popupDiv").css({left:tx+"px",top:ty+"px"}); */
+		 $("#popupDiv").css({
+			"top": (($(window).height()-$("#popupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+			"left": (($(window).width()-$("#popupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
+		}); 
 		
-		
-		$("#popupImg").attr('src',$(this).attr('src'));
-		
-		
+	    $("#popup_mask").css("display","block"); 
+	    $("#popupDiv").css("display","block"); 
+	    
+		$("body").css("overflow","hidden");//스크롤바 없애기
+	});
+	
+	$("#popCloseBtn").click(function(event){
+		console.log("closeBtn 클릭");
+		$("#popup_mask").css("display","none"); 
+		$("#popupDiv").css("display","none"); 
+		$("body").css("overflow","auto");//스크롤바 생성
 	});
 	
 	
@@ -380,7 +413,6 @@ hr {
 		console.log("가입 없음");
 	}
 
-	
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@밑에서부터 예찬 소스 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 	
 	// 처음 게시물 열 때 댓글 로드
