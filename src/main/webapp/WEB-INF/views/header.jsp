@@ -3,26 +3,17 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <html>
 <head>
+<meta name="viewport" content="width=device-width">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>Insert title here</title>
-
 <style>
-	/* 	Top Menu Bar CSS */
-		.body-top {
-		  padding-top: 240px;
-		  
-		}
-		
-		.body-bottom {
-		  padding-top: 50px;
-		}
-
+	
 </style>
 </head>
 <body>
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #186fc4; border-color: #186fc4;">
-	  <div class="container" style="background-color: #186fc4; border-color: #186fc4;">
+	
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color: #ffffff; border-bottom: 1px solid #c4c4c4;">
+	  <div class="container" style="background-color: #ffffff; border-color: #ffffff;">
         <div class="navbar-header">
     	   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -30,18 +21,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Hansung Meeting</a>
+          <a class="navbar-brand" href="/"><img alt="NewFace" src="/resource/imageIcon/headerAndHome/headerLogo.png" style="height:100%;" /></a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-            <li><a href="/board/register"><span class="glyphicon glyphicon-envelope"></span>글 등록</a></li>
+        	
+          <ul class="nav navbar-nav navbar-right">
           	<c:if test="${pageContext.request.userPrincipal.name != null }">
-				<li><a href="/logout/"><span class="glyphicon glyphicon-info-sign"></span>로그아웃</a></li>
-				<li><a href="/user/mypage/"><span class="glyphicon glyphicon-info-sign"></span>My Page</a></li>
+          		<li><a href="/board/register"><span class="glyphicon glyphicon-pencil"></span> 글 등록</a></li>
+				<li><a href="/user/mypage/">My Page</a></li>
+				<li><a href="/logout/"><span class="glyphicon glyphicon-off"></span> 로그아웃</a></li>
 			</c:if>
 			<c:if test="${pageContext.request.userPrincipal.name == null }">
-				 <li><a href="/login/"><span class="glyphicon glyphicon-info-sign"></span>Login</a></li>
+				 <li><a href="/login/">로그인</a></li>
 			</c:if>
           </ul>
         </div>

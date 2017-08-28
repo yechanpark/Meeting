@@ -12,8 +12,18 @@
 <!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<style>
+body {
+		background-color: #f9f9f9;
+		padding-top: 50px;
+	}
+</style>
 </head>
 <body>
+<br>
+<br>
+<br>
+<br>
 <div class="container">
     <div class="row">
     	<div class="col-sm-3">
@@ -21,7 +31,7 @@
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5 class="text-center">- 비밀번호 재설정 -</h5>
+                    <h5 class="text-center">비밀번호 재설정</h5>
                     <form action="/user/renewalpassword" role="form" method="post">
                     <div class="form-group">
                         <div class="input-group">
@@ -52,7 +62,7 @@
                     </div>
                     <div class="form-group">
                     	<div class="input-group">
-                    		<label>위의 웹메일계정으로 인증번호가 발송됩니다.<br>인증이 된 경우에만 위 계정의 비밀번호가 재설정됩니다.</label>
+                    		<label>위에 입력하신 한성대 웹메일계정으로 인증번호가 발송됩니다.<br>인증 번호를 올바르게 입력한 경우에만 새로운 비밀번호로 재설정됩니다.</label>
                     		
                     	</div>
                     </div>
@@ -70,6 +80,10 @@
 	    </div>
 	</div>
 </div>
+<br>
+<br>
+<br>
+<br>
 <script type="text/javascript">
 $(document).ready(function(){
 	var emailAuth = null;

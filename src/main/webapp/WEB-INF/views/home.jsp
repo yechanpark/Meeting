@@ -8,7 +8,7 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 	<script src="/resource/masonry.pkgd.min.js"></script>
-	<link href="<c:url value="/resource/css/main.css" />" rel="stylesheet">
+	<link href="<c:url value="/resource/css/main.css"/>" rel="stylesheet"/>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -18,84 +18,28 @@
 	body {
 		background-color: #fafafa;
 	}
-/* 	#baner {
-		background-image: url('/resource/imageIcon/bb2.png');
-		background-repeat: no-repeat;
-		background-size: 100%;
-		height: 400px;
-	} */
 	#banerContainer {
 	}
 	.fontSizeup{
 		font-size: 300%;
 	}
-	
-	a{
-		color: black;
-	}
-
 </style>
 </head>
-<body>
-<%-- <html>
-<head>
-	<title>Home</title>
-	<script>
-		var result = '${msg}';
-		if(result == 'success')
-			alert('회원가입 성공!');
-	</script>
-</head>
-<body>
-<h1>
-	Hello world!  
-</h1>
-<span>${a.username}</span>
-<span>${a.password }</span>
-<span>${a.kakaoid}</span>
-<span>${a.displayname }</span>
-<h2>${result}</h2>
-<p>${pageContext.request.userPrincipal.name}</p>
-<div>
-	<label>${onUser}</label>
-</div>
-<c:if test="${pageContext.request.userPrincipal.name != null }">
-	<li>Welcome: ${pageContext.request.userPrincipal.name}</li>
-	<c:if test="${pageContext.request.userPrincipal.name == 'admin'}">	
-		<li><a href=" <c:url value="/admin/"/> ">ADMIN PAGE</a></li>
-	</c:if>
-	<li><a href="<c:url value="/user/mypage/"/>">MyPage</a></li>
-	<li><a href="<c:url value="/logout/"/> ">logout</a></li>
-</c:if>
-<c:if test="${pageContext.request.userPrincipal.name == null }">
-	<li><a href="<c:url value="/login/"/>">로그인</a></li>
-	<li><a href="<c:url value="/user/signup/"/>">회원가입</a></li>
-</c:if>
-</body>
-</html> --%>
- <%--  <jsp:include page="header.jsp" flush="false" /> --%>
-<!-- 	<div id="banerContainer" class="row">
-		<div id="baner" class="row">
-		 </div>
-	 </div> 
-	 <br>
-	 <br> -->
-	<!--  <div style="width: 100%;height: 400px">
- 	<img src="/resource/imageIcon/bbbb.jpg" width="100%", height="100%"> 
-	 
-	 </div> -->
-	 <br>
-	 <br>
-	 <br>
-	 <br>
-	 <p style="text-align: center;"> <img src="/resource/imageIcon/baner.png" width="20%"> </p>
-	 <br>
-	 <br>
-	 <br>
-	 <br>
-	 <br>
+<body >
 
-<!-- 	<div style="min-height: 900px"> -->
+<div class="row" style="margin-top: 90px">
+	<div class="col-sm-3">	
+	</div>
+	<div class="col-sm-6 text-center">
+		<p><img alt="mainLogo" src="/resource/imageIcon/headerAndHome/mainLogo.png" style="width:30%"></p>
+		<h3>Yes I want some newface !</h3>
+		<h3><b>'뉴페이스'</b>는 오직 한성대학교 학생들만의 익명 <b>'미팅'</b> 서비스입니다.</h3>	
+	</div>
+	<div class="col-sm-3">	
+	</div>
+ </div> 
+
+	<div style="min-height: 600px; padding: 100px 0px;"> 
 	<ul id="grid" class="grid effect-8">
 	<c:forEach items="${boardList}" var="board" > 
 		<li class="shown"><a href="/board/read?boardno=${board.boardno}" style="padding:0px">
@@ -115,7 +59,7 @@
 	</c:forEach> 
 	</ul>
 	
-<!-- </div> -->
+ </div> 
 	
 	
 	<br>
@@ -125,10 +69,7 @@
 	<br>
 	<br>
 	
-
-	
-	<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script>  -->
-	<script type="text/javascript">
+	<script>
 	 $(document).ready(function (){  
 			setTimeout(function(){
 				$(".grid").masonry({ 

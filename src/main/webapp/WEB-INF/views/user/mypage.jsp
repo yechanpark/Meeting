@@ -52,7 +52,6 @@
 
 </head>
 <body>
- 	<jsp:include page="/WEB-INF/views/header.jsp" flush="false" /> 
    <br>
    <br>
    <br>

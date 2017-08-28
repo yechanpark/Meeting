@@ -1,62 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width">
+<link href="<c:url value="/resource/css/font.css" />" rel="stylesheet">
 <style>
-
-
-/* .tes{
-   display: none;
-}
-
-@media (min-width: 600px) {
-
-.tes{
-	display: block;
-	position: relative;
-	bottom: 0;
-	width: 100%;	
-}
-
-}
-
-@media (min-width: 800px) {
-
-.tes{
-	display: block;
-	position: absolute;
-	bottom: 0;
-	width: 100%;	
-}
-
-
-} */
-
-.tes{
-	position: fixed;
-	bottom: 0;
-
-}
-
-
+	.navbar .brand, .navbar .nav > li > a {
+		    color: #186fc4;
+		}
+			.navbar .brand, .navbar .nav > li > a:hover {
+		    color: #1c3e5b;
+		} 
 </style>
-
-
 </head>
 <body>
 
-<div class="row" style="height: 150px; background: #186fc4; margin: 0px;text-align: center;" >
-
-	<label style="color: white;">(c) 2017 Team HansungMeeting </label><br>
-	<label style="color: white;">supported by. HansungMeeting 서울 특별시 강남구 테헤란로 311(역삼동) 아남타워 빌딩 6층</label>
+<div class="row" style="background: #186fc4; margin: 0px;text-align: center;padding:5%;" >
+	<div>
+		<label style="color: white;">copyright (c) 2017, NewFace<br>서울특별시 성북구 삼선교로16길 116 공학관A동 104호</label><br>
+		<label style="color:white;"><span class="glyphicon glyphicon-envelope"></span> E-mail : hansungmeeting@gmail.com</label><br>
+		<label style="color:white;">오픈 카카오톡 : <a href="https://open.kakao.com/o/sfUamQz" target="_blank" style="color:white">https://open.kakao.com/o/sfUamQz</a> </label>
+	</div>
 </div>
 
-
-<script>
-
-
-</script>
 </body>
 </html>

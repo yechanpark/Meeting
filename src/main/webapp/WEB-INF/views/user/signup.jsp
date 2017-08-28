@@ -12,7 +12,13 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 <!-- 스프링 시큐리티 ajax csrf설정 403에러  -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>뉴페이스 회원가입</title>
+<link rel="shortcut icon" type="image⁄x-icon" href="/resource/imageIcon/headerAndHome/favicon.ico" />
+<style>
+	body{
+		background-color: #f9f9f9;
+	}
+</style>
 </head>
 <body>
 <br>
@@ -29,15 +35,15 @@
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5 class="text-center">- 회원가입 -</h5>
-                    
+                    <h4 class="text-center">한성대 학생들과 신나는 미팅을 시작하세요!</h4>
+                    <br>
                     <sf:form action="${pageContext.request.contextPath}/user/signup"
 						method="post" modelAttribute="userVO">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>
                             </span>
-                            <sf:input path="username" style="width:50%" id="username" class="form-control" placeholder="이메일 (ID)" />
+                            <sf:input path="username" style="width:50%" id="username" class="form-control" placeholder="아이디 (이메일)" />
                             
                             <label style="width:50%" class="form-control">@hansung.ac.kr</label>
                         </div>
@@ -95,13 +101,28 @@
 	    <div class="col-sm-3">
 	    </div>
 	</div>
+	<div class="row">
+		<div class="col-sm-3">
+		</div>
+		<div class="col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<h4 style="color:#186fc4">가입 안내</h4>
+					<div>
+						<p>1. 'ID' 에 <span style="color:red;">반드시 한성대학교 웹메일</span> 아이디를 적으세요. <a href="https://mail.hansung.ac.kr/" target="_blank">[한성대 웹메일 링크]</a><br>&nbsp;&nbsp;&nbsp;&nbsp;(한성대학교 웹메일 아이디가 NewFace의 아이디가 됩니다.)</p>
+						<p>2. 닉네임과 자신의 비밀번호, 카카오톡 아이디를 입력하세요. </p>
+						<p>3. '인증번호받기'를 누르면 <span style="color:red;">한성대학교 웹메일로 인증번호가 발송</span>됩니다.<br>&nbsp;&nbsp;&nbsp;&nbsp; 확인 후 인증번호를 입력해주세요.</p>
+						<p>4. '가입하기'를 누르시면 가입 완료!<br>&nbsp;&nbsp;&nbsp;&nbsp; 게시글을 작성하거나 타인이 작성한 게시글에 댓글을 작성해서 미팅을 시작하세요!</p>
+						<br>
+						<p>* 문의사항은 <a href="https://open.kakao.com/o/sfUamQz" target="_blank">[카카오톡 오픈채팅방]</a>으로 오세요! ('뉴페이스' 검색)</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+		</div>
+	</div>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 <br>
 <br>

@@ -1,22 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <link href="<c:url value="/resource/css/login.css" />" rel="stylesheet">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-
-<title>Insert title here</title>
-</head>
-
-<body>
-
-
-
+<style>
+body{
+	background-color: #f9f9f9;
+}
+</style>
 <hr>
 <br>
 <br>
@@ -32,13 +25,14 @@
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5 class="text-center">로그인</h5>
+                    <h4 class="text-center">NewFace에 오신 것을 환영합니다!</h4>
+                    <br>
                     <sf:form action="${pageContext.request.contextPath}/login" method="post" modelAttribute="userVO">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span>
                             </span>
-                            <sf:input style="width:50%" type="text" id="username" class="form-control" path="username" placeholder="이메일 (ID)" />
+                            <sf:input style="width:50%" type="text" id="username" class="form-control" path="username" placeholder="아이디 (이메일)" />
                             <label style="width:50%" class="form-control">@hansung.ac.kr</label>
                         </div>
                     </div>
@@ -72,7 +66,7 @@
                     <hr>
                     <div class="form-group">
                     	<div class="input-group">
-                    		<label><a href="/user/signup/">아직 HansungMeeting 회원이 아니신가요?</a></label>
+                    		<label><a href="/user/signup/">아직 NewFace 회원이 아니신가요?</a></label>
                     	</div>
                     </div>
                     <div class="form-group">
@@ -93,11 +87,16 @@
 <br>
 <br>
 <br>
-</body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 <script>
 	$(document).ready(function(){
 		console.log('자바스크립트 시작');
 		$('#username').focus();
 	});
 </script>
-</html>
