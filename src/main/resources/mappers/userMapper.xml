@@ -28,8 +28,6 @@
   delete from users where username= #{username}
   </delete>
   
-  
-  
   <update id="myImageDatabaseUpload">
   update users set profileimage =#{fileName} 
   where username = #{username}
@@ -41,6 +39,15 @@
   
   <select id="myReplyConfirm" resultType="BoardVO">
   <!-- 	select boardno from reply where username = #{username} and parentno = 0 -->
-  	 select r.boardno from reply r join board b on r.boardno = b.boardno  where r.username = #{username} and parentno = 0
+  	 select r.boardno, b.username, b.photo from reply r join board b on r.boardno = b.boardno  where r.username = #{username} and parentno = 0
   </select>
+  
+  <select id="readReplyCount" resultType="string">
+  	 select count(*) from reply r join board b on r.boardno = b.boardno  where r.username = #{onUser} and parentno = 0
+  </select>
+  
+  <select id="readBoardCount" resultType="string">
+     select count(*) from board where username = #{onUser}
+  </select>
+
   </mapper>

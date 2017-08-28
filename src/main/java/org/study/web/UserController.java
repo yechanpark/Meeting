@@ -70,9 +70,12 @@ public class UserController {
 	      System.out.println("마이페이지 로드");
 	      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	      String onUser = authentication.getName();
+
+	      model.addAttribute("boardCount",service.readCount(onUser));
 	      model.addAttribute("userinfo", service.read(onUser));
+	      
 	      return "/user/mypage";
-	   }
+	 }
 	
 	  @ResponseBody
 	  @RequestMapping(value="/myImageDatabaseUpload",method=RequestMethod.POST)
@@ -97,6 +100,7 @@ public class UserController {
 	  public ResponseEntity<List<BoardVO>> myReplyConfirm(String username){
 		  System.out.println("내 게시물 확인");
 		  System.out.println(username);
+		  System.out.println("@@@#$#@%#$"+service.myReplyConfirm(username));
 		  return new ResponseEntity<List<BoardVO>>(service.myReplyConfirm(username),HttpStatus.CREATED);
 	  }
 	

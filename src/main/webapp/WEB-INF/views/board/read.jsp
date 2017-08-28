@@ -34,7 +34,7 @@ body {
 #popup_mask {
 	position: fixed;
 	width: 100%;
-	height: 1000px;
+	height: 100%;
 	top: 0px;
 	left: 0px;
  	display: none; 
@@ -190,11 +190,10 @@ hr {
 			</div>
 			
 			<div class="c3">
-			<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
-			<a href="#" id="heartClick" style="display: block; color: red"><span class="glyphicon glyphicon-heart-empty" style="font-size:50px;"></span></a>
-			<br><label>좋아요</label>
-			<label id="heartCnt">${boardVO.heartcnt}</label> <label>개</label> <br>
-			
+				<a href="#" id="heartCancle" style="display: none; color:red"><span class="glyphicon glyphicon-heart" style="font-size: 50px; "></span></a>
+				<a href="#" id="heartClick" style="display: block; color: red"><span class="glyphicon glyphicon-heart-empty" style="font-size:50px;"></span></a>
+				<br><label>좋아요</label>
+				<label id="heartCnt">${boardVO.heartcnt}</label> <label>개</label> <br>
 			</div>
 			
 			<div class="c4" >
@@ -203,14 +202,11 @@ hr {
 				</div>
 				<input type="hidden" id="contentVal" value="${boardVO.content}"> <span id="content"></span> <br>
 				<br>
-				
 				<label> 댓글  </label>
 						<!-- 댓글영역 -->
 				<div id='replyArea' class="row">
 		
 					<div id='replyShow'>
-		
-						글쓴이 내용 기능
 		
 						<!-- 현재 이 글에 있는 댓글들을 추가할 div-->
 						<div id='replyAttacher'>
@@ -252,9 +248,9 @@ hr {
 	<br>
 	<br>
 	
-	<div id ="popup_mask" >
+	<div id ="popup_mask" class="popup">
 	</div>
-	<div id="popupDiv" style="height: 400px; width: 350px ">
+	<div id="popupDiv" style="height: 400px; width: 350px" class="popup">
 		<img src="" id="popupImg" width="400px" height="350px">
 		<button id="popCloseBtn">close</button>
 	<!-- 	  	이미지 사이즈를 고정하거나 DIV를 고정 (수정사항 고민중) -->
@@ -396,6 +392,13 @@ hr {
 	});
 	
 	$("#popCloseBtn").click(function(event){
+		console.log("closeBtn 클릭");
+		$("#popup_mask").css("display","none"); 
+		$("#popupDiv").css("display","none"); 
+		$("body").css("overflow","auto");//스크롤바 생성
+	});
+	
+	$(".popup").click(function(event){
 		console.log("closeBtn 클릭");
 		$("#popup_mask").css("display","none"); 
 		$("#popupDiv").css("display","none"); 

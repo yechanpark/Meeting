@@ -1,14 +1,13 @@
 package org.meeting.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.meeting.dao.UserDAO;
 import org.meeting.domain.BoardVO;
 import org.meeting.domain.UserVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,6 +49,12 @@ public class UserServiceImpl implements UserService {
 	public List<BoardVO> myReplyConfirm(String username) {
 		// TODO Auto-generated method stub
 		return dao.myReplyConfirm(username);
+	}
+
+	@Override
+	public Map<String, String> readCount(String onUser) {
+		// TODO Auto-generated method stub
+		return dao.readCount(onUser);
 	}
 
 }

@@ -61,13 +61,13 @@
    	<div class="row" style="padding: 50px 80px">
    		<div class="col-md-6 col-xs-12">
    			<div id="imageBox" class="row">
-	   		<c:if test="${userinfo.profileimage eq null }">
+	   	<%-- 	<c:if test="${userinfo.profileimage eq 'noprofile'}">
 	   		 	<img class="img-circle" id="profileimage" src="/resource/imageIcon/defaultprofile.png" alt="default"/> 
-	   		</c:if>
-	   		<c:if test="${userinfo.profileimage ne null }">
+	   		</c:if> --%>
+	   		<%-- <c:if test="${userinfo.profileimage ne 'noprofile' }"> --%>
 	   		 	<img class="img-circle" id="profileimage" src="/displayFile?fileName=${userinfo.profileimage}" alt="${userinfo.profileimage}"  /> 
 	   			<%-- <img class="img-circle" id="profileimage" src="/displayFile?fileName=/2017/06/25/761d390b-aa10-408f-8b96-bbf937c8c9a8_KakaoTalk_20170625_185931182.jpg" alt="${userinfo.profileimage}"  /> --%> 
-	   		</c:if>
+	  <%--  		</c:if> --%>
 	   		</div>
 	   		 <div class="row form-group">
 			      <div class="col-md-12">
@@ -87,10 +87,12 @@
    			</div>
    			<div class="row">
    				<div class="col-md-3 col-xs-6">
-   					<label>게시물 0개</label>
+   					<label>게시물</label>
+   					<label>${boardCount.readBoardCount} 개</label>
    				</div>
    				<div class="col-md-3 col-xs-6">
-   					<label>댓글 0개</label>
+   					<label>댓글 </label>
+   					<label>${boardCount.readReplyCount} 개</label>
    				</div>
    				<div class="col-md-6"></div>
    			</div>
@@ -274,9 +276,19 @@ $(document).ready(function(){
             data : {
                username : username
             },
-            dataType : "text",
+            dataType : "json",
             success : function(result) {
-             	console.log(result);
+            	var listView="";
+            	for(var k in result){
+            		console.log(result[k]);
+            		listView+="<li class='photoLi'>";
+            		listView+=	'<a href="/board/read?boardno='+result[k].boardno+'"style="width="100%";height="100%"">';
+            		listView+= '<img src="/displayFile?fileName='+result[k].photo+'" style="border-radius: 5px" width="100%"></a>';
+            		listView+="</li>";
+            	}
+            	console.log(listView);
+           
+            	$("#photoBox").append(listView);
             }
 	  });
  });

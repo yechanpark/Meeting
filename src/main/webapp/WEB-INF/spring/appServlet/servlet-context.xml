@@ -64,6 +64,7 @@
 		<beans:constructor-arg value="resource\imagesPhoto\"></beans:constructor-arg>
 	</beans:bean>
 
+
 	<context:component-scan base-package="org.study.web" />
 	<context:component-scan base-package="org.meeting.dao" />
 	<context:component-scan base-package="org.meeting.service" />

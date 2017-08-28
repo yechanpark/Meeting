@@ -90,6 +90,9 @@ body {
 	
  	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
  	<script>
+ 	
+ 	var loadingImage;
+	loadingImage = "<img id='loadingImage' src='${pageContext.request.contextPath}/resource/imageIcon/replyloading.gif'>";
 		 $(document).ready(function(){
 				$(function () {
 					var token = $("meta[name='_csrf']").attr("content");
@@ -102,7 +105,6 @@ body {
 			 var preUrl = "";
 		
 			 $("#registerBtn").click(function(){
-
 				 var content = $('#content').val().replace(/\n/g,'<e>').replace(/ /g,"<s>");
 				 $("#content").val(content);
 				 $("form").submit();		 
@@ -114,7 +116,8 @@ body {
 		    	 console.log("sss");
 		    	 var formData = new FormData();
 		         formData.append("file", $("input[name=camera]")[0].files[0]);//파일의 정보를 formData에 삽입 
-
+		         $("#imageBox").empty();
+		         $('#imageBox').append(loadingImage);
 		     	
 		         $.ajax({ //image 파일 폴더에 생성
 		             type : "post",
@@ -134,6 +137,7 @@ body {
 		                	 	preUrl = imgPath;
 			                	var str = "<img src='/displayFile?fileName="+imgPath+"'class='img-thumbnail registerImg'/>";
 			                	$("input[name=photo]").val(imgPath);
+			                	$('#imageBox').empty();
 			                	$("#imageBox").append(str);
 		                	} 
 		                } else {
@@ -143,6 +147,8 @@ body {
 		          });
 		    });
 		     
+			
+			
 		    function imageDelete(preUrl,imgPath) { //이미지 삭제 
 				console.log("imgPath"+imgPath);
 				console.log("preUrl"+preUrl);

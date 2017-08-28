@@ -64,5 +64,18 @@ public class UserDAOImpl implements UserDAO {
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		return sqlSession.selectList(namespace+".myReplyConfirm",username);
 	}
+
+	@Override
+	public Map<String, String> readCount(String onUser) {
+		
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("readReplyCount",sqlSession.selectOne(namespace+".readReplyCount",onUser));
+		map.put("readBoardCount",sqlSession.selectOne(namespace+".readBoardCount",onUser));
+		
+		System.out.println("@@@@@@@@@/ @@"+map.get("readReplyCount"));
+		System.out.println("@@@@@@@@@/ @@"+map.get("readBoardCount"));
+		return map;
+	}
 	
 }
