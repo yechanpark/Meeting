@@ -13,24 +13,20 @@ public class BoardServiceimpl implements BoardService {
 
 	@Inject
 	BoardDAO dao;
-	
+
 	@Override
 	public List<BoardVO> boardList() {
-		// TODO Auto-generated method stub
 		return dao.boardList();
 	}
 
 	@Override
 	public void boardRegister(BoardVO vo) {
-		// TODO Auto-generated method stub
 		dao.boardRegister(vo);
 	}
 
 	@Override
 	public BoardVO boardRead(int boardno) {
-		System.out.println("1"+dao.boardRead(boardno));
 		return dao.boardRead(boardno);
-		
 	}
 
 	@Override
@@ -38,6 +34,7 @@ public class BoardServiceimpl implements BoardService {
 		dao.boardDelete(boardno);
 		dao.heartDelete(boardno);
 	}
+
 	@Override
 	public void boardModify(BoardVO vo) {
 		dao.boardModify(vo);
@@ -45,23 +42,18 @@ public class BoardServiceimpl implements BoardService {
 
 	@Override
 	public void heartClick(int boardno, String username) {
-		dao.heartClick(boardno,username);
+		dao.heartClick(boardno, username);
 		dao.heartUp(boardno);
 	}
 
 	@Override
 	public void heartCancle(int boardno, String username) {
-		dao.heartCancle(boardno,username);
+		dao.heartCancle(boardno, username);
 		dao.heartDown(boardno);
 	}
 
 	@Override
 	public int heartCheck(int boardno, String username) {
-		// TODO Auto-generated method stub
-		return 	dao.heartCheck(boardno,username);
-		
+		return dao.heartCheck(boardno, username);
 	}
-
-
-
 }

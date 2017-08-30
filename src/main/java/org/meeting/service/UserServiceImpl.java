@@ -9,13 +9,15 @@ import org.meeting.dao.UserDAO;
 import org.meeting.domain.BoardVO;
 import org.meeting.domain.UserVO;
 import org.springframework.stereotype.Service;
+
 @Service
 public class UserServiceImpl implements UserService {
+
 	@Inject
 	private UserDAO dao;
+
 	@Override
 	public void regist(UserVO vo) throws Exception {
-		
 		dao.create(vo);
 	}
 
@@ -36,25 +38,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void myImageDatabaseUpload(String fileName, String username) {
-		dao.myImageDatabaseUpload(fileName,username);
+		dao.myImageDatabaseUpload(fileName, username);
 	}
 
 	@Override
 	public List<BoardVO> myBoardConfirm(String username) {
-		// TODO Auto-generated method stub
 		return dao.myBoardConfirm(username);
 	}
 
 	@Override
 	public List<BoardVO> myReplyConfirm(String username) {
-		// TODO Auto-generated method stub
 		return dao.myReplyConfirm(username);
 	}
 
 	@Override
 	public Map<String, String> readCount(String onUser) {
-		// TODO Auto-generated method stub
 		return dao.readCount(onUser);
 	}
-
 }

@@ -12,80 +12,77 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BoardDAOimpl implements BoardDAO {
-	
+
 	@Inject
 	SqlSession session;
-	
+
 	private static final String namespace = "org.meeting.mapper.boardMapper";
-	
+
 	@Override
 	public List<BoardVO> boardList() {
-		return session.selectList(namespace+".boardList");
+		return session.selectList(namespace + ".boardList");
 	}
 
 	@Override
 	public void boardRegister(BoardVO vo) {
-		
-		session.insert(namespace+".boardRegister",vo);
+
+		session.insert(namespace + ".boardRegister", vo);
 	}
 
 	@Override
 	public BoardVO boardRead(int boardno) {
-		System.out.println();
-		return session.selectOne(namespace+".boardRead",boardno);
-		
+		return session.selectOne(namespace + ".boardRead", boardno);
+
 	}
 
 	@Override
 	public void boardDelete(int boardno) {
-		session.delete(namespace+".boardDelete", boardno);
+		session.delete(namespace + ".boardDelete", boardno);
 	}
 
 	@Override
 	public void boardModify(BoardVO vo) {
-		 session.update(namespace+".boardModify",vo);
+		session.update(namespace + ".boardModify", vo);
 	}
 
 	@Override
 	public void heartClick(int boardno, String username) {
-		Map<String,Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("boardno", boardno);
-		map.put("username",username);
-		session.insert(namespace+".heartClick",map);
+		map.put("username", username);
+		session.insert(namespace + ".heartClick", map);
 	}
 
 	@Override
 	public void heartUp(int boardno) {
-		session.update(namespace+".heartUp",boardno);
+		session.update(namespace + ".heartUp", boardno);
 	}
 
 	@Override
 	public void heartDown(int boardno) {
-		session.update(namespace+".heartDown",boardno);
+		session.update(namespace + ".heartDown", boardno);
 	}
 
 	@Override
-	public void heartCancle(int boardno, String username){
-		Map<String,Object> map = new HashMap<>();
+	public void heartCancle(int boardno, String username) {
+		Map<String, Object> map = new HashMap<>();
 		map.put("boardno", boardno);
-		map.put("username",username);
-		session.delete(namespace+".heartCancle",map);
+		map.put("username", username);
+		session.delete(namespace + ".heartCancle", map);
 	}
 
 	@Override
 	public void heartDelete(int boardno) {
-		
-		session.delete(namespace+".heartDelete",boardno);
-		
+
+		session.delete(namespace + ".heartDelete", boardno);
+
 	}
 
-	public int heartCheck (int boardno, String username) {
-		Map<String,Object> map = new HashMap<>();
+	public int heartCheck(int boardno, String username) {
+		Map<String, Object> map = new HashMap<>();
 		map.put("boardno", boardno);
-		map.put("username",username);
-		return session.selectOne(namespace+".heartCheck",map);
+		map.put("username", username);
+		return session.selectOne(namespace + ".heartCheck", map);
 	}
-	
-	
 
 }
