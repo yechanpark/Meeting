@@ -1,4 +1,7 @@
 target/*
 target/
 MANIFEST.MF
+*.classpath
+.settings
+.settings/
 
