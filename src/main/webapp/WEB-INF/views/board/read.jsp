@@ -448,7 +448,7 @@ hr {
 				"<input class='replyno' type='hidden' value='" + reply.replyno + "'/>" +
 				"<input class='parentno' type='hidden' value='" + reply.parentno + "'/>" +
 				"<input class='groupid' type='hidden' value='" + reply.groupid + "'/>" +
-				"<input class='seq' type='hidden' value='" + reply.seq + "'/>";
+				"<input class='seq' type='hidden' value='" + reply.seq + "'/>"; // 2-1-1-2 (seq = 4)
 				
 			if(reply.parentno != 0){
 				var imageMarginLeft = reply.depth*20;
@@ -516,7 +516,7 @@ hr {
 	// 자식 append
 	function appendChild(reply){
 		var childReply = getReplyFrame(reply);
-		var countGroupReplies = 0; // 같은 그룹의 기존 댓글의 갯수
+		var countGroupReplies = 0; // 같은 그룹의 기존 댓글의 갯수 (2-1-1-2가 올 땐 5개)
 		var childReplies = $("#replyArea").children("div[class='reply']"); // 기존 댓글들
 		
 		// 전체 댓글 중 groupid가 같은 댓글의 갯수 카운트(count)
@@ -526,9 +526,11 @@ hr {
 				countGroupReplies++;
 		});
 		
+		
 		/* 그룹 내 가장 마지막에 오는 경우  */
 		// seq과 기존 댓글 갯수가 같으면 eq(seq-1)에서 insertAfter
 		if( reply.seq == countGroupReplies ){
+			alert('그룹 내 가장 마지막에 오는 경우');
 			$(childReplies).each(function(){
 				var groupValue = $(this).children("input[class='groupid']").attr("value");
 				var seqValue = $(this).children("input[class='seq']").attr("value");
@@ -542,14 +544,19 @@ hr {
 		
 		/* 그룹 내 중간에 오는 경우 */
 		// seq와 기존 댓글 갯수가 다르므로 기존 댓글에서 seq이 현재 seq보다 큰 seq을 모두 증가 후 eq(seq)에서 insertBefore
-		else if( reply.seq != countGroupReplies ) {
+		//           4 !=         5 
+		else if( reply.seq != countGroupReplies ) { 
 			$(childReplies).each(function(){
-				var groupValue = $(this).children("input[class='groupid']").attr("value");
-				var seqValue = $(this).children("input[class='seq']").attr("value");
+				var groupValue = $(this).children("input[class='groupid']").attr("value"); // 기존 댓글의 group값
+				var seqValue = parseInt($(this).children("input[class='seq']").attr("value")); // 기존 댓글의 seq값
 				
-				// 같은 그룹 내에서 && 자신의 seq과 같거나 큰 seq값 모두 +1
+				// 같은 그룹 이면서 && 자신의 seq과 같거나 큰 seq값 모두 +1
+														// 
 				if( (groupValue == reply.groupid) && (seqValue >= reply.seq) )
+					// 자바스크립트 변수에 parseInt를 쓰지 않으면 문자로 취급되어 제대로 계산되지 않는다. 변수의 값이 4라면 "4"+1 = "41"이 된다.
 					$(this).children("input[class='seq']").attr("value", seqValue+1);
+				
+		
 			});
 
 			
@@ -557,8 +564,10 @@ hr {
 				var groupValue = $(this).children("input[class='groupid']").attr("value");
 				var seqValue = $(this).children("input[class='seq']").attr("value");
 				// 자신의 seq보다 1 큰 것에서 insertBefore
-				if( (groupValue == reply.groupid) && (seqValue == reply.seq+1) )
+				if( (groupValue == reply.groupid) && (seqValue == reply.seq+1) ){ 
+					alert(reply.seq+1);
 					$(childReply).insertBefore(this);
+				}
 			});
 
 		}
