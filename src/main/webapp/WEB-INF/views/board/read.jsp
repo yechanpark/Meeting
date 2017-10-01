@@ -470,7 +470,9 @@ hr {
 			return replyFrame;
 	};
 	
-	// 처음 버튼 + 동적 추가 버튼 까지 모두 설정, .rereplyAddButton class 속성을 가진 버튼이 this가 된다.
+	/* 처음 버튼 + 동적 추가 버튼 설정 시작 : class selector에 의해 검색된 요소(추가, 삭제, 수정 버튼)가 this.*/
+
+	// 대댓글 입력 활성화 및 비활성화 
 	$(document).on('click','.rereplyAddButton', function(){
 		 // retrieve current state, initially undefined
 	    var state = $(this).data('state');  
@@ -506,6 +508,21 @@ hr {
 	    // put the state back
 	    $(this).data('state', state);  
 	});
+
+	// 댓글 수정 버튼 설정
+	$(document).on('click','.replyModifyButton', function(){
+		// content, replyno 구하는 로직
+		updateReply(content, replyno);
+	}
+	
+	// 댓글 삭제 버튼 설정
+	$(document).on('click','.replyDeleteButton', function(){
+		// replyno 구하는 로직
+		deleteReply(replyno);
+	}
+	
+	/* 처음 버튼 + 동적 추가 버튼 설정 종료 */
+	
 	
 	// 부모 append
 	function appendParent(reply){
