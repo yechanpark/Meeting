@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ReplyDAOimpl implements ReplyDAO {
 
+	// SqlSession에서 INSERT, UPDATE, DELETE에서 return값은 SQL실행으로 인해 영향을 받은 레코드의 갯수
 	@Inject
 	SqlSession session;
 
@@ -49,15 +50,10 @@ public class ReplyDAOimpl implements ReplyDAO {
 	}
 
 	@Override
-	public int getMaxSeqByBoardNo(int boardno) {
-		return session.selectOne(namespace + ".getMaxSeqByBoardNo", boardno);
-	}
-
-	@Override
 	public int getGroupId() {
 		ReplyVO reply = new ReplyVO();
 		session.update(namespace + ".getGroupId", reply);
-		return reply.getGroupid();
+		return reply.getGroupId();
 	}
 
 	@Override
@@ -66,25 +62,30 @@ public class ReplyDAOimpl implements ReplyDAO {
 	}
 
 	@Override
-	public int getLastSeqInGroup(int groupid) {
-		return session.selectOne(namespace + ".getLastSeqInGroup", groupid);
+	public int getLastSeqInGroup(int groupId) {
+		return session.selectOne(namespace + ".getLastSeqInGroup", groupId);
 	}
 
 	@Override
 	public void updateOtherRepliesSeq(ReplyVO parentReply, int newReplySeq) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("groupid", parentReply.getGroupid());
+		map.put("groupId", parentReply.getGroupId());
 		map.put("seq", newReplySeq);
 		session.selectOne(namespace + ".updateOtherRepliesSeq", map);
 	}
 
 	@Override
 	public int deleteReplyByReplyNo(int replyno) {
-		return session.delete(namespace + ".deleteReply", replyno);
+		return session.delete(namespace + ".deleteReplyByReplyNo", replyno);
 	}
 
 	@Override
-	public int updateRply(ReplyVO reply) {
+	public int deleteReplyByParentReplyNo(int parentno) {
+		return session.delete(namespace + ".deleteReplyByParentReplyNo", parentno);
+	}
+
+	@Override
+	public int updateReply(ReplyVO reply) {
 		return session.update(namespace + ".updateReply", reply);
 	}
 

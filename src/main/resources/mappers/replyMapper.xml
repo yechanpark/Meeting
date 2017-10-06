@@ -5,19 +5,19 @@
 
 <mapper namespace="org.meeting.mapper.replyMapper">
 
-	<!-- 해당 게시물의 모든 댓글을 groupid, seq 오름차순으로 정렬하여 읽어옴 -->
+	<!-- 해당 게시물의 모든 댓글을 groupId, seq 오름차순으로 정렬하여 읽어옴 -->
 	<select id="getRepliesByBoardNo" resultType="ReplyVO">
 		SELECT *
 		FROM reply
 		WHERE boardno = #{boardno}
-		ORDER BY groupid, seq
+		ORDER BY groupId, seq
 	</select>
 
 	<!-- 댓글 등록, 인자로 넘어온 ReplyVO객체에 'replyno'필드에 해당하는 값을 바인딩 -->
 	<insert id="replyRegister" parameterType="ReplyVO" useGeneratedKeys="true" keyProperty="replyno">
 		INSERT INTO reply
 		VALUES(#{replyno}, #{boardno}, #{username}, #{content}, #{replydate},
-		#{parentno}, #{profileimage}, #{seq}, #{depth}, #{groupid})
+		#{parentno}, #{profileimage}, #{seq}, #{depth}, #{groupId})
 	</insert>
 
 	<!-- 로그인한 유저가 1차 댓글을 달았는지 -->
@@ -37,13 +37,13 @@
 		WHERE replyno = #{parentno}
 	</select>
 
-	<!-- 게시물에 있는 1차 댓글 중 가장 Seq가 높은 것을 찾음 -->
+	<!-- 게시물에 있는 1차 댓글 중 가장 Seq가 높은 것을 찾음
 	<select id="getMaxSeqByBoardNo" resultType="Integer"
 		parameterType="ReplyVO">
 		SELECT IFNULL(MAX(seq),0)
 		FROM reply
 		WHERE boardno = #{boardno}
-	</select>
+	</select> -->
 
 	<!-- 새로운 댓글이 그룹 내에서 맨 마지막으로 들어가야 하는 경우 -->
 	<!-- group에서 가장 높은 Seq값을 구하여 +1하고 리턴 -->
@@ -51,7 +51,7 @@
 		parameterType="Integer">
 		SELECT IFNULL(MAX(seq),0)+1
 		FROM reply
-		WHERE groupid = #{groupid}
+		WHERE groupId = #{groupId}
 	</select>
 	
 	<!-- 새로운 댓글이 그룹 내에서 중간에 끼어 들어가는 경우 -->
@@ -60,7 +60,7 @@
 	<select id="calcSeq" resultType="Integer" parameterType="ReplyVO">
 		SELECT IFNULL(MIN(seq),0)
 		FROM reply
-		WHERE groupid = #{groupid} AND 
+		WHERE groupId = #{groupId} AND 
 		seq > #{seq} AND
 		#{depth} >= depth
 	</select>
@@ -70,7 +70,7 @@
 	<update id="updateOtherRepliesSeq" parameterType="ReplyVO">
 		UPDATE reply
 		SET seq = seq + 1
-		WHERE groupid = #{groupid}
+		WHERE groupId = #{groupId}
 		AND seq >= #{seq}
 	</update>
 
@@ -78,7 +78,7 @@
 	<update id="getGroupId">
 		UPDATE id_generator
 		SET seq_currval = seq_currval+1
-		<selectKey keyProperty="groupid" resultType="int" order="AFTER">
+		<selectKey keyProperty="groupId" resultType="int" order="AFTER">
 			SELECT seq_currval
 			FROM id_generator
 		</selectKey>
@@ -91,12 +91,25 @@
 		WHERE replyno = #{replyno}
 	</select>
 	
-	<!-- 댓글 삭제 -->
-	<delete id="deleteReply">
+	<!-- 특정 댓글 삭제 -->
+	<delete id="deleteReplyByReplyNo">
+		DELETE
+		FROM reply
+		WHERE replyno = #{replyno}
+	</delete>
+	
+	<!-- 특정 댓글을 부모로 하는 댓글 전부 삭제 -->
+	<delete id="deleteReplyByParentReplyNo">
+		DELETE *
+		FROM reply
+		WHERE parentno = #{parentno}
 	</delete>
 
 	<!-- 댓글 수정 -->
-	<update id="updateReply">
+	<update id="updateReply" parameterType="ReplyVO">
+		UPDATE reply
+		SET content = #{content}
+		WHERE replyno = #{replyno}
 	</update>
 
 </mapper>

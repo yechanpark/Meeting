@@ -18,9 +18,6 @@ public interface ReplyDAO {
 	// 부모 번호를 기준으로 Reply를 얻는다.
 	ReplyVO getReplyByParentno(int parentNo);
 
-	// 현재 게시물의 댓글 중 가장 큰 Seq값을 얻는다.
-	int getMaxSeqByBoardNo(int boardno);
-
 	// groupid를 증가 후 얻어온다. -> 시퀀스 대용
 	int getGroupId();
 
@@ -28,7 +25,7 @@ public interface ReplyDAO {
 	int calcSeq(ReplyVO parentReply);
 
 	// group에서의 마지막 Seq값을 구함
-	int getLastSeqInGroup(int groupid);
+	int getLastSeqInGroup(int groupId);
 
 	// 다른 댓글 들의 Seq값 수정(현재 댓글보다 큰 Seq로 설정되게 +1씩 모두 증가)
 	void updateOtherRepliesSeq(ReplyVO parentReply, int newReplySeq);
@@ -36,10 +33,15 @@ public interface ReplyDAO {
 	// 댓글번호로 댓글삭제
 	int deleteReplyByReplyNo(int replyno);
 
+	// 해당 댓글 번호를 부모로 하는 모든 댓글 삭제
+	int deleteReplyByParentReplyNo(int parentno);
+	
 	// 인자로 넘어온 reply의 replyno에 해당하는 댓글을 reply의 내용으로 수정
-	int updateRply(ReplyVO reply);
+	int updateReply(ReplyVO reply);
 
 	// id값으로 Reply를 얻어옴
 	ReplyVO getReplyById(int replyno);
+
+
 
 }

@@ -220,7 +220,7 @@ hr {
 											</c:if>
 											<input class="replyno" type="hidden" value="${reply.replyno}"/>
 											<input class="parentno" type="hidden" value="${reply.parentno}"/>
-											<input class="groupid" type="hidden" value="${reply.groupid}"/>
+											<input class="groupId" type="hidden" value="${reply.groupId}"/>
 											<input class="seq" type="hidden" value="${reply.seq}"/>
 											<img src="/displayFile?fileName=${reply.profileimage}" class="img-circle" width="40px" height="40px">
 											<span class="username">${reply.username}</span>
@@ -230,7 +230,8 @@ hr {
 												<a href="#" class="replyDeleteButton">삭제</a>
 											</c:if>
 											<a href="#" class="rereplyAddButton">답글</a>
-											<div class="rereplyInputTextArea"></div>
+											<!-- 대댓글 추가 및 수정 텍스트 창 -->
+											<div class="rereplyInputTextArea"></div> 
 										</div>
 									</c:when>
 									<c:otherwise>
@@ -248,7 +249,6 @@ hr {
 			</div>
 			
 			<div class="c5">
-<!-- 			<input id="inputReply" type="text" />  -->
 			<textarea id="replyInput" class="replyTextArea" style="height: 20px" rows="2" cols="40" placeholder="댓글달기..."></textarea>
 			<input id="replySend"type="button" value="등록"/>
 			</div>
@@ -279,12 +279,11 @@ hr {
 	<div id="popupDiv" style="height: 400px; width: 350px" class="popup">
 		<img src="" id="popupImg" width="400px" height="350px">
 		<button id="popCloseBtn">close</button>
+		
 	<!-- 	  	이미지 사이즈를 고정하거나 DIV를 고정 (수정사항 고민중) -->
 	</div>	
 	<img src="/displayFile?fileName=${boardVO.profileimage}" class="img-circle testimg" width="40px" height="40px">
 				
-	
-	
 	<br>
 	<br>
 	<br>
@@ -301,25 +300,26 @@ hr {
 		});
 	});
 	
-	var loadingImage;
-	loadingImage = "<img id='loadingImage' src='${pageContext.request.contextPath}/resource/imageIcon/replyloading.gif'>";
+	var loadingImage = "<img id='loadingImage' src='${pageContext.request.contextPath}/resource/imageIcon/replyloading.gif'>";
+	
 	$(document).ready(function(){
 	
 	var boardno = $("#boardno").val(); //게시판번호
 	var username = $("#username").val();//username 
 
-
 	$(".replyTextArea").on('keydown keyup', function () {
  		adjustHeight();
 	});
+	
 	var adjustHeight = function() {
 		  var textEle = $(".replyTextArea")
 		  var textEleHeight = $(".replyTextArea").prop('scrollHeight');
 		  textEle.css('height', textEleHeight);
 		};
+		
 	var contentText =$("#contentVal").val().replace(/<s>/g," ").replace(/<e>/g,"\n");
+	
 	$("#content").text(contentText);
-
 	
 	$("#modify").click(function(event) {
 		event.preventDefault(); //화면 링크 방지 
@@ -362,6 +362,7 @@ hr {
 			alert("로그인 해주세요");
 		}
 	});
+	
 	$("#heartCancle").click(function(event){
 		event.preventDefault(); //화면 링크 방지 
 		$('#heartClick').css("display","block"); 
@@ -432,11 +433,40 @@ hr {
 	}
 
 	/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@밑에서부터 예찬 소스 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+	// 댓글 자바스크립트 객체 생성자
+	function ReplyVO(){
+		var replyno;
+		var parentno;
+		var content;
+		var groupId;
+		var seq;
+		var boardno;
+		var username;
+		
+		this.getReplyno = function(){return this.replyno;};
+		this.setReplyno = function(replyno){this.replyno = replyno;};
+		this.getParentno = function(){return this.parentno;};
+		this.setParentno = function(parentno){this.parentno = parentno;};
+		this.getContent = function(){return this.content;};
+		this.setContent = function(content){this.content = content;};
+		this.getgroupId = function(){return this.groupId;};
+		this.setgroupId = function(groupId){this.groupId = groupId;};
+		this.getSeq = function(){return this.seq;};
+		this.setSeq = function(seq){this.seq = seq;};
+		this.getBoardno = function(){return this.boardno;};
+		this.setBoardno = function(boardno){this.boardno = boardno;};
+		this.getUsername = function(){return this.username;};
+		this.setUsername = function(username){this.username = username;};
+		
+	}
+	
 	// 1차 댓글 작성 후 request 버튼
 	$("#replySend").click(function() {
 		if(username){
-			var content = $("#replyInput").val();
-			addReply(content, 0);
+			var reply = new ReplyVO();
+			reply.setContent($("#replyInput").val());
+			reply.setParentno(0);
+			addReply(reply);
 		} else alert('로그인 후 댓글 달것');
 	});
 	
@@ -447,7 +477,7 @@ hr {
 			"<div class='reply'>" +
 				"<input class='replyno' type='hidden' value='" + reply.replyno + "'/>" +
 				"<input class='parentno' type='hidden' value='" + reply.parentno + "'/>" +
-				"<input class='groupid' type='hidden' value='" + reply.groupid + "'/>" +
+				"<input class='groupId' type='hidden' value='" + reply.groupId + "'/>" +
 				"<input class='seq' type='hidden' value='" + reply.seq + "'/>"; // 2-1-1-2 (seq = 4)
 				
 			if(reply.parentno != 0){
@@ -472,18 +502,18 @@ hr {
 	
 	/* 처음 버튼 + 동적 추가 버튼 설정 시작 : class selector에 의해 검색된 요소(추가, 삭제, 수정 버튼)가 this.*/
 
-	// 대댓글 입력 활성화 및 비활성화 
+	// 대댓글 '추가' 버튼 설정
 	$(document).on('click','.rereplyAddButton', function(){
 		// retrieve current state, initially undefined
-	    var state = $(this).data('state');  
+	    var addButtonActivatedState = $(this).data('addButtonActivatedState');  
 	    var textArea;
 	    var sendButton;
 	    
 	    // toggle the state - first click will make this "true"
-	    state = !state; 
+	    addButtonActivatedState = !addButtonActivatedState; 
 
 	    // do your stuff
-	    if (state) {
+	    if (addButtonActivatedState) {
 	    	textArea= $("<input/>", {type : "text"}); // 입력창 
 	    	sendButton= $("<a>전송</a>", {href : "#"});// 전송버튼
 	
@@ -492,13 +522,15 @@ hr {
 			
 			$(this).siblings(".rereplyInputTextArea").children("a").click(function(){
 				
-				var content = $(this).siblings("input").val();
-				var parentno = $(this).parent().siblings(".replyno").val();
-					
+				var reply = new ReplyVO();
+				reply.setContent($(this).siblings("input").val());
+				reply.setParentno($(this).parent().siblings(".replyno").val());
+				
 		    	$(".rereplyInputTextArea").children("input").remove();
 		    	$(".rereplyInputTextArea").children("a").remove();
 		    	
-				addReply(content, parentno);
+				addReply(reply);
+				
 			});
 	    } else {
 	    	$(this).siblings(".rereplyInputTextArea").children("a").remove();
@@ -506,39 +538,58 @@ hr {
 	    }
 
 	    // put the state back
-	    $(this).data('state', state);  
+	    $(this).data('addButtonActivatedState', addButtonActivatedState);  
 	});
 
-	/* 작업 중 시작 */
 	// '수정' 버튼 설정
 	$(document).on('click','.replyModifyButton', function(){
 		// retrieve current state, initially undefined
-	    var state = $(this).data('state');  
+	    var updateButtonActivatedState = $(this).data('updateButtonActivatedState');  
 	    var textArea;
 	    var sendButton;
 	    
 	    // toggle the state - first click will make this "true"
-	    state = !state; 
+	    updateButtonActivatedState = !updateButtonActivatedState; 
 
 	    // do your stuff
-	    if (state) {
-	    	
+	    if (updateButtonActivatedState) {
+	    	textArea= $("<input/>", {type : "text"}); // 입력창 
+	    	sendButton= $("<a>전송</a>", {href : "#"});// 전송버튼
+	
+			$(this).siblings(".rereplyInputTextArea").append(textArea);
+			$(this).siblings(".rereplyInputTextArea").append(sendButton);
+			
+			$(this).siblings(".rereplyInputTextArea").children("a").click(function(){
+				
+				var reply = new ReplyVO();
+				reply.setContent($(this).siblings("input").val());
+				reply.setReplyno($(this).siblings(".replyno").val());
+					
+		    	$(".rereplyInputTextArea").children("input").remove();
+		    	$(".rereplyInputTextArea").children("a").remove();
+		    	
+				updateReply(reply);
+			});
 	    }
-		// content, replyno 구하는 로직
-		updateReply(content, replyno);
+	    
+		// put the state back
+		$(this).data('updateButtonActivatedState', updateButtonActivatedState);  
+	 
+
 	});
 	
 	// '삭제' 버튼 설정
 	$(document).on('click','.replyDeleteButton', function(){
-		// 클릭시 '삭제하시겠습니까?' 팝업
-		// 확인 누르면 실행(취소 누르면 아무것도 안함)
-		// replyno 구하는 로직
-		deleteReply(replyno);
+		
+		if(confirm("댓글을 삭제하시겠습니까?") == true){
+			var reply = new ReplyVO();
+			reply.setReplyno($(this).siblings(".replyno").val());
+			deleteReply(reply);	
+		}
+		
 	});
 	
 	/* 처음 버튼 + 동적 추가 버튼 설정 종료 */
-	
-	/* 작업 중 끝*/
 	
 	// 부모 append
 	function appendParent(reply){
@@ -552,10 +603,10 @@ hr {
 		var countGroupReplies = 0; // 같은 그룹의 기존 댓글의 갯수 (2-1-1-2가 올 땐 5개)
 		var childReplies = $("#replyArea").children("div[class='reply']"); // 기존 댓글들
 		
-		// 전체 댓글 중 groupid가 같은 댓글의 갯수 카운트(count)
+		// 전체 댓글 중 groupId가 같은 댓글의 갯수 카운트(count)
 		$(childReplies).each(function(){
-			var groupValue = $(this).children("input[class='groupid']").attr("value");
-			if(groupValue == reply.groupid)
+			var groupValue = $(this).children("input[class='groupId']").attr("value");
+			if(groupValue == reply.groupId)
 				countGroupReplies++;
 		});
 		
@@ -563,12 +614,11 @@ hr {
 		/* 그룹 내 가장 마지막에 오는 경우  */
 		// seq과 기존 댓글 갯수가 같으면 eq(seq-1)에서 insertAfter
 		if( reply.seq == countGroupReplies ){
-			alert('그룹 내 가장 마지막에 오는 경우');
 			$(childReplies).each(function(){
-				var groupValue = $(this).children("input[class='groupid']").attr("value");
+				var groupValue = $(this).children("input[class='groupId']").attr("value");
 				var seqValue = $(this).children("input[class='seq']").attr("value");
 				
-				if( (groupValue == reply.groupid) && (seqValue == (reply.seq-1)) )
+				if( (groupValue == reply.groupId) && (seqValue == (reply.seq-1)) )
 					$(childReply).insertAfter(this);
 				
 			});
@@ -577,30 +627,25 @@ hr {
 		
 		/* 그룹 내 중간에 오는 경우 */
 		// seq와 기존 댓글 갯수가 다르므로 기존 댓글에서 seq이 현재 seq보다 큰 seq을 모두 증가 후 eq(seq)에서 insertBefore
-		//           4 !=         5 
 		else if( reply.seq != countGroupReplies ) { 
 			$(childReplies).each(function(){
-				var groupValue = $(this).children("input[class='groupid']").attr("value"); // 기존 댓글의 group값
+				var groupValue = $(this).children("input[class='groupId']").attr("value"); // 기존 댓글의 group값
+				// 자바스크립트 변수에 parseInt를 쓰지 않으면 문자로 취급되어 제대로 계산되지 않는다. 변수의 값이 4라면 "4"+1 = "41"이 된다.
 				var seqValue = parseInt($(this).children("input[class='seq']").attr("value")); // 기존 댓글의 seq값
 				
 				// 같은 그룹 이면서 && 자신의 seq과 같거나 큰 seq값 모두 +1
-														// 
-				if( (groupValue == reply.groupid) && (seqValue >= reply.seq) )
-					// 자바스크립트 변수에 parseInt를 쓰지 않으면 문자로 취급되어 제대로 계산되지 않는다. 변수의 값이 4라면 "4"+1 = "41"이 된다.
+				if( (groupValue == reply.groupId) && (seqValue >= reply.seq) )
 					$(this).children("input[class='seq']").attr("value", seqValue+1);
 				
-		
 			});
 
 			
 			$(childReplies).each(function(){
-				var groupValue = $(this).children("input[class='groupid']").attr("value");
+				var groupValue = $(this).children("input[class='groupId']").attr("value");
 				var seqValue = $(this).children("input[class='seq']").attr("value");
 				// 자신의 seq보다 1 큰 것에서 insertBefore
-				if( (groupValue == reply.groupid) && (seqValue == reply.seq+1) ){ 
-					alert(reply.seq+1);
+				if( (groupValue == reply.groupId) && (seqValue == reply.seq+1) )
 					$(childReply).insertBefore(this);
-				}
 			});
 
 		}
@@ -608,70 +653,64 @@ hr {
 	};
 	
 	// 댓글 추가  (댓글내용, 부모 댓글 번호)
-	function addReply(content, parentReplyno){
-			var datas = {
-							"boardno" : '${boardVO.boardno}',
-							"username" : '${pageContext.request.userPrincipal.name}',
-							"content" : content,
-							"parentno" : parentReplyno
-						};
-			
-			$.ajax({
-				method : 'post',
-				url : '/rest/reply/',
-				data : JSON.stringify(datas),
-				contentType: "application/json",
-				success : function(response){
-					if(parentReplyno == 0)
-						appendParent(response);
-					else
-						appendChild(response);
-				},
-				error : function(response){
-					if(response.status == "409") // CONFLICT
-						alert('이미 댓글을 달아서 안된다');
-					else if(response.status == "400") // BAD_REQUEST
-						alert('로그인해라');
-					else
-						alert("addReply실패");
-				}
-			});
+	function addReply(reply){ 
+		reply.setBoardno("${boardVO.boardno}");
+		reply.setUsername("${pageContext.request.userPrincipal.name}");
+
+		$.ajax({
+			method : 'post',
+			url : '/rest/reply/',
+			data : JSON.stringify(reply),
+			contentType: "application/json",
+			success : function(response){
+				if(reply.getParentno() == 0)
+					appendParent(response);
+				else
+					appendChild(response);
+			},
+			error : function(response){
+				if(response.status == "409") // CONFLICT
+					alert("글에 대한 댓글은 1개만 남길 수 있습니다.");
+				else if(response.status == "400") // BAD_REQUEST
+					alert("로그인을 해야 댓글을 달 수 있습니다");
+				else
+					alert("댓글 추가 실패");
+			}
+		});
 	};    
 	
 	// 댓글 수정 -> 내용, 기본키 필요
-	function updateReply(content, replyno){
-		var datas = {
-				"content" : content
-		};
-		
+	function updateReply(reply){
 		$.ajax({
 			method : 'PUT',
-			url : '/rest/reply/' + replyno,
-			data : JSON.stringify(datas),
+			url : '/rest/reply/',
+			data : JSON.stringify(reply),
 			contentType: "application/json",
 			success : function(){
-				// (updateReply 성공) replyno에 해당하는 댓글 내용을 content로 변경
+				// (updateReply 성공) replyno에 해당하는 댓글 내용을 content로 변경, 작업중
 			},
 			error : function(response){
 				if(response.status == "409"); // CONFLICT
 				else if(response.status == "400"); // BAD_REQUEST
-				else alert("updateReply실패");
+				else alert("댓글 수정 실패");
 			}
 		});
 	};
 	
 	// 댓글 삭제
-	function deleteReply(replyno){		
+	function deleteReply(reply){
 		$.ajax({
 			method : 'DELETE',
-			url : '/rest/reply/' + replyno,
-			success : function(){
-				// (deleteReply 성공) replyno에 해당하는 댓글 삭제
+			url : '/rest/reply/',
+			data : JSON.stringify(reply),
+			success : function(response){
+				// replyno에 해당하는 댓글 front에서 삭제, 작업중
+				
 			},
 			error : function(response){
 				if(response.status == "409"); // CONFLICT
 				else if(response.status == "400"); // BAD_REQUEST
-				else alert("deleteReply실패");
+				else alert("댓글 삭제 실패");
 			}
 		});
 	};
@@ -680,24 +719,24 @@ hr {
 
 	//회원 좋아요 체크상태 확인
 	function heartCheck(username,boardno) {
-	 $.ajax({
-        url : "/board/heartCheck",
-        type : 'get',
-        data : {
-          	boardno : boardno,
-          	username : username
-        },
-        dataType : "text",
-        success : function(result) {
-     		if(result==="check"){
-     			$('#heartClick').css("display","none"); 
-      		    $('#heartCancle').css("display","block"); 
-     		}else{
-     			console.log("NoCheck");
-     		}
-        }
-     });	
-}	 
+		$.ajax({
+			url : "/board/heartCheck",
+			type : 'get',
+			data : {
+			  	boardno : boardno,
+			  	username : username
+			},
+			dataType : "text",
+			success : function(result) {
+				if(result==="check"){
+					$('#heartClick').css("display","none"); 
+					    $('#heartCancle').css("display","block"); 
+				}else{
+					console.log("NoCheck");
+				}
+			}
+		});	
+	}	 
 </script>
 </body>
 </html>

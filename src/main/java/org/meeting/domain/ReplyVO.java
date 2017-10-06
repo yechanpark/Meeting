@@ -19,7 +19,7 @@ public class ReplyVO implements Serializable {
 	private int boardno; // 댓글이 소속된 게시물 번호
 	private int seq; // 댓글 순서
 	private int depth; // 댓글 깊이
-	private int groupid; // 댓글 그룹(최상위 부모 기준)
+	private int groupId; // 댓글 그룹(최상위 부모 기준)
 	private String username; // 작성자
 	private String content; // 내용
 	private Date replydate; // 저장날짜 -> DB저장 시 자동저장

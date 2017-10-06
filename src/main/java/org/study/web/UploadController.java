@@ -56,7 +56,7 @@ public class UploadController {
 			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
 			
 		} finally {
-			in.close();
+			if(in != null) in.close();
 		}
 		
 		return entity;

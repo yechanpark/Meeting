@@ -14,7 +14,7 @@ public interface ReplyService {
 
 	int updateReply(ReplyVO reply);
 
-	int deleteReplyByReplyNo(int replyno);
+	int deleteReply(ReplyVO reply);
 
 	ReplyVO getReplyById(int replyno);
 }

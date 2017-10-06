@@ -49,11 +49,11 @@ public class ReplyController {
 	}
 
 	// ´ñ±Û ¼öÁ¤
-	@RequestMapping(value = "/{replyno}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateReply(@PathVariable("replyno") int replyno, @RequestBody String content) {
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateReply(@RequestBody ReplyVO newReply) {
 
-		ReplyVO reply = replyService.getReplyById(replyno);
-		reply.setContent(content);
+		ReplyVO reply = replyService.getReplyById(newReply.getReplyno());
+		reply.setContent(newReply.getContent());
 		replyService.updateReply(reply);
 
 		return new ResponseEntity<Void>(HttpStatus.OK);
@@ -61,10 +61,10 @@ public class ReplyController {
 	}
 
 	// ´ñ±Û »èÁ¦
-	@RequestMapping(value = "/{replyno}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteReply(@PathVariable("replyno") int replyno) {
+	@RequestMapping(value = "", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteReply(@RequestBody ReplyVO reply) {
 
-		replyService.deleteReplyByReplyNo(replyno);
+		replyService.deleteReply(reply);
 
 		return new ResponseEntity<Void>(HttpStatus.OK);
 
