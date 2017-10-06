@@ -474,7 +474,7 @@ hr {
 
 	// 대댓글 입력 활성화 및 비활성화 
 	$(document).on('click','.rereplyAddButton', function(){
-		 // retrieve current state, initially undefined
+		// retrieve current state, initially undefined
 	    var state = $(this).data('state');  
 	    var textArea;
 	    var sendButton;
@@ -509,20 +509,36 @@ hr {
 	    $(this).data('state', state);  
 	});
 
-	// 댓글 수정 버튼 설정
+	/* 작업 중 시작 */
+	// '수정' 버튼 설정
 	$(document).on('click','.replyModifyButton', function(){
+		// retrieve current state, initially undefined
+	    var state = $(this).data('state');  
+	    var textArea;
+	    var sendButton;
+	    
+	    // toggle the state - first click will make this "true"
+	    state = !state; 
+
+	    // do your stuff
+	    if (state) {
+	    	
+	    }
 		// content, replyno 구하는 로직
 		updateReply(content, replyno);
-	}
+	});
 	
-	// 댓글 삭제 버튼 설정
+	// '삭제' 버튼 설정
 	$(document).on('click','.replyDeleteButton', function(){
+		// 클릭시 '삭제하시겠습니까?' 팝업
+		// 확인 누르면 실행(취소 누르면 아무것도 안함)
 		// replyno 구하는 로직
 		deleteReply(replyno);
-	}
+	});
 	
 	/* 처음 버튼 + 동적 추가 버튼 설정 종료 */
 	
+	/* 작업 중 끝*/
 	
 	// 부모 append
 	function appendParent(reply){
