@@ -46,10 +46,10 @@
 	</select> -->
 
 	<!-- 새로운 댓글이 그룹 내에서 맨 마지막으로 들어가야 하는 경우 -->
-	<!-- group에서 가장 높은 Seq값을 구하여 +1하고 리턴 -->
+	<!-- group에서 가장 높은 Seq값을  리턴 -->
 	<select id="getLastSeqInGroup" resultType="Integer"
 		parameterType="Integer">
-		SELECT IFNULL(MAX(seq),0)+1
+		SELECT IFNULL(MAX(seq),0)
 		FROM reply
 		WHERE groupId = #{groupId}
 	</select>
@@ -67,7 +67,7 @@
 
 	<!-- 새로운 댓글이 그룹 내에서 중간에 끼어 들어가는 경우 -->
 	<!-- 기존 댓글의 Seq값이 새로운 댓글의 Seq값과 같거나 큰 경우를 모두 +1 -->
-	<update id="updateOtherRepliesSeq" parameterType="ReplyVO">
+	<update id="updateOtherSeqAfterAdded" parameterType="ReplyVO">
 		UPDATE reply
 		SET seq = seq + 1
 		WHERE groupId = #{groupId}
@@ -100,11 +100,19 @@
 	
 	<!-- 특정 댓글을 부모로 하는 댓글 전부 삭제 -->
 	<delete id="deleteReplyByParentReplyNo">
-		DELETE *
+		DELETE
 		FROM reply
 		WHERE parentno = #{parentno}
 	</delete>
 
+	<!-- 특정 댓글과 그 자식 댓글 삭제 후 나머지 댓글들에 대한 seq 세팅, 작업중 -->
+	<update id="updateOtherSeqAfterDeleted" parameterType="ReplyVO">
+		UPDATE reply
+		SET seq = seq - #{sumOfDeletedReplies}
+		WHERE groupId = #{groupId}
+		AND seq >= #{seq}
+	</update>
+	
 	<!-- 댓글 수정 -->
 	<update id="updateReply" parameterType="ReplyVO">
 		UPDATE reply

@@ -50,13 +50,13 @@ public class ReplyServiceimpl implements ReplyService {
 
 			// 그룹의 맨 마지막에 오는 경우
 			if (newReplySeq == 0) {
-				newReplySeq = replyDao.getLastSeqInGroup(parentReply.getGroupId());
+				newReplySeq = replyDao.getLastSeqInGroup(parentReply.getGroupId() + 1);
 				reply.setSeq(newReplySeq);
 			}
 
 			// 중간에 삽입하는 경우
 			else {
-				replyDao.updateOtherRepliesSeq(parentReply, newReplySeq);
+				replyDao.updateOtherSeqAfterAdded(parentReply, newReplySeq);
 				reply.setSeq(newReplySeq);
 			}
 
@@ -72,21 +72,18 @@ public class ReplyServiceimpl implements ReplyService {
 	}
 
 	@Override
-	public int deleteReply(ReplyVO reply) {
-		// 해당 댓글 삭제
-		int numOfDeleteddeletedParentReply = replyDao.deleteReplyByReplyNo(reply.getReplyno());
+	public void deleteReply(ReplyVO reply) {
+		ReplyVO deletedReply = replyDao.getReplyById(reply.getReplyno());
 
-		// 해당 댓글을 부모로 하는 모든 대댓글까지 삭제
-		int numOfDeletedChildReplies = replyDao.deleteReplyByParentReplyNo(reply.getReplyno());
+		// 해당 댓글과 이를 부모로 하는 모든 대댓글 삭제
+		int numOfDeletedParentReply = replyDao.deleteReplyByReplyNo(deletedReply.getReplyno());
+		int numOfDeletedChildReplies = replyDao.deleteReplyByParentReplyNo(deletedReply.getReplyno());
 
-		// 해당 replyno를 지움으로서 지워진 댓글의 갯수
-		int sumOfDeletedReplies = numOfDeleteddeletedParentReply + numOfDeletedChildReplies;
+		// 삭제된 총 댓글 갯수
+		int sumOfDeletedReplies = numOfDeletedParentReply + numOfDeletedChildReplies;
 
 		/* group 내 seq 재설정 */
-		// 그룹 내 남아있는 Replies 갯수
-		int numOfRepliesInGroup = replyDao.getLastSeqInGroup(reply.getGroupId());
-
-		return sumOfDeletedReplies;
+		replyDao.updateOtherSeqAfterDeleted(deletedReply, sumOfDeletedReplies);
 	}
 
 	@Override

@@ -702,6 +702,7 @@ hr {
 		$.ajax({
 			method : 'DELETE',
 			url : '/rest/reply/',
+			contentType: "application/json",
 			data : JSON.stringify(reply),
 			success : function(response){
 				// replyno에 해당하는 댓글 front에서 삭제, 작업중

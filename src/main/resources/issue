@@ -26,10 +26,10 @@ content, replyno넘어오면 해당 replyno에 해당하는 댓글의 content를 변경
 HTTP.OK 날아오면 해당 댓글의 content 변경
 
 <6>
-삭제구현(Back, Front)
+연쇄삭제구현(Back, Front)
 -Back
 reply객체 넘어오면,(seq 재조정 때매 replyno만 받아오면 DB입출력이 늘어나므로 객체를 받아야 함)
- -> 아예 삭제하는 경우? : 해당 replyno에 해당하는 댓글 삭제 + replyno를 부모로 하는 모든 자식 댓글까지 전부 삭제 + 현재 Group내 seq값 재조정 (진행중)
+ -> 아예 삭제하는 경우? : 해당 replyno에 해당하는 댓글 삭제 + replyno를 부모로 하는 모든 자식 댓글까지 전부 삭제 + 현재 Group내 seq값 재조정 (테스트x)
  -> "삭제된 댓글입니다"로 남기는 경우? : replyno에 해당하는 댓글의 내용(content)를 "삭제된 댓글입니다"로 변경 후 자식 댓글은 노터치
 
 -Front

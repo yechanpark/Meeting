@@ -67,11 +67,11 @@ public class ReplyDAOimpl implements ReplyDAO {
 	}
 
 	@Override
-	public void updateOtherRepliesSeq(ReplyVO parentReply, int newReplySeq) {
+	public void updateOtherSeqAfterAdded(ReplyVO parentReply, int newReplySeq) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("groupId", parentReply.getGroupId());
 		map.put("seq", newReplySeq);
-		session.selectOne(namespace + ".updateOtherRepliesSeq", map);
+		session.selectOne(namespace + ".updateOtherSeqAfterAdded", map);
 	}
 
 	@Override
@@ -92,6 +92,15 @@ public class ReplyDAOimpl implements ReplyDAO {
 	@Override
 	public ReplyVO getReplyById(int replyno) {
 		return session.selectOne(namespace + ".getReplyById", replyno);
+	}
+
+	@Override
+	public void updateOtherSeqAfterDeleted(ReplyVO deletedReply, int sumOfDeletedReplies) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("groupId", deletedReply.getGroupId());
+		map.put("seq", deletedReply.getSeq());
+		map.put("sumOfDeletedReplies", sumOfDeletedReplies);
+		session.update(namespace + ".updateOtherSeqAfterDeleted", map);
 	}
 
 }
