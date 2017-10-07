@@ -46,12 +46,15 @@ public class ReplyServiceimpl implements ReplyService {
 			// 부모보다 Depth가 1높게 설정
 			reply.setDepth(parentReply.getDepth() + 1);
 
+			// 새로운 댓글이 들어갈 seq값을 구함
 			int newReplySeq = replyDao.calcSeq(parentReply);
 
 			// 그룹의 맨 마지막에 오는 경우
 			if (newReplySeq == 0) {
-				newReplySeq = replyDao.getLastSeqInGroup(parentReply.getGroupId() + 1);
-				reply.setSeq(newReplySeq);
+				// 새로운 댓글을 제외하고, 그룹 내 기존의 가장 seq값을 구함 
+				newReplySeq = replyDao.getLastSeqInGroup(parentReply.getGroupId());
+				// 가장 마지막 seq을 가지도록 +1
+				reply.setSeq(newReplySeq+1);
 			}
 
 			// 중간에 삽입하는 경우
@@ -72,7 +75,7 @@ public class ReplyServiceimpl implements ReplyService {
 	}
 
 	@Override
-	public void deleteReply(ReplyVO reply) {
+	public int deleteReply(ReplyVO reply) {
 		ReplyVO deletedReply = replyDao.getReplyById(reply.getReplyno());
 
 		// 해당 댓글과 이를 부모로 하는 모든 대댓글 삭제
@@ -84,6 +87,8 @@ public class ReplyServiceimpl implements ReplyService {
 
 		/* group 내 seq 재설정 */
 		replyDao.updateOtherSeqAfterDeleted(deletedReply, sumOfDeletedReplies);
+		
+		return sumOfDeletedReplies;
 	}
 
 	@Override

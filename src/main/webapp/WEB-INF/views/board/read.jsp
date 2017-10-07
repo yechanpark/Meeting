@@ -216,7 +216,8 @@ hr {
 								
 										<div class="reply">
 											<c:if test="${reply.parentno ne '0'}">
-												<img style="margin-left:<c:out value='${20*(reply.depth)}'/>" src="/resource/imageIcon/rereplyIcon.jpg"/>
+												<!--<img style="margin-left:<c:out value='${20*(reply.depth)}'/>" src="/resource/imageIcon/rereplyIcon.jpg"/> -->
+												<img style="margin-left:<c:out value='20'/>" src="/resource/imageIcon/rereplyIcon.jpg"/>
 											</c:if>
 											<input class="replyno" type="hidden" value="${reply.replyno}"/>
 											<input class="parentno" type="hidden" value="${reply.parentno}"/>
@@ -481,11 +482,12 @@ hr {
 				"<input class='seq' type='hidden' value='" + reply.seq + "'/>"; // 2-1-1-2 (seq = 4)
 				
 			if(reply.parentno != 0){
-				var imageMarginLeft = reply.depth*20;
-	 			replyFrame += "<img style='margin-left:" + imageMarginLeft + "' src='/resource/imageIcon/rereplyIcon.jpg'/>"; 
+				// var imageMarginLeft = reply.depth*20;
+				var imageMarginLeft = 20;
+	 			replyFrame += "<img style='margin-left:" + imageMarginLeft + "' src='/resource/imageIcon/rereplyIcon.jpg'/> "; 
 			}
 			
-			replyFrame += "<img src='/displayFile?fileName="+ reply.profileimage + "' class='img-circle' width='40px' height='40px'>";
+			replyFrame += "<img src='/displayFile?fileName="+ reply.profileimage + "' class='img-circle' width='40px' height='40px'> ";
 			replyFrame += "<span class='username'> " + reply.username + "</span>";
 			replyFrame += "<span class='content'> " + reply.content + "</span>";
 			
@@ -505,75 +507,98 @@ hr {
 	// 대댓글 '추가' 버튼 설정
 	$(document).on('click','.rereplyAddButton', function(){
 		// retrieve current state, initially undefined
-	    var addButtonActivatedState = $(this).data('addButtonActivatedState');  
+	    var addTextActivatedState = $(this).data('addTextActivatedState'); // default : false
+		var updateTextActivatedState = $(this).siblings('.replyModifyButton').data('updateTextActivatedState'); // default : false
+		
 	    var textArea;
 	    var sendButton;
 	    
 	    // toggle the state - first click will make this "true"
-	    addButtonActivatedState = !addButtonActivatedState; 
+	    addTextActivatedState = !addTextActivatedState;
 
-	    // do your stuff
-	    if (addButtonActivatedState) {
-	    	textArea= $("<input/>", {type : "text"}); // 입력창 
-	    	sendButton= $("<a>전송</a>", {href : "#"});// 전송버튼
+	    // do your stuff when 'if' is 'true'
+	    if (addTextActivatedState) {
+	    	textArea= $("<input/>", {type : "text", placeholder : "추가할 내용 입력"}); // 입력창 
+	    	sendButton= $("<a>전송</a>", {href : "#"});// '전송'버튼
 	
+	    	$(this).siblings(".rereplyInputTextArea").empty();
 			$(this).siblings(".rereplyInputTextArea").append(textArea);
 			$(this).siblings(".rereplyInputTextArea").append(sendButton);
 			
+			// '전송' 버튼 클릭시
 			$(this).siblings(".rereplyInputTextArea").children("a").click(function(){
 				
 				var reply = new ReplyVO();
 				reply.setContent($(this).siblings("input").val());
 				reply.setParentno($(this).parent().siblings(".replyno").val());
-				
-		    	$(".rereplyInputTextArea").children("input").remove();
-		    	$(".rereplyInputTextArea").children("a").remove();
-		    	
+
 				addReply(reply);
+				
+				// 한 댓글을 등록할 때 마다 모든 댓글의 '답글'버튼의 창,버튼 상태를 false로 바꾸어 다음 클릭 시 열리게 한다.
+				$('.rereplyAddButton').data('addTextActivatedState', false);
+				
+				// 한 댓글을 등록할 때 마다 모든 댓글의 입력창, 전송버튼을 삭제시킨다.
+				$(".rereplyInputTextArea").find('*').remove();
 				
 			});
 	    } else {
-	    	$(this).siblings(".rereplyInputTextArea").children("a").remove();
-	    	$(this).siblings(".rereplyInputTextArea").children("input").remove();
+	    	// '답글' 버튼을 2번 연속으로 아무것도 하지않고  누른 경우 다시 닫는다.
+	    	$(".rereplyInputTextArea").find('*').remove();
 	    }
-
-	    // put the state back
-	    $(this).data('addButtonActivatedState', addButtonActivatedState);  
+	   
+		// put the state back
+		$(this).data('addTextActivatedState', addTextActivatedState); 
+		// '답글' 버튼을 누르면 '수정' 버튼의 상태를 무조건 false로 변경하여 다음 클릭 시에 뜨게 설정
+		$(this).siblings('.replyModifyButton').data('updateTextActivatedState', false);
+		
 	});
 
 	// '수정' 버튼 설정
 	$(document).on('click','.replyModifyButton', function(){
 		// retrieve current state, initially undefined
-	    var updateButtonActivatedState = $(this).data('updateButtonActivatedState');  
+		var updateTextActivatedState = $(this).data('updateTextActivatedState'); // default : false
+	    var addTextActivatedState = $(this).siblings('.rereplyAddButton').data('addTextActivatedState'); // default : false
+		
 	    var textArea;
 	    var sendButton;
 	    
 	    // toggle the state - first click will make this "true"
-	    updateButtonActivatedState = !updateButtonActivatedState; 
+	    updateTextActivatedState = !updateTextActivatedState;
 
-	    // do your stuff
-	    if (updateButtonActivatedState) {
-	    	textArea= $("<input/>", {type : "text"}); // 입력창 
-	    	sendButton= $("<a>전송</a>", {href : "#"});// 전송버튼
+	 	// do your stuff when 'if' is 'true'
+	    if (updateTextActivatedState) {
+	    	textArea= $("<input/>", {type : "text", placeholder : "수정할 내용 입력"}); // 입력창 
+	    	sendButton= $("<a>전송</a>", {href : "#"});// '전송'버튼
 	
+	    	$(this).siblings(".rereplyInputTextArea").empty();
 			$(this).siblings(".rereplyInputTextArea").append(textArea);
 			$(this).siblings(".rereplyInputTextArea").append(sendButton);
 			
+			// '전송' 버튼 클릭 시
 			$(this).siblings(".rereplyInputTextArea").children("a").click(function(){
 				
 				var reply = new ReplyVO();
 				reply.setContent($(this).siblings("input").val());
-				reply.setReplyno($(this).siblings(".replyno").val());
-					
-		    	$(".rereplyInputTextArea").children("input").remove();
-		    	$(".rereplyInputTextArea").children("a").remove();
-		    	
+				reply.setReplyno($(this).parent().siblings(".replyno").val());
+
 				updateReply(reply);
+				
+				// 한 댓글을 등록할 때 마다 모든 댓글의 '답글'버튼의 창,버튼 상태를 false로 바꾸어 다음 클릭 시 열리게 한다.
+				$('.replyModifyButton').data('updateTextActivatedState', false);
+				
+				// 한 댓글을 등록할 때 마다 모든 댓글의 입력창, 전송버튼을 삭제시킨다.
+				$(".rereplyInputTextArea").find('*').remove();
+				
 			});
+	    } else{
+	    	// '수정' 버튼을 2번 연속으로 아무것도 하지않고  누른 경우 다시 닫는다.
+	    	$(".rereplyInputTextArea").find('*').remove();
 	    }
-	    
+	    	    
 		// put the state back
-		$(this).data('updateButtonActivatedState', updateButtonActivatedState);  
+		$(this).data('updateTextActivatedState', updateTextActivatedState);
+		// '수정' 버튼을 누르면 '답글' 버튼의 상태를 무조건 false로 변경하여 다음 클릭 시에 뜨게 설정
+		$(this).siblings('.rereplyAddButton').data('addTextActivatedState', false);  
 	 
 
 	});
@@ -600,7 +625,7 @@ hr {
 	// 자식 append
 	function appendChild(reply){
 		var childReply = getReplyFrame(reply);
-		var countGroupReplies = 0; // 같은 그룹의 기존 댓글의 갯수 (2-1-1-2가 올 땐 5개)
+		var countGroupReplies = 0; // 같은 그룹의 기존 댓글의 갯수
 		var childReplies = $("#replyArea").children("div[class='reply']"); // 기존 댓글들
 		
 		// 전체 댓글 중 groupId가 같은 댓글의 갯수 카운트(count)
@@ -612,7 +637,7 @@ hr {
 		
 		
 		/* 그룹 내 가장 마지막에 오는 경우  */
-		// seq과 기존 댓글 갯수가 같으면 eq(seq-1)에서 insertAfter
+		// seq과 기존 댓글 갯수가 같으면 (seq-1)에서 insertAfter
 		if( reply.seq == countGroupReplies ){
 			$(childReplies).each(function(){
 				var groupValue = $(this).children("input[class='groupId']").attr("value");
@@ -652,7 +677,7 @@ hr {
 
 	};
 	
-	// 댓글 추가  (댓글내용, 부모 댓글 번호)
+	// 댓글 추가
 	function addReply(reply){ 
 		reply.setBoardno("${boardVO.boardno}");
 		reply.setUsername("${pageContext.request.userPrincipal.name}");
@@ -679,19 +704,30 @@ hr {
 		});
 	};    
 	
-	// 댓글 수정 -> 내용, 기본키 필요
+	// 댓글 수정
 	function updateReply(reply){
 		$.ajax({
 			method : 'PUT',
 			url : '/rest/reply/',
 			data : JSON.stringify(reply),
 			contentType: "application/json",
-			success : function(){
-				// (updateReply 성공) replyno에 해당하는 댓글 내용을 content로 변경, 작업중
+			success : function(response){
+				
+				// 기존 댓글들 중에서
+				var replies = $("#replyArea").children("div[class='reply']");
+				
+				// response.replyno에 해당하는 댓글의 내용을 response.content로 변경
+				$(replies).each(function(){
+					if($(this).children("input[class='replyno']").attr("value") == response.replyno)
+						$(this).children("span[class='content']").empty().append(" " + response.content);
+				});
+				
+				
 			},
 			error : function(response){
 				if(response.status == "409"); // CONFLICT
-				else if(response.status == "400"); // BAD_REQUEST
+				else if(response.status == "400")
+					alert("0개의 레코드가 수정됨"); // BAD_REQUEST
 				else alert("댓글 수정 실패");
 			}
 		});
@@ -705,12 +741,29 @@ hr {
 			contentType: "application/json",
 			data : JSON.stringify(reply),
 			success : function(response){
-				// replyno에 해당하는 댓글 front에서 삭제, 작업중
+				// 기존 댓글들 중에서
+				var replies = $("#replyArea").children("div[class='reply']");
+
+				// response.replyno에 해당하는 댓글의 내용 삭제
+				$(replies).each(function(){
+					if($(this).children("input[class='replyno']").attr("value") == response.replyno)
+						$(this).remove();
+				});
 				
+				//그룹 내 나머지 댓글seq = seq-1
+				$(replies).each(function(){
+					if( ($(this).children("input[class='groupId']").attr("value") == response.groupId) &&
+					   ($(this).children("input[class='seq']").attr("value") >= response.seq) ){
+						var seq = $(this).children("input[class='seq']").attr("value");
+						seq = seq - 1;
+					}
+					
+				});
 			},
 			error : function(response){
 				if(response.status == "409"); // CONFLICT
-				else if(response.status == "400"); // BAD_REQUEST
+				else if(response.status == "400")
+					alert("0개의 레코드가 삭제됨"); // BAD_REQUEST
 				else alert("댓글 삭제 실패");
 			}
 		});

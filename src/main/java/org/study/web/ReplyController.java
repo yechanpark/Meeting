@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,23 +49,26 @@ public class ReplyController {
 
 	// ´ñ±Û ¼öÁ¤
 	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateReply(@RequestBody ReplyVO newReply) {
+	public ResponseEntity<?> updateReply(@RequestBody ReplyVO updatedReply) {
 
-		ReplyVO reply = replyService.getReplyById(newReply.getReplyno());
-		reply.setContent(newReply.getContent());
-		replyService.updateReply(reply);
+		ReplyVO reply = replyService.getReplyById(updatedReply.getReplyno());
+		reply.setContent(updatedReply.getContent());
 
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		if (replyService.updateReply(reply) == 1)
+			return new ResponseEntity<ReplyVO>(reply, HttpStatus.OK);
+		else
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 
 	}
 
 	// ´ñ±Û »èÁ¦
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteReply(@RequestBody ReplyVO reply) {
+	public ResponseEntity<?> deleteReply(@RequestBody ReplyVO deletedReply) {
 
-		replyService.deleteReply(reply);
-
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		if (replyService.deleteReply(deletedReply) >= 1)
+			return new ResponseEntity<ReplyVO>(deletedReply, HttpStatus.OK);
+		else
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 
 	}
 }
