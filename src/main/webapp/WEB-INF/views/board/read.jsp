@@ -504,7 +504,7 @@ hr {
 	
 	/* 처음 버튼 + 동적 추가 버튼 설정 시작 : class selector에 의해 검색된 요소(추가, 삭제, 수정 버튼)가 this.*/
 
-	// 대댓글 '추가' 버튼 설정
+	// 대댓글 '답글' 버튼 설정
 	$(document).on('click','.rereplyAddButton', function(){
 		// retrieve current state, initially undefined
 	    var addTextActivatedState = $(this).data('addTextActivatedState'); // default : false
@@ -677,6 +677,12 @@ hr {
 
 	};
 	
+	// 같은 그룹 내 seq값이 가장 큰 reply만 '답글'버튼이 있어야 함 - 작업중 
+	function setAddButtonPositionToLastReplyInGroup(){
+		// 1. 추가, 삭제된 댓글의 group을 찾음
+		// 2. 해당 그룹 내에서 가장 큰 seq값의 댓글에 '답글'버튼 추가
+	}
+	
 	// 댓글 추가
 	function addReply(reply){ 
 		reply.setBoardno('${boardVO.boardno}');
@@ -692,6 +698,9 @@ hr {
 					appendParent(response);
 				else
 					appendChild(response);
+				
+				setAddButtonPositionToLastReplyInGroup();
+				
 			},
 			error : function(response){
 				if(response.status == "409") // CONFLICT
@@ -751,6 +760,9 @@ hr {
 						$(this).remove();
 				});
 				
+				// '답글' 버튼위치 재조정
+				setAddButtonPositionToLastReplyInGroup();
+				
 				/* 그룹 내 나머지 댓글seq = seq-1 (계층형 댓글, 현재 프로젝트에서 쓰이지 않음)
 				$(replies).each(function(){
 					if( ($(this).children("input[class='groupId']").attr("value") == response.groupId) &&
@@ -770,6 +782,8 @@ hr {
 			}
 		});
 	};
+	
+
 	
 }); // $(document).ready(function(){...});
 
