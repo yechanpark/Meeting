@@ -10,11 +10,11 @@ public interface ReplyService {
 
 	boolean isExistMyParentReply(int boardNo, String username);
 
-	int addReply(ReplyVO reply) throws Exception;
+	int addReply(ReplyVO addedReply) throws Exception;
 
-	int updateReply(ReplyVO reply);
+	int updateReply(ReplyVO updatedReply);
 
-	int deleteReply(ReplyVO reply);
+	int deleteReply(ReplyVO deletedReply);
 
 	ReplyVO getReplyById(int replyno);
 }

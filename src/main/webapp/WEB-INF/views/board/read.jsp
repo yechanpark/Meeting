@@ -479,7 +479,7 @@ hr {
 				"<input class='replyno' type='hidden' value='" + reply.replyno + "'/>" +
 				"<input class='parentno' type='hidden' value='" + reply.parentno + "'/>" +
 				"<input class='groupId' type='hidden' value='" + reply.groupId + "'/>" +
-				"<input class='seq' type='hidden' value='" + reply.seq + "'/>"; // 2-1-1-2 (seq = 4)
+				"<input class='seq' type='hidden' value='" + reply.seq + "'/>";
 				
 			if(reply.parentno != 0){
 				// var imageMarginLeft = reply.depth*20;
@@ -679,8 +679,8 @@ hr {
 	
 	// 댓글 추가
 	function addReply(reply){ 
-		reply.setBoardno("${boardVO.boardno}");
-		reply.setUsername("${pageContext.request.userPrincipal.name}");
+		reply.setBoardno('${boardVO.boardno}');
+		reply.setUsername('${pageContext.request.userPrincipal.name}');
 
 		$.ajax({
 			method : 'post',
@@ -744,13 +744,14 @@ hr {
 				// 기존 댓글들 중에서
 				var replies = $("#replyArea").children("div[class='reply']");
 
-				// response.replyno에 해당하는 댓글의 내용 삭제
+				// response 댓글과 groupId가 같고 seq가 같거나 높은 것들(자신+자식) 모두 삭제
 				$(replies).each(function(){
-					if($(this).children("input[class='replyno']").attr("value") == response.replyno)
+					if( ($(this).children("input[class='groupId']").attr("value") == response.groupId) &&
+					    ($(this).children("input[class='seq']").attr("value") >= response.seq) )
 						$(this).remove();
 				});
 				
-				//그룹 내 나머지 댓글seq = seq-1
+				/* 그룹 내 나머지 댓글seq = seq-1 (계층형 댓글, 현재 프로젝트에서 쓰이지 않음)
 				$(replies).each(function(){
 					if( ($(this).children("input[class='groupId']").attr("value") == response.groupId) &&
 					   ($(this).children("input[class='seq']").attr("value") >= response.seq) ){
@@ -758,7 +759,8 @@ hr {
 						seq = seq - 1;
 					}
 					
-				});
+				}); */
+				
 			},
 			error : function(response){
 				if(response.status == "409"); // CONFLICT

@@ -31,10 +31,7 @@ public interface ReplyDAO {
 	void updateOtherSeqAfterAdded(ReplyVO parentReply, int newReplySeq);
 
 	// 댓글번호로 댓글삭제
-	int deleteReplyByReplyNo(int replyno);
-
-	// 해당 댓글 번호를 부모로 하는 모든 댓글 삭제
-	int deleteReplyByParentReplyNo(int parentno);
+	int deleteRepliesByReply(ReplyVO deletedReply);
 	
 	// 삭제된 댓글(deletedReply)의 group과 같은 댓글 중 seq값이 높은 댓글들을, 지워진 총 댓글의 갯수만큼 뺀다.
 	void updateOtherSeqAfterDeleted(ReplyVO deletedReply, int sumOfDeletedReplies);

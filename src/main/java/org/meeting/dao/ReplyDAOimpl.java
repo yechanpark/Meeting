@@ -75,18 +75,14 @@ public class ReplyDAOimpl implements ReplyDAO {
 	}
 
 	@Override
-	public int deleteReplyByReplyNo(int replyno) {
-		return session.delete(namespace + ".deleteReplyByReplyNo", replyno);
+	public int deleteRepliesByReply(ReplyVO deletedReply) {
+		return session.delete(namespace + ".deleteRepliesByReply", deletedReply);
 	}
 
-	@Override
-	public int deleteReplyByParentReplyNo(int parentno) {
-		return session.delete(namespace + ".deleteReplyByParentReplyNo", parentno);
-	}
 
 	@Override
-	public int updateReply(ReplyVO reply) {
-		return session.update(namespace + ".updateReply", reply);
+	public int updateReply(ReplyVO updatedReply) {
+		return session.update(namespace + ".updateReply", updatedReply);
 	}
 
 	@Override

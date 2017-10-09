@@ -24,27 +24,25 @@ public class ReplyController {
 
 	// 댓글 추가
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<?> addReply(@RequestBody ReplyVO reply) throws Exception {
+	public ResponseEntity<?> addReply(@RequestBody ReplyVO addedReply) throws Exception {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
 
 		if (username == null)
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		/*
-		 * // boardNo, username으로 이 게시물에 내가 달은 댓글이 있는지 확인 if
-		 * (replyService.isExistMyParentReply(data.getBoardno(), username)) {
-		 * 
-		 * // 1차 댓글 2개 연속 등록 불가 if (data.getParentno() == 0) return new
-		 * ResponseEntity<Void>(HttpStatus.CONFLICT);
-		 * 
-		 * }
-		 */
 
-		reply.setReplydate(new Date());
-		reply.setReplyno(replyService.addReply(reply));
+		// boardNo, username으로 이 게시물에 내가 달은 댓글이 있는지 확인
+		if (replyService.isExistMyParentReply(addedReply.getBoardno(), username)) {
+			// 1차 댓글 2개 연속 등록 불가
+			if (addedReply.getParentno() == 0)
+				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 
-		return new ResponseEntity<ReplyVO>(replyService.getReplyById(reply.getReplyno()), HttpStatus.OK);
+		addedReply.setReplydate(new Date());
+		addedReply.setReplyno(replyService.addReply(addedReply));
+
+		return new ResponseEntity<ReplyVO>(replyService.getReplyById(addedReply.getReplyno()), HttpStatus.OK);
 	}
 
 	// 댓글 수정
@@ -64,9 +62,10 @@ public class ReplyController {
 	// 댓글 삭제
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteReply(@RequestBody ReplyVO deletedReply) {
-
-		if (replyService.deleteReply(deletedReply) >= 1)
-			return new ResponseEntity<ReplyVO>(deletedReply, HttpStatus.OK);
+		ReplyVO reply = replyService.getReplyById(deletedReply.getReplyno());
+		
+		if (replyService.deleteReply(reply) >= 1)
+			return new ResponseEntity<ReplyVO>(reply, HttpStatus.OK);
 		else
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 
