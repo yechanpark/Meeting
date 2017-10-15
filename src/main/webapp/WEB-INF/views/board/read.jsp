@@ -677,10 +677,39 @@ hr {
 
 	};
 	
-	// 같은 그룹 내 seq값이 가장 큰 reply만 '답글'버튼이 있어야 함 - 작업중 
+	// 각 그룹의 마지막 댓글에 '답글'버튼 reply에 세팅 - 작업중 
 	function setAddButtonPositionToLastReplyInGroup(){
-		// 1. 추가, 삭제된 댓글의 group을 찾음
-		// 2. 해당 그룹 내에서 가장 큰 seq값의 댓글에 '답글'버튼 추가
+		// 답글 버튼 프레임
+		var rereplyAddButton = "<a href='#' class='rereplyAddButton'> 답글</a>";
+		
+		// 전체 댓글
+		var replies = $("#replyArea").children("div[class='reply']");
+		
+		// group 갯수만큼 할당
+		var groupIdArray = new Array(replies.length);
+		
+		// 전체 댓글을 돌면서
+		$(replies).each(function(){
+			
+			// 현재 reply의 groupId
+			var replyGroupId = $(this).children("input[class='groupId']").attr("value");
+			
+			// 해당 그룹의 첫 번째 댓글이면
+			if(countRepliesBygroupId == 0){
+				countRepliesByGroupId = 0;
+			}
+			
+			// 
+			if(groupId != replyGroupId){
+				groupId = replyGroupId;
+				// 자신의 댓글이 아니면, rereplyInputTextArea class를 가진 div창(대댓글 추가/수정 입력 창) 바로 이전에 답글 버튼을 붙임
+				$(rereplyAddButton).insertBefore(
+						$(this).children("div[class='rereplyInputTextArea']")
+				);
+			}
+
+		});
+
 	}
 	
 	// 댓글 추가
