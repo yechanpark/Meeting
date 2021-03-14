@@ -1,7 +1,7 @@
-target/*
-target/
+.target
 MANIFEST.MF
-*.classpath
+.classpath
 .settings
-.settings/
-
+.project
+.idea
+*.iml
